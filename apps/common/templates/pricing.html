@@ -1,0 +1,17 @@
+{% extends "registration/base.html" %}
+{% load i18n static %}
+
+{% block extra_css %}
+  <link href="{% static 'css/pricing.css' %}" rel="stylesheet" />
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="wrapper">
+    <article id="content">
+      <h2>{% trans 'Our plans and pricing' %}</h2>
+      {% include "billing/includes/pricing_table.html" %}
+      <div class="trial-holder"><p><span>{{ trial_period }}{% trans '-DAY free trial.' %}</span> {% trans 'NO CREDIT CARD REQUIRED.' %}</p></div>
+    </article>
+  </div>
+  {% include 'google_analytic.html' %}
+{% endblock %}

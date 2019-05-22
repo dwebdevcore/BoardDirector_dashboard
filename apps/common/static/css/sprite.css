@@ -1,0 +1,120 @@
+.svg-ic_calendar {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_calendar_active {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -40px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_committees_active_c {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -80px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_committees_c {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -120px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_dashboard {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -160px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_dashboard_active {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -200px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_governance {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -240px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_governance_active {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -280px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_meetings {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -320px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_meetings_active {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -360px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_members {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -400px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+
+.svg-ic_members_active {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: 0 -440px;
+	background-repeat: no-repeat;
+	background-image: url("../images/svg/sprite.svg");
+	width: 40px;
+	height: 40px;
+}
+

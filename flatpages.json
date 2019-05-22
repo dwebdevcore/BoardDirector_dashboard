@@ -1,0 +1,47 @@
+[
+{
+  "pk": 1, 
+  "model": "flatpages.flatpage", 
+  "fields": {
+    "registration_required": false, 
+    "title": "Support", 
+    "url": "/support/", 
+    "template_name": "flatpages/inner_flatpage.html", 
+    "sites": [
+      1
+    ], 
+    "content": "Content", 
+    "enable_comments": false
+  }
+},
+{
+  "pk": 2, 
+  "model": "flatpages.flatpage", 
+  "fields": {
+    "registration_required": false, 
+    "title": "Privacy", 
+    "url": "/privacy/", 
+    "template_name": "", 
+    "sites": [
+      1
+    ], 
+    "content": "<h2>\r\n\t\t\tPrivacy Policy\r\n\t\t</h2>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tYour privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. The following outlines our privacy policy.\r\n\t\t</p>\r\n\t\t\r\n\t\t<ul class=\"list\">\r\n\t\t\t<li>\r\n\t\t\t\tBefore or at the time of collecting personal information, we will identify the purposes for which information is being collected.\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tWe will collect and use of personal information solely with the objective of fulfilling those purposes specified by us and for other compatible purposes, unless we obtain the consent of the individual concerned or as required by law.\t\t\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tWe will only retain personal information as long as necessary for the fulfillment of those purposes. \r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tWe will collect personal information by lawful and fair means and, where appropriate, with the knowledge or consent of the individual concerned. \r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tPersonal data should be relevant to the purposes for which it is to be used, and, to the extent necessary for those purposes, should be accurate, complete, and up-to-date. \r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tWe will protect personal information by reasonable security safeguards against loss or theft, as well as unauthorized access, disclosure, copying, use or modification.\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tWe will make readily available to customers information about our policies and practices relating to the management of personal information. \r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tWe are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained. \r\n\t\t</p>\r\n\t\t<p>&nbsp;</p>", 
+    "enable_comments": false
+  }
+},
+{
+  "pk": 3, 
+  "model": "flatpages.flatpage", 
+  "fields": {
+    "registration_required": false, 
+    "title": "Terms of Use",
+    "url": "/terms/", 
+    "template_name": "", 
+    "sites": [
+      1
+    ], 
+    "content": "<article>\r\n\t\t<h2>Web Site Terms and Conditions of Use</h2>\r\n\t\t\r\n\t\t<h3>1. Terms</h3>\r\n\t\t\r\n\t\t<p>By accessing this web site, you are agreeing to be bound by these \r\n\t\t\tweb site Terms and Conditions of Use, all applicable laws and regulations, \r\n\t\t\tand agree that you are responsible for compliance with any applicable local \r\n\t\t\tlaws. If you do not agree with any of these terms, you are prohibited from \r\n\t\t\tusing or accessing this site. The materials contained in this web site are \r\n\t\t\tprotected by applicable copyright and trade mark law.</p>\r\n\t\t\r\n\t\t<h3>2. Use License</h3>\r\n\t\t\r\n\t\t<ol type=\"a\">\r\n\t\t\t<li>\r\n\t\t\t\tPermission is granted to temporarily download one copy of the materials \r\n\t\t\t\t(information or software) on Board Director, LLC's web site for personal, \r\n\t\t\t\tnon-commercial transitory viewing only. This is the grant of a license, \r\n\t\t\t\tnot a transfer of title, and under this license you may not:\r\n\t\t\t\t\r\n\t\t\t\t<ol type=\"i\">\r\n\t\t\t\t\t<li>modify or copy the materials;</li>\r\n\t\t\t\t\t<li>use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>\r\n\t\t\t\t\t<li>attempt to decompile or reverse engineer any software contained on Board Director, LLC's web site;</li>\r\n\t\t\t\t\t<li>remove any copyright or other proprietary notations from the materials; or</li>\r\n\t\t\t\t\t<li>transfer the materials to another person or \"mirror\" the materials on any other server.</li>\r\n\t\t\t\t</ol>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\tThis license shall automatically terminate if you violate any of these restrictions and may be terminated by Board Director, LLC at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.\r\n\t\t\t</li>\r\n\t\t</ol>\r\n\t\t\r\n\t\t<h3>\r\n\t\t\t3. Disclaimer\r\n\t\t</h3>\r\n\t\t\r\n\t\t<ol type=\"a\">\r\n\t\t\t<li>\r\n\t\t\t\tThe materials on Board Director, LLC's web site are provided \"as is\". Board Director, LLC makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, Board Director, LLC does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its Internet web site or otherwise relating to such materials or on any sites linked to this site.\r\n\t\t\t</li>\r\n\t\t</ol>\r\n\t\t\r\n\t\t<h3>\r\n\t\t\t4. Limitations\r\n\t\t</h3>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tIn no event shall Board Director, LLC or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption,) arising out of the use or inability to use the materials on Board Director, LLC's Internet site, even if Board Director, LLC or a Board Director, LLC authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.\r\n\t\t</p>\r\n\t\t\t\t\t\r\n\t\t<h3>\r\n\t\t\t5. Revisions and Errata\r\n\t\t</h3>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tThe materials appearing on Board Director, LLC's web site could include technical, typographical, or photographic errors. Board Director, LLC does not warrant that any of the materials on its web site are accurate, complete, or current. Board Director, LLC may make changes to the materials contained on its web site at any time without notice. Board Director, LLC does not, however, make any commitment to update the materials.\r\n\t\t</p>\r\n\t\t\r\n\t\t<h3>\r\n\t\t\t6. Links\r\n\t\t</h3>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tBoard Director, LLC has not reviewed all of the sites linked to its Internet web site and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Board Director, LLC of the site. Use of any such linked web site is at the user's own risk.\r\n\t\t</p>\r\n\t\t\r\n\t\t<h3>\r\n\t\t\t7. Site Terms of Use Modifications\r\n\t\t</h3>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tBoard Director, LLC may revise these terms of use for its web site at any time without notice. By using this web site you are agreeing to be bound by the then current version of these Terms and Conditions of Use.\r\n\t\t</p>\r\n\t\t\r\n\t\t<h3>\r\n\t\t\t8. Governing Law\r\n\t\t</h3>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tAny claim relating to Board Director, LLC's web site shall be governed by the laws of the State of Delaware without regard to its conflict of law provisions.\r\n\t\t</p>\r\n\t\t\r\n\t\t<p>\r\n\t\t\tGeneral Terms and Conditions applicable to Use of a Web Site.\r\n\t\t</p>\r\n\t\t<p>&nbsp;</p>\r\n\t</article>",
+    "enable_comments": false
+  }
+}
+]

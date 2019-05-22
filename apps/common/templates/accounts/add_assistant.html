@@ -1,0 +1,53 @@
+{% extends "inner.html" %}
+{% load i18n common_tags compress %}
+{% load static from staticfiles %}
+
+{% block extra_js %}
+  {{ block.super }}
+  {% compress js %}
+    <script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+    <script src="{% static 'js/kendo.web.min.js' %}"></script>
+    <script src="{% static 'js/jquery.imgareaselect.js' %}"></script>
+    <script src="{% static 'js/field_array.js' %}"></script>
+    {% comment %} <script src="{% static 'js/libs/sweetalert2/sweetalert2.min.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/profile/edit-profile.js' %}"></script>
+    <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+  {% endcompress %}
+
+  <script type="text/javascript">
+    var IS_GUEST = {% if form.instance.is_guest %} true {% else %} false {% endif %};
+    var CURRENT_PROFILE = {% if current_membership == form.instance %} true {% else %} false {% endif %};
+    var STAFF_ROLE_VALUE = {{ role_choice.staff|default:0 }};
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+    {% comment %} <link rel="stylesheet" href="{% static 'js/libs/sweetalert2/sweetalert2.min.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css.generated/members.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+{% endblock %}
+
+{% block workspace %}
+
+  <header class="heading">
+    <h1>{% trans "Add Assistant" %}</h1>
+    <label>Add or edit staff, vendors, or consultant information. Both you and this guest can update this page.</label>
+  </header>
+  <form action="" method="POST" class="addmember-form" enctype="multipart/form-data">{% csrf_token %}
+    <div class="m1">
+      <div class="fields">
+        <div class="c1">
+          {% include 'profiles/includes/profiles_form_tabs.html' %}
+          <div class="btns">
+            <div class="holder">
+              <button class="btn">{% trans "Save Assistant" %}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

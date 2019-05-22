@@ -1,0 +1,139 @@
+.recent-activity tr:nth-child(2n) {
+  background: #f0f0f0; /* Цвет фона */
+}
+
+.recent-activity {
+  padding: 0 0 37px;
+}
+
+.recent-activity h3 {
+  text-transform: uppercase;
+  font: 14px ProximaNova-Bold, arial, helvetica, sans-serif;
+  margin: 0 0 16px 24px;
+  color: #494949;
+}
+
+.recent-activity table {
+  border-collapse: collapse;
+  border-style: none;
+  table-layout: fixed;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #fafafa;
+  color: #2d2d2d;
+}
+
+.recent-activity td {
+  padding: 0;
+  margin: 0;
+  border-style: none;
+  border-bottom: 1px solid #ebebeb;
+  height: 60px;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+.recent-activity .cell1 {
+  padding: 0 0 0 14px;
+  width: 19%;
+}
+
+.recent-activity .cell2 {
+  padding: 0 0 0 14px;
+  width: 18%;
+}
+
+.recent-activity .cell3 {
+  padding: 0 0 0 14px;
+  width: 39%;
+}
+
+.recent-activity .cell4 {
+  text-align: right;
+  width: 19%;
+  padding: 0 16px 0 0;
+}
+
+.recent-activity .row td {
+  background: #fefefe;
+}
+
+.recent-activity .na {
+  color: #b3b3b3;
+}
+
+.recent-activity a {
+  color: #0089c5;
+}
+
+.recent-activity .separator {
+  padding: 0 7px;
+}
+
+.recent-activity .pdf {
+  float: left;
+  background: url(../images/sprites.png) no-repeat 100% -472px;
+  padding: 0 64px 0 0;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 10px;
+}
+
+.recent-activity .png {
+  float: left;
+  padding: 0 0 0 35px;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 1px;
+  background: url(../images/png.png) no-repeat;
+  background-size: 27%;
+}
+
+.recent-activity .tiff {
+  float: left;
+  padding: 0 0 0 35px;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 1px;
+  background: url(../images/tiff.png) no-repeat;
+  background-size: 61%;
+}
+
+.recent-activity .gif {
+  float: left;
+  padding: 0 0 0 35px;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 1px;
+  background: url(../images/gif.png) no-repeat;
+  background-size: 24%;
+}
+
+.recent-activity .jpeg {
+  float: left;
+  padding: 0 0 0 35px;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 1px;
+  background: url(../images/jpeg.png) no-repeat;
+  background-size: 46%;
+}
+
+.recent-activity .xlsx {
+  float: left;
+  padding: 0 0px 0 32px;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 10px;
+  background: url(../images/sprites.png) no-repeat 0 -1045px;
+}
+
+.recent-activity .docx {
+  float: left;
+  padding: 0 0 0 32px;
+  line-height: 32px;
+  white-space: nowrap;
+  margin-top: 10px;
+  background: url(../images/sprites.png) no-repeat 0 -528px;
+}

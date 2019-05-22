@@ -1,0 +1,28 @@
+@import "../config";
+
+.question-answer {
+  .question-question {
+    width: 50%;
+    float: left;
+  }
+
+  .candidate-info {
+    width: 50%;
+    float: left;
+  }
+  .question-result {
+    width: 40%;
+    float: left;
+  }
+  .question-result-bar {
+    height: 10px;
+    background: $brand-primary;
+    display: inline-block;
+  }
+
+  @include clearfix;
+}
+
+.question-answer-list .question-answer:hover {
+  background: $gray-lighter;
+}

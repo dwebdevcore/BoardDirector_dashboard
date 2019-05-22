@@ -1,0 +1,69 @@
+{% load i18n common_tags %}
+
+<div class="modal fade repeat-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        {#                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>#}
+        <h4 class="modal-title">{% trans 'Repeat' %} {{ meeting_translated }}</h4>
+      </div>
+      <div class="modal-body form-horizontal">
+        <div class="form-group">
+          <div class="col-md-3">{{ form.repeat_type.label_tag }}</div>
+          <div class="col-md-9">
+            {{ form.repeat_type }}
+            {% field_errors form.repeat_type %}
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-md-3">{{ form.repeat_interval.label_tag }}</div>
+          <div class="col-md-2">
+            {{ form.repeat_interval|attrs:'class:form-control' }}
+            {% field_errors form.repeat_interval %}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-3"><label>{% trans 'Repeat ends' %}</label></div>
+          <div class="col-md-9 repeat-ends-group">
+            <div class="form-group">
+              <div class="col-md-3">
+                <label>
+                  {{ form.repeat_end_type.0.tag }}
+                  {{ form.repeat_end_type.0.choice_label }}
+                </label>
+              </div>
+            </div>
+            <div class="form-group form-group-sm">
+              <div class="col-md-3">
+                <label>
+                  {{ form.repeat_end_type.1.tag }}
+                  {{ form.repeat_end_type.1.choice_label }}
+                </label>
+              </div>
+              <div class="col-md-2">
+                {{ form.repeat_max_count|attrs:'class:form-control' }}
+                {% field_errors form.repeat_max_count %}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-3">
+                <label>
+                  {{ form.repeat_end_type.2.tag }}
+                  {{ form.repeat_end_type.2.choice_label }}
+                </label>
+              </div>
+              <div class="col-md-9">
+                {{ form.repeat_end_date }}
+                {% field_errors form.repeat_end_date %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="apply-repeat">{% trans 'Apply' %}</button>
+        <button type="button" class="btn btn-default" id="cancel-repeat">{% trans 'Cancel' %}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

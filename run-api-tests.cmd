@@ -1,0 +1,1 @@
+python manage.py test -v 2 accounts.test_api common.test_api documents.test_api documents.test_api_annotations meetings.test_api voting.tests

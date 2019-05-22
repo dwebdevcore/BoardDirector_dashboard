@@ -1,0 +1,4 @@
+You have requested changing of the primary email address.
+
+Please confirm changin email by clicking on the link:
+{{ protocol }}://{{ current_site.domain }}{% url 'change_email_confirm' signature=signature %}

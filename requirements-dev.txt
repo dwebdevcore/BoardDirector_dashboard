@@ -1,0 +1,9 @@
+-r requirements.txt
+django-debug-toolbar==1.8
+ipdb==0.10.2
+ipython==5.3.0
+coverage==4.3.4
+django-coverage==1.2.4
+paramiko==2.1.2
+Fabric==1.13.1
+django-eml-email-backend==0.1

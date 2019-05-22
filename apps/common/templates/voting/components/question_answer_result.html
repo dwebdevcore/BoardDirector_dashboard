@@ -1,0 +1,12 @@
+{% load i18n %}
+<div class="question-result" id="question-answer-result-template" v-if="result">
+  <div v-if="result.voters && result.voters.length"
+      v-popover data-placement="bottom" title="{% trans 'Voters' %}" :data-content="voter_content" class="clickable">
+    <div class="question-result-bar" :style="{width: max(2, result.percent * 0.8) + '%'}"></div>
+    <span class="question-result-value">${result.percent}%</span>
+  </div>
+  <div v-else>
+    <div class="question-result-bar" :style="{width: max(2, result.percent * 0.8) + '%'}"></div>
+    <span class="question-result-value">${result.percent}%</span>
+  </div>
+</div>

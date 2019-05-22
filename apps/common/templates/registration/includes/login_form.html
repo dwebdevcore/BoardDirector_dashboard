@@ -1,0 +1,37 @@
+{% load common_tags i18n %}
+
+<div class="social-accounts-login">
+  {% for backend in backends.backends %}
+    {% get_item social_mapping backend as social %}
+    <a href="{% url 'social:begin' backend %}?login_back=/login/" target="_top" class="social-icon {{ social.icon }}">
+      <span class="icon"></span>
+      <span class="text">{% trans social.name|custom_social_name %}</span>
+    </a>
+  {% endfor %}
+</div>
+
+<div class="social-accounts-login-or">
+  <div>{% trans 'Or' %}</div>
+  <hr/>
+  <h4>{% trans 'Login with email and password' %}</h4>
+</div>
+
+<ul>
+  {% if form.non_field_errors %}
+    <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" role="alert">
+          <span class="k-icon k-warning"></span>
+          {{ form.non_field_errors.0 }}
+        </span>
+  {% endif %}
+  <li>
+    {{ form.username.label_tag }}
+    {{ form.username }}
+  </li>
+  {% field_errors form.username %}
+
+  <li>
+    {{ form.password.label_tag }}
+    {{ form.password }}
+  </li>
+  {% field_errors form.password %}
+</ul>

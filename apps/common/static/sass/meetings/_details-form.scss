@@ -1,0 +1,72 @@
+@import '../config';
+
+#meeting-name {
+  font: 24px ProximaNova-Regular, arial, helvetica, sans-serif;
+  padding: 10px 10px 8px;
+  width: 609px;
+  color: #4a4a4a;
+  margin-bottom: 7px;
+}
+
+// Small override as here labels are a bit larger
+body .common-form label {
+  width: 130px;
+}
+
+body .k-upload-files {
+  padding-left: 145px;
+}
+
+
+body .common-form label[for="id_time_end"] {
+  width: auto;
+}
+
+.k-timepicker.to, .k-timepicker.from {
+  width: 100px !important;
+}
+
+// For displaying seletize inside modal (at least, meetings)
+.modal li.repeat-type {
+  overflow: visible;
+}
+
+.repeat-modal .selectize-control {
+  display: inline-block;
+  width: 200px;
+}
+
+.repeat-modal .modal-body {
+  min-height: 200px;
+}
+
+.repeat-ends-group {
+  label {
+    font-weight: normal;
+
+    input {
+      vertical-align: -2px;
+    }
+  }
+}
+
+.repeat-control {
+  display: inline-block;
+
+  .checkboxArea, .checkboxAreaChecked {
+    margin-top: 6px;
+  }
+
+  .k-tooltip {
+    display: block;
+    margin-top: 5px;
+  }
+}
+
+.meeting-form-body.meeting-detail .document-item {
+  padding: 0 0 0 70px;
+}
+
+.common-form .archives li {
+  padding-bottom: 0;
+}

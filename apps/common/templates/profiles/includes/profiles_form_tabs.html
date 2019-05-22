@@ -1,0 +1,257 @@
+{% load i18n compress user_tags common_tags permissions_tags static %}
+
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% if form.non_field_errors %}
+<span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" role="alert">
+  <span class="k-icon k-warning"></span>
+  {{ form.non_field_errors.0 }}
+</span>
+{% endif %}
+
+<div id="profile-form-tabs">
+
+  <ul>
+    {% for tab in form.by_tabs.values %}
+      <li><a href="#pftabs-{{ forloop.counter }}">{{tab.0}}</a></li>
+    {% endfor %}
+    {% if current_membership == form.instance %}
+      <li><a href="#pftabs-calendars">Calendars</a></li>
+      <li><a href="#pftabs-social">Social Apps</a></li>
+    {% endif %}
+    </ul>
+
+    <!-- tabs content -->
+    {% for tab in form.visible_fields_by_tabs %}
+      <div id="pftabs-{{ forloop.counter }}" class='clearfix'>
+        <h2>{{ tab.header }}</h2>
+
+        {% if forloop.counter == 1 %}
+        <div class="picture">
+          <div class="photo">
+            <img src="{{ form.instance|avatar:'' }}" width="240" alt="{{ form.instance.get_full_name }}" id="avatar"
+                {% if form.instance.crops and form.instance.avatar %}data-crop-orig-w="{{ form.instance.avatar.width }}"
+                data-crop-x="{{ form.instance.crops.data.rect.x }}"
+                data-crop-y="{{ form.instance.crops.data.rect.y }}"
+                data-crop-w="{{ form.instance.crops.data.rect.width }}"
+                data-crop-h="{{ form.instance.crops.data.rect.height }}"{% endif %}>
+          </div>
+                  <div class="add-photo">
+            <a class="upload-link" href="">{% if form.instance.avatar %}{% trans "Upload New Picture" %}{% else %}{% trans "Add Profile Picture" %}{% endif %}</a>
+            <input type="file" class="avatar-input" name="avatar" {% if form.instance.avatar %}data-img=true{% endif %}/>
+          </div>
+          {% if form.instance.avatar %}
+            <div class="add-photo add-thumb">
+              <a class="" href="#">{% trans "Save Thumbnail" %}</a>
+            </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <ul class="fields-list clearfix">
+
+          {% for field in tab.fields %}
+            {% if field.name == 'avatar' %}
+            {% else %}
+
+            {% if field.name == 'employer' %}
+            {# tab = work details #}
+
+            {% if current_membership == form.instance %}
+            {% if form.instance.can_have_assistant %}
+            {% if form.instance.assistant %}
+              <a class='add_assistant btn'
+              href="{% url 'profiles:assistant_detail' member_pk=form.instance.pk pk=form.instance.assistant.pk %}">{% trans "Assistant" %}</a>
+            {% else %}
+            <a class='add_assistant btn'
+            href="{% acc_url 'assistant_create' pk=form.instance.pk %}">{% trans "Add Executive Assistant" %}</a>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+
+            {% elif field.name == 'intro' %}
+            <hr><h3>Biography</h3>
+
+            {% elif field.name == 'password1' %}
+            {# tab = security #}
+
+              <h3>Change password</h3>
+              <p>Password should be at least 8 characters. Leave this blank if you don't want to change it.</p>
+            {% endif %}
+
+            <li
+                {% if field.name == 'term_start' %}
+                  class="start-date"
+                {% elif field.name == 'term_expires' %}
+                  class="end-date"
+                {% elif field.name in 'intro, bio, title, description, address, secondary_address, notes, work_address, work_secondary_address, password1, password2'|slice:', ' %}
+                  class="two-columns"
+                {% elif field.name == 'affiliation' or field.name == 'social_media_link' %}
+                  class="social-details"
+                {% elif field.name == 'is_admin' %}
+                  class="choose-admin"
+                {% endif %}
+              >
+                <!-- label name -->
+                <label for="{{ field.name }}" {% if field.field.required %} class="special_class" {% endif %}>
+                  {{ field.label }}
+                </label>
+                <!-- field input-->
+                {% if field.name == 'is_admin' %}
+                  <div class="slide-toggle">
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}"></label>
+                  </div>
+                {% elif field.name == 'affiliation' or field.name == 'social_media_link' %}
+                  <div class="list-value-field">
+                    {{ field }}
+                    <div class="remove" hidden></div>
+                  </div>
+                {% elif field.name == 'custom_role_name' %}
+                  <div class="field-with-link">
+                    {{ field }}
+                    <div class='clearfix'></div>
+                    <a href='#' id='create_crole' class='hte'>Create a Custom Role</a>
+                  </div>
+                {% else %}
+                  {{ field }}
+                {% endif %}
+
+                <!-- field error -->
+                {% if field.errors %}
+                <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="{{ field.auto_id }}" role="alert">
+                  <span class="k-icon k-warning"></span>
+                  {{ field.errors.0 }}
+                </span>
+                {% endif %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+    {% endfor %}
+
+    {% if current_membership == form.instance %}{# show for owner's profile only #}
+    <div id='pftabs-calendars'>
+      <h2>Calendars</h2>
+
+      <div class='clearfix provider'>
+        <div class='pull-left icon-calendar'>
+          <i class="fa fa-google fa-3x" aria-hidden="true"></i>
+        </div>
+        <div class="pull-left">
+          <p class="black-title title2">Google Calendar</p>
+          <p class="description">Allows Board director to check Google Calendar for conflicts and add events to it.</p>
+        </div>
+        <div class="pull-right">
+        {% if is_google_connected %}
+          <a class="btn" href="{% url 'calendar-disconnect' 'google' %}">Disconnect</a>
+          <br>
+          <a class="btn" href="{% url 'calendar-setting' 'google' %}">Settings...</a>
+        {% else %}
+           <a class="btn" href="{{ google_url }}">Connect</a>
+        {% endif %}
+        </div>
+      </div>
+
+      <div class='clearfix provider'>
+          <div class='pull-left icon-calendar'>
+            <i class="fa fa-windows fa-3x" aria-hidden="true"></i>
+          </div>
+          <div class="pull-left">
+            <p class="black-title title2">Office 365 Calendar</p>
+            <p class="description">Allows Board director to check Office 365 Calendar for conflicts and add events to it.</p>
+          </div>
+          <div class="pull-right">
+          {% if is_office_connected %}
+              <a class="btn" href="{% url 'calendar-disconnect' 'office' %}">Disconnect</a>
+              <br>
+              <a class="btn" href="{% url 'calendar-setting' 'office' %}">Settings...</a>
+          {% else %}
+              <a class="btn btn-primary width_100 connect_type" href="{{ office_url }}">Connect</a>
+          {% endif %}
+          </div>
+      </div>
+    </div>
+
+    <div id='pftabs-social'>
+      <h2>{% trans 'Link Social Account' %}</h2>
+      <p>Connect your social media accounts to Board Director.</p>
+
+      {% for backend in backends.associated %}
+      {% get_item social_mapping backend.provider as social %}
+      <div class='clearfix provider'>
+        <div class='pull-left icon-calendar'>
+          <i class="fa fa-{{social.fa_icon}} fa-3x" aria-hidden="true"></i>
+        </div>
+        <div class="pull-left">
+          <p class="black-title title2">{{social.name}}: {% get_social_profile_name backend %}</p>
+          <p class="description">Allows you a simple way to login to Board Director.</p>
+        </div>
+        <div class="pull-right">
+          <!--<form action="{% url 'social:disconnect' backend.provider %}?next={{ request.path | urlencode }}"
+                method="post" class="inline-form">{% csrf_token %}-->
+            <a href="javascript:void(0)"
+            class="submit-form-on-click btn width_100 connect_type">{% trans 'Disconnect' %}</a>
+          <!--</form>-->
+        </div>
+      </div>
+      {% endfor %}
+
+
+      {% for backend in backends.not_associated %}
+      {% get_item social_mapping backend as social %}
+      <div class='clearfix provider'>
+        <div class='pull-left icon-calendar'>
+          <i class="fa fa-{{social.fa_icon}} fa-3x inactive" aria-hidden="true"></i>
+        </div>
+        <div class="pull-left">
+          <p class="black-title title2">{{social.name}}</p>
+          <p class="description">Allows you a simple way to login to Board Director.</p>
+        </div>
+        <div class="pull-right">
+            <a href="{% url 'social:begin' backend %}?next={{ request.path | urlencode }}&amp;login_back={{ request.path }}"
+            class="btn btn-primary width_100 connect_type">Connect</a>
+        </div>
+      </div>
+      {% endfor %}
+
+
+  </div>{% endif %}{# owner's profile only #}
+</div>
+
+
+  <!-- popup dialogs -->
+  <div class="dialog-popup">
+    <div id="confirm-inactive-admin" title="{% trans " Stop being the administrator? " %}">
+      <div class="subtitle">
+        {% trans "Are you sure you want to stop being the administrator of this account? You are about to change your permissions and won't be able to manage your portal." %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="dialog-popup">
+    <div id="confirm-stop-admin" title="{% trans " Stop being the administrator? " %}">
+      <div class="subtitle">
+        {% trans "Are you sure you want to stop being the administrator of this account? You are about to change your permissions and won't be able to manage your portal." %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="dialog-popup">
+    <div id="create_crole_popup" title="Create custom role">
+      <p></p>
+      <div class="crole_form">
+        <form action="#" name='form'>
+          <input type="text" name="crole" id="crole_input" value="" />
+        </form>
+      </div>
+    </div>
+  </div>
+  
+<script type="text/javascript">
+$("#profile-form-tabs").tabs({activate: function( event, ui ) {$('#avatar').imgAreaSelect({remove:true});}});
+</script>

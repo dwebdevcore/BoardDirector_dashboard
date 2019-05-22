@@ -1,0 +1,213 @@
+{% load i18n common_tags %}
+
+<div id="voting-view-template" v-if="voting">
+  <div class="right-side createmeeting-form content" id="voting-sidebar-template">
+    <div class="panel panel-default">
+      <div class="panel-header">
+        {% trans 'Voting status' %}
+      </div>
+      <div class="panel-body">
+        <div>
+          <span class="item-title"><i class="fa fa-map-pin" aria-hidden="true"></i> {% trans 'Status' %}:</span>
+          <span class="item-value" v-if="voting.state == 0">{% trans 'Draft' %}</span>
+          <span class="item-value" v-if="voting.state == 1">{% trans 'Published' %}</span>
+        </div>
+
+        <button class="btn btn-primary btn-md mt-10 w-100" @click="publish()" v-if="voting.state == 0">{% trans 'Publish' %}</button>
+
+        <router-link class="btn btn-default btn-md mt-10 w-100" :to="'/edit/' + voting.id" v-if="voting.id && voting.can_edit">{% trans 'Change voting/voters' %}</router-link>
+        <router-link class="btn btn-default btn-md mt-10 w-100" :to="'/questions/' + voting.id" v-if="voting.id && voting.can_edit">{% trans 'Change questions' %}</router-link>
+        <a class="btn btn-default btn-md mt-10 w-100" href="#/all" v-if="voting.id">{% trans 'Back' %}</a>
+
+        <button class="btn btn-danger btn-md mt-10 w-100" @click="delete_voting" v-if="is_admin && voting && (!voting.result || !voting.result.has_answers)">{% trans 'Delete' %}</button>
+      </div>
+    </div>
+
+    <div class="panel panel-default" v-if="voting.state == 1 && is_admin">
+      <div class="panel-header">
+        {% trans 'Reminder' %}
+      </div>
+      <div class="panel-body">
+        <button class="btn btn-primary btn-md mt-10 w-100" @click="resend_email()">{% trans 'Send reminder' %}</button>
+      </div>
+    </div>
+
+    <div class="panel panel-default" v-if="voting.state == 1 && is_admin && !voting.is_result_visible">
+      <div class="panel-header">
+        {% trans 'Publish Results' %}
+      </div>
+      <div class="panel-body">
+        <label class="control-label"><input type="checkbox" v-model="quorum_is_met"> <span class="checkbox-label">{% trans 'Quorum is met' %}</span></label>
+        <button class="btn btn-primary btn-md mt-10 w-100" :disabled="!quorum_is_met" @click="publish_results()">{% trans 'Publish Results' %}</button>
+      </div>
+    </div>
+  </div>
+
+  <ul class="breadcrumbs breadcrumbs-separator">
+    <li>
+      <router-link to="/all">{% trans 'Votings' %}</router-link>
+    </li>
+    <li>${ voting.name }</li>
+  </ul>
+
+  <header class="heading">
+    <h2>${ voting.name }</h2>
+  </header>
+
+  <errors :error="voting._errors && voting._errors.non_field_errors"></errors>
+
+  <div class="voting-info">
+    <ul class="property-list property-list-160">
+      <li v-if="voting.description">
+        <div class="property-name">{% trans 'Description' %}</div>
+        <div class="property-value" v-html="$options.filters.nl2br(voting.description)"></div>
+      </li>
+      <li>
+        <div class="property-name">{% trans 'Deadline' %}</div>
+        <div class="property-value">${ voting.end_time | datetime }</div>
+      </li>
+      <li>
+        <div class="property-name">{% trans 'Anonymous' %}</div>
+        <div class="property-value">
+          <span v-if="voting.is_anonymous">{% trans 'Yes' %}</span>
+          <span v-else>{% trans 'No' %}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="full-width"/>
+
+  <div class="voting-voter">
+    <h2>
+      {% trans 'Voters' %}
+      <span class="small" v-if="voting.result && voting.result.done">
+        ${ voting.result.done } / ${ voting.result.total} {% trans 'done voting' %}
+      </span>
+    </h2>
+
+
+    <errors :error="voting._errors && voting._errors.voters"></errors>
+
+    <voters-list :voters="voting.voters" :can_edit="false"></voters-list>
+  </div>
+
+  <hr class="full-width"/>
+
+  <div class="voting-questions">
+    <h2>{% trans 'Questions' %}</h2>
+
+    <errors :error="voting._errors && voting._errors.questions"></errors>
+
+    <div v-if="voting.questions && !voting.questions.length">
+      {% trans 'No questions yet.' %}
+      <div class="mt-10">
+        <router-link class="btn btn-primary" :to="'/questions/' + voting.id">{% trans 'Add questions' %}</router-link>
+      </div>
+    </div>
+
+    <div class="voting-question" v-for="(question, num) in voting.questions">
+      <hr class="full-width"/>
+
+      <h3 class="voting-question-header">${ num + 1 }. ${ question.question }</h3>
+
+      <div>
+        <div class="voting-question-description" v-if="question.description" v-html="$options.filters.nl2br(question.description)"></div>
+        
+        <div v-if="question.question_type == 1">
+          <i>{% trans 'Yes/no question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'Yes' %}
+              </div>
+              <question-answer-result :result="answer_result(question.id, 'yes')" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'No' %}
+              </div>
+              <question-answer-result :result="answer_result(question.id, 'no')" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 5">
+          <i>{% trans 'For/against/abstain question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'For' %}
+              </div>
+              <question-answer-result :result="answer_result(question.id, 'for')" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'Against' %}
+              </div>
+              <question-answer-result :result="answer_result(question.id, 'against')" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'Abstain' %}
+              </div>
+              <question-answer-result :result="answer_result(question.id, 'abstain')" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 2">
+          <i>{% trans 'Single select question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer" v-for="answer in question.answers">
+              <div class="question-question"> ${ answer.answer }</div>
+              <question-answer-result :result="answer_result(question.id, answer.id)" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 3">
+          <i>{% trans 'Multiple select question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer" v-for="answer in question.answers">
+              <div class="question-question"> ${ answer.answer }</div>
+              <question-answer-result :result="answer_result(question.id, answer.id)" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 4">
+          <i>{% trans 'Election' %}</i>
+
+          <div class="question-candidate-container">
+            <div class="question-candidate question-answer" v-for="(candidate, index) in question.candidates">
+              <span class="candidate-index">${ index + 1 }.</span>
+              <div class="candidate-info">
+                <img class="candidate-avatar" :src="candidate.avatar_url" v-if="candidate.avatar_url">
+                <div class="candidate-description">
+                  <span class="candidate-name">${ candidate.first_name } ${ candidate.last_name }</span>
+                  <div class="candidate-notes">${ candidate.notes }</div>
+                </div>
+              </div>
+              <question-answer-result :result="answer_result(question.id, candidate.id)" :is_anonymous="voting.is_anonymous"></question-answer-result>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    window.trans.delete_voting = '{% trans 'Are you sure you want to delete this vote?' %}';
+    window.trans.delete_voting_text = "{% trans "You can't revert this action." %}";
+    window.trans.delete_question = '{% trans 'Delete Question?' %}';
+    window.trans.delete_question_text = "{% trans "You can't revert this action." %}";
+    window.trans.delete_voter = '{% trans 'Delete Voter?' %}';
+    window.trans.delete_voter_text = "{% trans "You can't revert this action." %}";
+    window.trans.delete_text = '{% trans "DELETE" %}';
+    window.trans.cancel_text = '{% trans "Cancel" %}';
+    window.trans.voter_no_field_filled = '{% trans 'Either Voter or Committee or All Members must be selected.' %}';
+    window.trans.resend_done = '{% trans 'Reminders are sent to voters.' %}';
+    window.trans.anonymous_voting = '{% trans 'Anonymous voting' %}';
+</script>

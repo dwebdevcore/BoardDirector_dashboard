@@ -1,0 +1,39 @@
+{% load i18n common_tags %}
+
+<div class="rsvp-edit">
+  <h2>RSVP</h2>
+
+  <div class="rsvp-container">
+    {% include 'rsvp/includes/rsvp_response_for_meeting_repetition.html' with repetition=repetition %}
+
+    {% if repetition.meeting.repeat_type %}
+      <div class="rsvp-repeat">
+        <div class="rsvp-repeat-title">{% trans 'Please select how to apply change:' %}</div>
+
+        <a href="javascript:void(0)" class="rsvp-repeat-for-all">{% trans 'All meetings in a series' %}</a>
+        <a href="javascript:void(0)" class="rsvp-repeat-repetition">{% trans 'Just this meeting' %}</a>
+      </div>
+    {% endif %}
+  </div>
+
+  {# Just because it needs to be here... bad solution #}
+{#  <div class="meeting-add-to-calendar">#}
+{#    <span class="meeting-add-to-calendar-title">{% trans 'Add to my calendar' %}</span>#}
+{#    <a href="{% acc_url 'meetings:download-card' pk=meeting.id %}"><i class="fa fa-calendar" aria-hidden="true"></i> {% trans 'Outlook, iCal' %}</a>#}
+{#  </div>#}
+{#  <div class="content meeting-detail width_100">#}
+{#    <div class="calendar">#}
+{#      <div class="title">Add to my calendar:</div>#}
+{#        <div class="item">#}
+{#          {% if 'office_user_email' in request.session %}#}
+{#          <a href="{{ meeting.get_absolute_url }}add-calendar/office/" class="office"></a>#}
+{#          {% endif %}#}
+{##}
+{#          {% if 'google_user_email' in request.session %}#}
+{#          <a href="{{ meeting.get_absolute_url }}add-calendar/google/" class="google"></a>#}
+{#          {% endif %}#}
+{#          <a href="{% url 'calendar-connection' %}" class="ical"><i class="fa fa-calendar fa-2x" aria-hidden="true"></i> iCal</a>#}
+{#        </div>#}
+{#    </div>#}
+{#  </div>#}
+</div>

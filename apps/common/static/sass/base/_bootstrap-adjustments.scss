@@ -1,0 +1,84 @@
+@import "../config";
+
+.form-control {
+  box-shadow: none;
+}
+
+input.form-control:focus {
+  box-shadow: none;
+}
+
+.well {
+  box-shadow: none;
+}
+
+.panel {
+  border-radius: 0;
+}
+
+.btn.btn-lg {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 14px 20px;
+}
+
+.btn.btn-md {
+  padding: 10px 15px;
+}
+
+.btn-md .icon {
+  display: inline-block;
+  margin: -5px 5px -5px -5px;
+  font-size: 20px;
+}
+
+.btn-md .fa {
+  vertical-align: -3px;
+}
+
+label {
+  font-weight: normal;
+  color: $gray-light;
+}
+
+label.control-label .checkbox-label {
+  vertical-align: -3px;
+}
+
+.modal {
+  .modal-title {
+    text-align: center;
+    font: 2.3em ProximaNova-Regular, arial, helvetica, sans-serif;
+    font-weight: bold;
+  }
+
+  .modal-content {
+    border-radius: 5px;
+  }
+
+  .modal-footer {
+    background-color: $gray-lighter;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+  }
+
+  .close {
+    position: absolute;
+    top: -17px;
+    right: -20px;
+    height: 33px;
+    width: 33px;
+
+    background: url(../images/icon-popup-close.png) no-repeat 0 0;
+    opacity: 1;
+    content: '';
+  }
+
+  .close:hover {
+    background: url(../images/icon-popup-close.png?77ef120bbddf) no-repeat 0 -33px;
+  }
+}
+
+body .selectize-input.focus {
+  box-shadow: none;
+}

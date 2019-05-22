@@ -1,0 +1,141 @@
+{% extends "inner.html" %}
+{% load i18n %}
+{% load common_tags %}
+{% load static from staticfiles %}
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/account.js' %}"></script>
+  <script src="{% static 'js/documents.js' %}"></script>
+  <script src="{% static 'js/logo.js' %}"></script>
+  <script type="text/javascript">
+      var DOC_DELETE_URL = "{% url 'accounts:remove-logo' %}"
+  </script>
+  <script type="text/javascript">
+      var ACC_CANCEL_URL = "{% url 'accounts:cancel' %}";
+      var ACC_BILLING_CYCLE_URL = "{% url 'billing:change_cycle' %}";
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {{ super }}
+  <link rel="stylesheet" href="{% static 'css/account.css' %}">
+{% endblock %}
+
+{% block workspace %}
+  <header class="heading">
+    <a class="btn" href="{% url 'billing:update_settings' %}">{% trans "Edit Account" %}</a>
+    <h2>{% trans "Board Settings" %}</h2>
+  </header>
+  <div class="bar">
+    <dl>
+      <dt>{% trans "Name of Board" %}:</dt>
+      <dd>{{ account.name }}</dd>
+      <dt>{% trans "Login URL" %}:</dt>
+      <dd><a href="{% acc_url 'board_detail' %}">{{ site }}{{ account.url }}</a></dd>
+      <form method="post" id="send-notification-form" action="{% url 'accounts:notify' %}">{% csrf_token %}
+        <dt>{% trans "Do NOT send ANY automatic email notifications to anyone on this board" %}</dt>
+        <dd>
+          <label for="send_notification">
+            <input type="checkbox" name="send_notification" id="id_send_notification" {% if not account.send_notification %} checked {% endif %}>
+          </label>
+        </dd>
+        <dt>{% trans "Display members' emails" %}</dt>
+        <dd>
+          <label for="view_email">
+            <input type="checkbox" name="view_email" id="id_view_email" {% if account.view_email %} checked {% endif %}>
+          </label>
+        </dd>
+        <dt>{% trans "Default meetings location" %}:</dt>
+        <dd>
+          <input type="text" size="60" name="default_meetings_location" value="{{ account.default_meetings_location|default:'' }}">
+          <input type='button' id='saveform' value='save'>
+        </dd>
+      </form>
+      <dt>
+        {% if account.logo %}
+          {% trans "Logotype" %}:
+        {% else %}
+          {% trans 'ADD YOUR LOGO' %}:
+        {% endif %}
+      </dt>
+      <dd>
+        <form action="{% url 'accounts:logo' %}" method="POST" class="createmeeting-form create-document-form" id="logo-form">
+          {% csrf_token %}
+          <ul class="archives">
+            <li>
+              <div class="items">
+                {% if account.logo %}
+                  <div class="logo-preview"><img src="{{ account.logo.url }}"></div>
+                  {% include 'documents/document_item.html' with doc=account edit_docs=True no_file_type=True %}
+                {% else %}
+                  <div class="logo-preview" style="display: none"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div>
+                  <input type="file" name="logo" id="id_logo"/>
+                {% endif %}
+              </div>
+            </li>
+          </ul>
+        </form>
+      </dd>
+    </dl>
+  </div>
+  <div class="settings-section">
+    <h3>{% trans "Billing and Invoices" %}</h3>
+    <ul class="list">
+      <li>
+        <h4>{% trans "Current plan" %}: {{ account.plan.get_name_display }} {% trans "package with up to" %} {{ account.get_max_members }} {% trans "users and" %} {{ account.get_max_storage }} GB {% trans "storage" %}</h4>
+        <p>{% trans "Your next charge is $" %}{{ account.get_next_pay_charge }} {% trans "on" %} {{ account.get_next_pay_date|date:"N j, Y" }}.
+
+          <a href="{% url 'billing:change_plan' %}">{% trans "See plans and upgrade or downgrade" %}</a>
+      </li>
+      <li>
+        <h4>{% trans "Credit Card" %}</h4>
+        {% if account.has_card_number %}
+          <p>{% trans "Your credit card on file is" %} {{ account.get_last_numbers_card }}</p>
+          <a href="{% url 'billing:update_settings' %}">{% trans "Change your credit card and billing information" %}</a>
+        {% else %}
+          <a href="{% url 'billing:update_settings' %}">{% trans 'Fill in your credit card and billing information' %}</a>
+        {% endif %}
+
+      </li>
+      {% if account.billing_settings.cycle == account.billing_settings.MONTH %}
+        <li>
+          <h4>{% trans "Prefer to pay yearly?" %}</h4>
+          <p>{% trans "We currently bill your credit card" %} {{ account.billing_settings.get_cycle_display }}. {% trans "If you'd prefer to simplify your billing you can pay once yearly" %}.</p>
+          <a href="" id="yearly_payment">{% trans "Make a yearly payment" %}</a>
+        </li>
+      {% endif %}
+      <li>
+        <h4>{% trans "Invoice" %}</h4>
+        <p>{% trans "Each time you are billed, an invoice is emailed to" %} <strong>{{ account.billing_settings.mail }}</strong></p>
+        <p>{% trans "You can customize your invoices with your company's address and any other billing notes" %}.</p>
+        <a href="{% url 'billing:update_settings' %}">{% trans "Change invoice details" %}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="settings-section">
+    <h3>{% trans "Need to cancel?" %}</h3>
+    <ul class="list">
+      <li>
+        <p>{% trans "We&rsquo;ll be sorry to see you go! You won't be charged again once you've canceled" %}. </p>
+        <p>{% trans "All of your data will be permanently deleted after 30 days" %}.</p>
+        <a href="" id="cancel_account">{% trans "Cancel your account" %}</a>
+      </li>
+    </ul>
+  </div>
+  <script id="delete-account-confirmation" type="text/x-kendo-template">
+    <p class="delete-message">{% trans 'Are you sure you want to cancel your account' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="delete-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+  <script id="delete-confirmation" type="text/x-kendo-template">
+    <p class="delete-message">{% trans 'Are you sure you want to delete your logotype image?' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="delete-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+
+{% endblock workspace %}

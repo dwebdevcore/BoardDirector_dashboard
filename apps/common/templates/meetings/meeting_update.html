@@ -1,0 +1,97 @@
+{% extends "inner.html" %}
+{% load i18n static compress common_tags %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+
+{% block extra_js %}
+{%compress js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/object_delete_jqui.js' %}"></script>
+  <script src="{% static 'js/expand_collapse_div.js' %}"></script>
+  <script src="{% static 'js/rsvp_ajax.js' %}"></script>
+  <script src="{% static 'js/approve_ajax.js' %}"></script>
+  <script src="{% static 'js/meetings.js' %}"></script>
+  <script src="{% static 'js/meeting_detail.js' %}"></script>
+  <script src="{% static 'js/edit-documents.js' %}"></script>
+  <script src="{% static 'js/meeting_create.js' %}"></script>
+  <script src="{% static 'js/documents.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.js' %}"></script>
+{% endcompress %}
+  <script type="text/javascript">
+    var DOC_DELETE_URL = "{% url 'documents:delete' %}"
+    var DOC_RENAME_URL = "{% url 'documents:rename' %}"
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {{ super }}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css.generated/meetings.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/expand-collapse-div.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}">
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.default.css' %}">
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+  {% include 'meetings/includes/meeting_right_bar.html' %}
+
+  <header class="heading">
+    <h2>
+      {% if is_event %}{% trans 'Update Event' %}
+        {% else %}{% trans 'Update Meeting' %}
+      {% endif %}</h2>
+  </header>
+  <ul class="error">
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  <form method="post" enctype="multipart/form-data" class="common-form updatemeeting">{% csrf_token %}
+    {# Need it here because due to markup actual action is out of form element, so it's value will be placed in hidden to go with form #}
+    <input type="hidden" name="{{ form.action.name }}" value="update" id="action-hidden-field">
+    <ul class="meeting-form-body meeting-detail">
+      {% include 'meetings/includes/edit_form.html' %}
+      {% include 'meetings/includes/documents.html' with doc_board_book=object.get_board_book doc_agenda=object.get_agenda doc_minutes=object.get_minutes other_docs=object.get_other_docs edit_docs=True %}
+    </ul>
+  </form>
+
+  {% if form.action.field|check_choice_value:'update-no-email'  %}
+  <script id="prompt-send-email" type="text/x-kendo-template">
+    <p class="prompt-message text-center">{% trans 'Send emails after update' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="send-emails k-button">{% trans 'Yes' %}</button>
+      <button class="skip-emails k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+  {% endif %}
+
+  <!-- For attached documents -->
+  <script id="delete-confirmation" type="text/x-kendo-template">
+    <p class="delete-message">{% trans 'Are you sure you want to delete this document' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="delete-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+
+  <script id="update-confirmation" type="text/x-kendo-template">
+    <p class="update-message">{% trans 'Are you sure you want to update this document' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="update-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="update-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+
+  {% include 'meetings/includes/popup_dialogs.html' %}
+
+{% endblock workspace %}

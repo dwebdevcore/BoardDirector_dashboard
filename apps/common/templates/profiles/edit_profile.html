@@ -1,0 +1,56 @@
+{% extends "inner.html" %}
+{% load i18n compress user_tags common_tags permissions_tags static %}
+
+{% block extra_js %}
+  {{ block.super }}
+  {% compress js %}
+    <script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+    <script src="{% static 'js/kendo.web.min.js' %}"></script>
+    <script src="{% static 'js/jquery.imgareaselect.js' %}"></script>
+    <script src="{% static 'js/field_array.js' %}"></script>
+    <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/profile/edit-profile.js' %}"></script>
+    <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+  {% endcompress %}
+
+  <script type="text/javascript">
+    var IS_GUEST = {% if form.instance.is_guest %} true {% else %} false {% endif %};
+    var CURRENT_PROFILE = {% if current_membership == form.instance %} true {% else %} false {% endif %};
+    var STAFF_ROLE_VALUE = {{ role_choice.staff|default:0 }};
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css.generated/members.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+{% endblock %}
+
+{% block workspace %}
+  <header class="heading">
+    {% if current_membership == form.instance %}
+      <h1>{% trans "Edit Your Profile" %}</h1>
+    {% elif form.instance.role == current_membership.ROLES.assistant %}
+      <h1>{% trans "Edit Assistant Profile" %}</h1>
+    {% elif form.instance.is_guest %}
+      <h1>{% trans "Edit Guest Profile" %}</h1>
+    {% else %}
+      <h1>{% trans "Edit Member Profile" %}</h1>
+    {% endif %}
+  </header>
+
+  <form action="" method="POST" class="addmember-form" enctype="multipart/form-data">{% csrf_token %}
+    <div class="m1">
+      <div class="fields">
+        <div class="c1">
+          {% include 'profiles/includes/profiles_form_tabs.html' %}
+          <div class="btns clearfix">
+            <input type="submit" value="{% if form.instance.is_guest %}{% trans "Update Guest" %}{% else %}{% trans "Update Profile" %}{% endif %}" class="btn"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+{% endblock %}

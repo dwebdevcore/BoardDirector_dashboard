@@ -1,0 +1,36 @@
+{% load i18n permissions_tags %}
+
+{% for committee in committees %}
+  <div class="committee {% cycle '' 'committee-i' %}">
+    <div class="text">
+      <h3><a href="{{ committee.get_absolute_url }}">{{ committee.name }}</a></h3>
+      <p>{{ committee.summary }}</p>
+      <footer>
+        <a class="btn btn-primary" href="{{ committee.get_absolute_url }}">{% trans 'View Committee' %}</a>
+        <dl>
+          <dt>{% trans 'Committee Members' %}:</dt>
+          <dd>
+            {% with show_links=current_membership|has_role_permission:'profiles.membership:view' %}
+              {% for user in committee.members %}
+                {% if show_links %}
+                  <a href="{{ user.get_absolute_url }}">{{ user.get_full_name }}{% if user.is_chair %} ({% trans 'Chair' %}){% endif %}</a>{% if not forloop.last %}, {% endif %}
+                {% else %}
+                  {{ user.get_full_name }}{% if user.is_chair %} ({% trans 'Chair' %}){% endif %}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endwith %}
+          </dd>
+        </dl>
+      </footer>
+    </div>
+    <dl class="info">
+      {% if committee.upcoming_meetings %}
+        {% with committee.upcoming_meetings|first as meeting %}
+          <dt>{% trans 'Upcoming Meeting' %}</dt>
+          <dd><strong>{{ meeting.start|date:"N j, Y" }}</strong>
+          {{ meeting.start|date:"g:i a" }}&ndash;{{ meeting.end|date:"g:ia" }}</dd>
+        {% endwith %}
+      {% endif %}
+    </dl>
+  </div>
+{% endfor %}

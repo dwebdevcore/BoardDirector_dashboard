@@ -1,0 +1,215 @@
+@import "../config";
+
+.browse-by {
+  /* float:right; */
+  margin: 0;
+}
+
+.browse-by label {
+  float: left;
+  font: bold 13px/30px arial, helvetica, sans-serif;
+  margin: 0 14px 0 0;
+  color: #4a4a4a;
+}
+
+.browse-by select {
+  float: left;
+  width: 215px;
+}
+
+.bar .browse-by select {
+  width: 178px;
+}
+
+.outtaHere {
+  position: absolute;
+  left: -3000px;
+}
+
+.selectArea {
+  position: relative;
+  height: 28px;
+  float: left;
+  color: #373737;
+  font-size: 13px;
+  line-height: 28px;
+  border: 1px solid #dcdcdc;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 3px;
+}
+
+.selectAreaActive {
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.selectArea .left {
+  display: none;
+}
+
+.selectArea a.selectButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: url(../images/sprites.png) no-repeat 100% -362px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.selectAreaActive a.selectButton {
+  background-position: 100% -394px;
+}
+
+.selectArea .center {
+  height: 28px;
+  display: block;
+  padding: 0 32px 0 10px;
+}
+
+.optionsDivInvisible,
+.optionsDivVisible {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #dcdcdc;
+  z-index: 30;
+  font-size: 13px;
+  line-height: 32px;
+  margin-top: -1px;
+  margin-left: 1px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-radius: 0 0 5px 5px;
+}
+
+.optionsDivInvisible {
+  display: none;
+}
+
+.optionsDivVisible ul {
+  padding: 0 0 8px;
+  max-height: 33vh;
+  overflow-y: auto;
+}
+
+.optionsDivVisible li {
+  overflow: hidden;
+}
+
+.optionsDivVisible a {
+  color: #4a4a4a;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  height: 1%;
+  padding: 0 8px;
+}
+
+.optionsDivVisible a:hover {
+  background-color: #008ac6;
+  color: #fff;
+  text-decoration: none;
+}
+
+.checkboxArea, .checkboxAreaChecked {
+  cursor: pointer;
+  float: left;
+  width: 18px !important;
+  height: 18px;
+  overflow: hidden;
+  background: url(../images/sprites.png) no-repeat 0 -699px;
+  margin: 0 8px 0 2px;
+}
+
+.checkboxAreaChecked {
+  background-position: -18px -699px;
+}
+
+.pager li {
+  float: left;
+}
+
+.pager a {
+  float: left;
+  background: #fff;
+  width: 30px;
+  color: #666;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-left-style: none;
+}
+
+.pager .active a,
+.pager a:hover {
+  text-decoration: none;
+  color: #fff;
+  background: $brand-primary;
+}
+
+.pager .active a {
+  font-weight: bold;
+}
+
+.heading .holder {
+  height: 1%;
+  overflow: hidden;
+  color: #4a4a4a;
+  font: 14px/18px arial, helvetica, sans-serif;
+}
+
+span.star {
+  color: red;
+  margin-left: 2px;
+}
+
+.message {
+  margin: 5px 0;
+}
+
+.message.success {
+  color: $brand-success;
+}
+
+
+.txt.title {
+  color: $color-dark-gray;
+  font: 24px "ProximaNova-Regular", "arial", "helvetica", sans-serif;
+  margin-bottom: 7px;
+  padding: 10px 10px 8px;
+  width: 609px;
+}
+
+.txt.textarea {
+  color: $color-dark-gray;
+  padding: 10px 10px 10px;
+  width: 609px;
+}
+
+.selectize-300px {
+  display: inline-block;
+  width: 300px;
+  overflow-y: visible;
+}
+
+.selectize-270px {
+  display: inline-block;
+  width: 270px;
+  overflow-y: visible;
+}
+
+#content hr.full-width {
+  margin-left: -40px;
+  margin-right: -25px;
+}
+
+#content hr.first-hr {
+  margin-top: 0;
+}

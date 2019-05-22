@@ -1,0 +1,14 @@
+{% extends "documents/folder_detail.html" %}
+{% load i18n common_tags permissions_tags %}
+
+{% block heading %}{% trans "Shared Documents" %}{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class="breadcrumbs">
+    <li><a href="{% acc_url 'folders:rootfolder_detail' %}">{% trans 'Documents' %}</a></li>
+    <li>{% trans "Shared Documents" %}</li>
+  </ul>
+{% endblock %}
+
+{% block folder_actions %}
+{% endblock %}

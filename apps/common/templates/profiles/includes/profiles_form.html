@@ -1,0 +1,78 @@
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% if form.non_field_errors %}
+<span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" role="alert">
+  <span class="k-icon k-warning"></span>
+  {{ form.non_field_errors.0 }}
+</span>
+{% endif %}
+
+<ul class="fields-list">
+  {% for field in form.visible_fields %}
+    {% if field.name != 'avatar' %}
+      {% if field.name == 'first_name' %}
+        {% if form.instance.is_guest %}<h2>Guest Details</h2>{% else %}<h2>Member Details</h2>{% endif %}
+      {% elif field.name == 'employer' %}
+        <hr>
+        <h2>Work Details</h2>
+      {% elif field.name == 'intro' %}
+        <hr>
+        <h2>Biography</h2>
+      {% elif field.name == 'title' %}
+        <hr>
+        <h2>Personal Details(Private)</h2>
+      {% elif field.name == 'affiliation' %}
+        <hr>
+        <h2>Social Details</h2>
+      {% elif field.name == 'notes' %}
+        <h2>Notes</h2>
+      {% endif %}
+      <li
+        {% if field.name == 'term_start' %}
+          class="start-date"
+        {% elif field.name == 'term_expires' %}
+          class="end-date"
+        {% elif field.name in 'intro, bio, title, description, address, secondary_address, notes'|slice:', ' %}
+          class="two-columns"
+        {% elif field.name == 'affiliation' or field.name == 'social_media_link' %}
+          class="social-details"
+        {% elif field.name == 'is_admin' %}
+          class="choose-admin"
+        {% endif %}
+      >
+        <!-- label name -->
+        <label for="{{ field.name }}" {% if field.field.required %} class="special_class" {% endif %}>
+          {{ field.label }}
+        </label>
+        <!-- field input-->
+        {% if field.name == 'is_admin' %}
+          <div class="slide-toggle">
+            {{ field }}
+            <label for="{{ field.id_for_label }}"></label>
+          </div>
+        {% elif field.name == 'affiliation' or field.name == 'social_media_link' %}
+          <div class="list-value-field">
+            {{ field }}
+            <div class="remove" hidden></div>
+          </div>
+        {% else %}
+          {{ field }}
+        {% endif %}
+
+        <!-- field error -->
+        {% if field.errors %}
+        <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="{{ field.auto_id }}" role="alert">
+          <span class="k-icon k-warning"></span>
+          {{ field.errors.0 }}
+        </span>
+        {% endif %}
+      </li>
+      {% if field.name == 'social_media_link' or field.name == 'notes' %}
+        <hr>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</ul>
+

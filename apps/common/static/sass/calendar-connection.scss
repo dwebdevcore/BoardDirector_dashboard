@@ -1,0 +1,252 @@
+@import 'config';
+
+@import 'meetings/details-roster';
+@import 'meetings/details-form';
+@import 'meetings/meeting-details';
+@import 'meetings/next-previous';
+@import 'meetings/meeting-file-types';
+@import 'common/right-side';
+
+@import 'common/document-items';
+
+.calendar{
+  //& .title{
+  //  font-weight: bold;
+  //  margin: 15px 0;
+  //  font-size: 20px;
+  //}
+  .title3 {
+    margin-bottom: 0.5em;
+  }
+
+  .item{
+
+    & a, & a:visited{
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      background-repeat: no-repeat;
+      width: 100px;
+      height: 40px;
+      cursor: pointer;
+
+      &:hover{
+        text-decoration: none;
+      }
+
+      &:hover span{
+        color: #d50000;
+      }
+
+      &:hover i{
+        color:#ff7f7f;
+      }
+
+      text-decoration: none;
+    }
+
+    & .other {
+      width: auto;
+      height: auto;
+      margin: -0.25em 1em 0 0;
+
+      i {
+        display: inline-block;
+        margin: 0 0.25em 0 0;
+        color: #15aaf5;
+      }
+      span {
+        display: inline-block;
+        font-size: 90%;
+        white-space: nowrap;
+        color: #0089c5;
+        text-align: center;
+        line-height: 0.95em;
+        margin: 0.1em 0 0 0;
+      }
+    }
+
+    & a[disabled]{
+      cursor: not-allowed;
+      //pointer-events: none;
+    }
+
+    & .google{
+      background-image: url(../images/svg/Google-Cal.svg);
+    }
+    & .office{
+      background-image: url(../images/svg/office-365.svg);
+    }
+    & .ical{
+      color: #d50000;
+    }
+  }
+} 
+
+.display_none{
+  display: none !important;
+}
+
+.meeting-content h3 {
+  color: $brand-primary;
+  font-size: 15px;
+  font-weight: bold;
+
+  a {
+    color: $brand-primary
+  }
+}
+
+.content {
+  font: 14px/20px ProximaNova-Regular, arial, helvetica, sans-serif;
+}
+
+.content h3{
+  margin-top: 15px;
+}
+.border-bot{
+  border-bottom: 1px solid #ddd;
+  padding: 30px 0;
+}
+.border-right{
+  border-right: 1px solid #ddd;
+}
+.content.calendar .icon-calendar{
+  color: #d50000;
+  text-align: center;
+  & i{
+    padding: 20px 25px;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+  }
+}
+
+.fa-windows {
+  background-image: url('../images/svg/office-sq.svg');
+  color: transparent;
+}
+
+.width_100{
+  width: 100%;
+}
+.width_50{
+  width: 50%;
+}
+
+.content.calendar .btn-connect,
+.content.calendar .connect_type{
+  margin-top: 10px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.content.calendar .calendar_info{
+  padding: 50px 0;
+  & .title_info{
+    font-weight: bold;
+    & i{
+      font-size: 70%;
+    }
+  }
+  & .list_calendar{
+    padding: 15px 0;
+  }
+  & .add_to_calendar{
+    padding: 15px 0;
+    & .form-group{
+      padding: 0 15px;
+      & .form-control{
+        border-radius: 0;
+      }
+    }
+  }
+  & a{
+    color: #d50000;
+    padding: 10px;
+    margin-top: 20px;
+    text-decoration: underline;
+  }
+}
+
+.content.calendar {
+  & .checkbox label:after, 
+  & .radio label:after {
+      content: '';
+      display: table;
+      clear: both;
+  }
+
+  & .checkbox .cr,
+  & .radio .cr {
+      position: relative;
+      display: inline-block;
+      border: 1px solid #a9a9a9;
+      border-radius: 0;
+      width: 1.3em;
+      height: 1.3em;
+      float: left;
+      margin-right: .5em;
+  }
+
+  & .radio .cr {
+      border-radius: 50%;
+  }
+
+  & .checkbox .cr .cr-icon,
+  & .radio .cr .cr-icon {
+      position: absolute;
+      font-size: .8em;
+      line-height: 0;
+      top: 50%;
+      left: 20%;
+      color: $brand-primary;
+  }
+
+  & .radio .cr .cr-icon {
+      margin-left: 0.04em;
+  }
+
+  & .checkbox label input[type="checkbox"],
+  & .radio label input[type="radio"] {
+      display: none;
+  }
+
+  & .checkbox label input[type="checkbox"] + .cr > .cr-icon,
+  & .radio label input[type="radio"] + .cr > .cr-icon {
+      transform: scale(3) rotateZ(-20deg);
+      opacity: 0;
+      transition: all .3s ease-in;
+  }
+
+  & .checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+  & .radio label input[type="radio"]:checked + .cr > .cr-icon {
+      transform: scale(1) rotateZ(0deg);
+      opacity: 1;
+  }
+
+  & .checkbox label input[type="checkbox"]:disabled + .cr,
+  & .radio label input[type="radio"]:disabled + .cr {
+      opacity: .5;
+  }
+}
+
+
+/* temporarily resolve style conflicts in Checkbox, Selectbox */
+.checkboxAreaChecked, .checkboxArea {
+  display: none;
+}
+
+.selectArea.form-control a.selectButton {
+  margin: 0;
+  background-position: 100% -356px;
+}
+.selectArea.selectAreaActive.form-control a.selectButton {
+  background-position: 100% -389px;
+}
+.selectArea {
+  height:42px;
+}
+
+.optionsDivInvisible, .optionsDivVisible {
+  margin-top: 11px;
+}

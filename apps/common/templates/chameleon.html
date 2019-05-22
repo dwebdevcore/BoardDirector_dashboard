@@ -1,0 +1,11 @@
+{% if chameleon_enabled and current_membership != None %}
+  <script>
+    !function(t,n,o){var a="chmln",c="setup identify alias track set show on off custom help _data".split(" ");n[a]||(n[a]={}),n[a].accountToken=o,n[a].location=n.location.href.toString();for(var e=0;e<c.length;e++)!function(){var t=n[a][c[e]+"_a"]=[];n[a][c[e]]=function(){t.push(arguments)}}();var s=t.createElement("script");s.src="https://fast.trychameleon.com/messo/"+o+"/messo.min.js",s.async=!0,t.head.appendChild(s)}(document,window,"SAtlPjYMWGA1jiV7AYF1D38gSa7SE9xEoRdJwPkr58eIyh-1C3H6Z-ztbpXMzr0tGiPmve");
+    chmln.identify({
+      uid: '{{ current_membership.id }}',
+      email: '{{ current_membership.user.email }}',
+      created: '{{ current_membership.user.date_joined|date:"U" }}',
+      user_role: '{{ current_membership.get_role_display }}'
+    });
+  </script>
+{% endif %}

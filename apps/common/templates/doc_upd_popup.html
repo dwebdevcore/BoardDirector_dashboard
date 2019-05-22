@@ -1,0 +1,54 @@
+{% load i18n static %}
+{% load common_tags %}
+
+<form action="#">
+  <div class="update-archive-popup">
+    <div data-url=""
+       id="update-archive-dialog"
+       title="{% trans "Upload new version" %}"
+       data-cancel-button-text="{% trans 'or Cancel' %}"
+       data-send-button-text="{% trans 'Upload new version' %}"
+    >
+      <div class="update-archive-form">
+        <p class="replace-file-wrapper">
+          <span class="replace-file-label">{% trans "File to replace:" %}</span>
+          <span id="doc-filename"></span>
+        </p>
+        <div id="update-archive-file-wrapper"></div>
+        <div id="update-archive-email-wrapper">
+          <p>
+            <span id="email-recipient"></span> {% trans "will be notified of this change" %}
+          </p>
+          <div>
+            <label class="notify-label" for="browse-by">{% trans 'Notify by email' %}:</label>
+            <select id="browse-by" name="show">
+              <option value="" selected>{% trans 'Nobody' %}</option>
+              {% if committees|length == 1 %}
+                {% for committee in committees %}
+                  <option value="{{ committee.pk }}">{{ committee.name }}</option>
+                {% endfor %}
+              {% elif committees|length > 1 %}
+                <option value="-1">{% trans 'All Committees' %}</option>
+                {% for committee in committees %}
+                  <option value="{{ committee.pk }}">{{ committee.name }}</option>
+                {% endfor %}
+              {% endif %}
+            </select>
+          </div>
+        </div>
+        <div class="notify-me-wrapper">
+          <input class="notify-me-checkbox" type="checkbox" name="notify_me" id="notify_me"><label for="notify_me">{% trans 'Send me a copy' %}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% if folder %}
+  <form method="post" enctype="multipart/form-data" class="create-document-form" action="{% acc_url 'folders:document_add' slug=folder.slug %}" hidden>
+    {% csrf_token %}
+    <input id="id_file" name="file" type="file" data-role="upload" autocomplete="off">
+    <input id="id_uploaded_file" name="uploaded_file" type="hidden">
+    <input id="id_notify_group" name="notify_group" type="hidden">
+    <input id="id_notify_me" name="notify_me" type="hidden">
+  </form>
+{% endif %}

@@ -1,0 +1,281 @@
+#header {
+  height: 66px;
+  padding: 0 20px 0 0;
+  margin: 0;
+  background: #4e4d4c;
+}
+
+#header:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.logo {
+  background: url(../images/logo.png);
+  margin: 11px 0 0;
+  text-indent: -9999px;
+  width: 251px;
+  height: 41px;
+}
+
+.logo-header {
+  float: left;
+  margin: 11px 0 0;
+  text-indent: -9999px;
+  width: 251px;
+  height: 41px;
+}
+
+.logo-a {
+  display: block;
+}
+
+#header .holder {
+  float: right;
+}
+
+#header .holder > ul {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+#header .holder > ul > li {
+  float: left;
+  background: url(../images/sprites.png) no-repeat 100% -803px;
+  background-position: top -803px right -6px;
+}
+
+#header .holder > ul > li:first-child, #header .holder > ul > li:last-child {
+  background: none;
+}
+
+.personal {
+  float: left;
+  position: relative;
+}
+
+.personal .opener {
+  float: left;
+  color: #fff;
+  font-size: 14px;
+  line-height: 66px;
+  background: url(../images/sprites-icos.png) no-repeat 87% -1546px;
+  background-position: top -1546px right 25px;
+  padding: 0 42px 0 10px;
+  display: block;
+  overflow: hidden;
+  height: 65px;
+}
+
+.settings:hover .opener,
+.personal:hover .opener {
+  background-color: #2a2a2a;
+  padding-left: 10px;
+}
+
+.settings:hover .opener {
+  padding-left: 1px;
+  padding-right: 1px;
+  margin-right: 1px;
+  background-position: 21px -964px;
+}
+
+.settings:hover {
+  margin-left: -1px;
+  z-index: 1;
+}
+
+.personal:hover {
+  z-index: 1;
+}
+
+.opener:hover {
+  text-decoration: none;
+}
+
+.drop {
+  position: absolute;
+  top: -9999px;
+  right: 1px;
+  width: 221px;
+  padding: 8px 0 0;
+}
+
+.settings:hover .drop,
+.personal:hover .drop {
+  top: 57px;
+  right: 0;
+}
+
+.drop ul {
+  background: #2a2a2a;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-radius: 0 0 5px 5px;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 37px;
+  padding: 15px 0;
+  position: relative;
+}
+
+.drop li {
+  overflow: hidden;
+  vertical-align: middle;
+  padding-bottom: 4px;
+}
+
+.drop a {
+  display: block;
+  color: #fff;
+  padding: 0 8px 0 50px;
+  background: url(../images/sprites-icos.png) no-repeat 18px -1302px;
+}
+
+.drop .inbox {
+  background-position: 18px -1382px;
+}
+
+.drop .signout {
+  background-position: 18px -1302px;
+}
+
+.drop .calendar-conn {
+  background: none;
+  padding-left: 20px;
+
+  .fa-calendar {
+    padding-right: 20px;
+  }
+}
+
+
+.drop a:hover {
+  text-decoration: none;
+  background-color: #008ac6;
+}
+
+#header .email {
+  float: left;
+  width: 20px;
+  height: 15px;
+  margin: 24px 20px 0;
+  position: relative;
+  text-indent: -9999px;
+  background: url(../images/sprites-icos.png) 0 -1505px;
+}
+
+#header .email span {
+  position: absolute;
+  left: 16px;
+  top: -7px;
+  background: #0089c5;
+  padding: 0 6px;
+  font: 10px/14px arial, helvetica, sans-serif;
+  color: #fff;
+  text-indent: 0;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+#header .current-membership-photo {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid #959595;
+  background-color: #959595;
+}
+
+#header .current-membership-photo img {
+  border: 0 none;
+  margin: -2px 0 0 -2px;
+}
+
+.settings {
+  float: left;
+  position: relative;
+}
+
+.settings .opener {
+  float: left;
+  width: 60px;
+  height: 66px;
+  background: url(../images/sprites-icos.png) no-repeat 20px -964px;
+  text-indent: -9999px;
+}
+
+.drop .account-settings {
+  background-position: 18px -1063px;
+}
+
+.drop .account-users {
+  background-position: 18px -1142px;
+}
+
+.drop .plans-pricing {
+  background-position: 18px -1222px;
+}
+
+.drop .add-new-committee,
+.drop .add-new-member {
+  background-position: 17px -2249px;
+}
+
+.drop .billing {
+  background-position: 15px -2298px;
+}
+
+#logo-img {
+  float: left;
+  margin: -16px 10px 0 -17px;
+  text-indent: -9999px;
+  max-height: 50px;
+}
+
+/* Getting Started Link, this is temp patch */
+#company a.top-close-guide {
+  color: #01D2FD !important;
+  font-size: 12px;
+}
+
+#company a.top-close-guide .large {
+  display: none;
+}
+
+#company a.top-close-guide {
+  margin-left: 20px;
+}
+
+
+.heading .holder{
+  height:1%;
+  overflow:hidden;
+  color:#4a4a4a;
+  font:14px/18px arial, helvetica, sans-serif;
+}
+
+
+@media (min-width: 1000px) {
+  #company a.top-close-guide {
+    margin-left: 100px;
+  }
+  #company a.top-close-guide .small {
+    display: none;
+  }
+  #company a.top-close-guide .large {
+    display: inline;
+  }
+}
+
+@media (min-width: 1200px) {
+  #company a.top-close-guide {
+    margin-left: 220px;
+  }
+}

@@ -1,0 +1,25 @@
+{{#common}}.{{prefix}} {
+	background-repeat: no-repeat;
+	background-image: url("{{{spriteUrl}}}");
+	display: inline-block;
+	vertical-align: middle;
+}
+
+{{/common}}{{#svg}}{{#selector}}.{{expression}}{{^last}},
+{{/last}}{{/selector}} {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: {{position}};{{^common}}
+	background-repeat: no-repeat;
+	background-image: url("{{{spriteUrl}}}");
+	width: {{widthEl}}px;
+	height: {{heightEl}}px;{{/common}}
+}{{#dims}}{{#dimensions}}
+
+{{#selector}}.{{expression}}{{^last}},
+{{/last}}{{/selector}} {
+	width: {{height}}px;
+	height: {{width}}px;
+}{{/dimensions}}{{/dims}}
+
+{{/svg}}

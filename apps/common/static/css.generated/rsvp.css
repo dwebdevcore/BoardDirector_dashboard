@@ -1,0 +1,91 @@
+/** legacy non-bootstrap */
+.rsvp-edit {
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: top;
+  position: relative; }
+  .rsvp-edit h2 {
+    max-width: 40%;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 auto 10px; }
+  .rsvp-edit .rsvp-response .btn.dropdown-toggle {
+    border-radius: 0; }
+  .rsvp-edit .rsvp-response .dropdown-menu {
+    font-size: 12px; }
+  .rsvp-edit .btn-default {
+    background: #f2f2f2; }
+  .rsvp-edit .btn {
+    font-size: 11px;
+    font-weight: bold; }
+
+.rsvp-repeat {
+  border: 1px solid #eeeeee;
+  background: white;
+  padding: 5px 10px 0;
+  text-transform: none;
+  position: absolute;
+  top: 62px;
+  width: 230px;
+  display: none;
+  z-index: 100;
+  font-size: 12px;
+  font-family: arial, helvetica, sans-serif; }
+  .rsvp-repeat .rsvp-repeat-title {
+    padding: 5px 0;
+    font-weight: bold;
+    color: #555555; }
+  .rsvp-repeat a {
+    display: block;
+    padding: 10px 10px;
+    margin: 0 -10px; }
+  .rsvp-repeat a:hover {
+    background: #eeeeee; }
+
+.rsvp-response {
+  position: relative; }
+
+.rsvp-response[data-response="Accept"] .btn[data-response="Accept"] {
+  background: #3b8e00;
+  border-color: #3b8e00;
+  color: white; }
+
+.rsvp-response[data-response="Decline"] .btn[data-response="Decline"] {
+  background: #d5351f;
+  border-color: #d5351f;
+  color: white; }
+
+.rsvp-response[data-response="Tentative"] .btn[data-response="Tentative"] {
+  background: #949494;
+  border-color: #949494;
+  color: white; }
+
+.rsvp-edit .rsvp-response .btn-selector {
+  padding-left: 3px;
+  padding-right: 3px;
+  border-right: 0; }
+
+.rsvp-dialog {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 240px;
+  padding: 10px;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+  text-transform: none; }
+  .rsvp-dialog input[type=radio] {
+    vertical-align: -2px; }
+
+/*# sourceMappingURL=maps/rsvp.css.map */

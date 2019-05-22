@@ -1,0 +1,84 @@
+{% load i18n common_tags %}
+
+<ul>
+  {% if form.non_field_errors %}
+    <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" role="alert">
+          <span class="k-icon k-warning"></span>
+          {{ form.non_field_errors.0 }}
+        </span>
+  {% endif %}
+
+  {% if is_social %}
+    <input type="hidden" name="social" value="1">
+    <div class="social-auth-text">
+      <i class="social-icon {{ social_info.icon }}"></i>
+      {% trans 'Continue registration of a new board' %}
+    </div>
+
+    {% if email %}
+      <div class="social-auth-text-email">{% trans 'E-MAIL' %}</div>
+      <div class="social-auth-text-email-value">{{ email }}</div>
+      <input type="hidden" name="email" value="{{ email }}">
+    {% else %}
+      <li>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+      </li>
+      {% field_errors form.email %}
+    {% endif %}
+  {% else %}
+    <div class="social-register-block">
+      {% for backend in backends.backends %}
+        {% get_item social_mapping backend as social %}
+        <a href="{% url 'social:begin' backend %}?login_back=/login/" target="_top" class="social-icon {{ social.icon }}">
+          <span class="icon"></span>
+          <span class="text">{% trans social.name|custom_social_name %}</span>
+        </a>
+      {% endfor %}
+
+    </div>
+
+    <div class="social-accounts-login-or">
+      <div>{% trans 'or' %}</div>
+      <hr/>
+      <h4>{% trans 'Register with email and password' %}</h4>
+    </div>
+
+    <li>
+      {{ form.email.label_tag }}
+      {{ form.email }}
+    </li>
+    {% field_errors form.email %}
+
+
+    <li>
+      {{ form.password1.label_tag }}
+      <div id="passwordDescription">{% trans "Password not entered" %}</div>
+      {{ form.password1 }}
+      <div id="passwordStrength" class="strength0"></div>
+    </li>
+    {% field_errors form.password1 %}
+
+    <li>
+      {{ form.password2.label_tag }}
+      {{ form.password2 }}
+    </li>
+    {% field_errors form.password2 %}
+  {% endif %}
+
+  <li>
+    {{ form.name.label_tag }}
+    <div id="nameDescription">{% trans "Max" %} {{ form.fields.name.max_length }} {% trans "characters" %}</div>
+    {{ form.name }}
+  </li>
+  {% field_errors form.name %}
+
+  <li>
+    {{ form.url.label_tag }}
+    <div id="urlDescription">{% trans "Max" %} {{ form.fields.url.max_length }} {% trans "characters" %}</div>
+    {{ form.url }}
+    <span class="server">https://www.boarddirector.co/</span>
+  </li>
+  {% field_errors form.url %}
+
+</ul>

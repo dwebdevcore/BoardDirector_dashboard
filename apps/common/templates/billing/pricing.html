@@ -1,0 +1,14 @@
+{% extends "inner.html" %}
+{% load i18n static %}
+
+{% block extra_css %}
+  <link href="{% static 'css/pricing.css' %}" rel="stylesheet" />
+{% endblock extra_css %}
+
+{% block workspace %}
+  <header class="heading">
+    <h2>{% trans "Plans &amp; Pricing" %}</h2>
+    <a rel="button" class="btn" href="{% url 'billing:update_settings' %}{% if 'account_id' in request.GET %}?account_id={{ account.id }}{% endif %}" style="background-color:#008ac6;background-image:none;padding:0 15px 0 15px;"><< Billing &amp; Payments</a>
+  </header>
+  {% include "billing/includes/pricing_table.html" %}
+{% endblock workspace %}

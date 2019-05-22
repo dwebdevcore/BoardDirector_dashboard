@@ -1,0 +1,45 @@
+{% extends "inner.html" %}
+{% load i18n common_tags user_tags permissions_tags %}
+{% load thumbnail %}
+
+{% block workspace %}
+  <header class="heading">
+    {% if current_membership|has_role_permission:'news.news:add' %}
+      <a class="btn" href="{% acc_url 'news:create' %}">{% trans 'Add News' %}</a>
+    {% endif %}
+    <div class="holder">
+      <h2>{% trans 'News' %}</h2>
+    </div>
+  </header>
+  <div class="list container news">
+    {% for news in object_list %}
+      <div class="member news">
+        <a class="photo" href="{{ news.get_absolute_url }}">
+          {% if news.file %}
+          {% thumbnail news.file "180x120" crop="center" as thumb %}
+          <img src="{{ thumb.url }}" width="{{ thumb.x }}" height="{{ thumb.y }}" title="{{ news.title|title }}" alt="{{ news.title|title }}">
+          {% endthumbnail %}
+          {% else %}
+          <img src="/static/images/news.png" title="{{ news.title|title }}" alt="{{ news.title|title }}" width="180">
+          {% endif %}
+        </a>
+        <div class="text">
+          <h3 class="full-name" title="{{ news.title|title }}">{{ news.title|title }}</h3>
+          <dl>
+            <dt>{% trans "date created"|title %}</dt>
+            <dd>{{ news.created_at|date:"N j, Y" }}</dd>
+            <dt>{% trans "text"|title %}</dt>
+            <dd>{{ news.text|striptags|truncatechars:100 }}</dd>
+          </dl>
+        <span class="manage-member-buttons">
+          <a class="btn" href="{{ news.get_absolute_url }}">{% trans 'Full News' %}</a>
+          {% has_permission 'news.news' 'edit' news as permission_edit %}
+          {% if permission_edit %}
+            <a class="btn edit-btn" href="{% acc_url 'news:edit' pk=news.pk %}">{% trans "Edit News" %}</a>
+          {% endif %}
+        </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock workspace %}

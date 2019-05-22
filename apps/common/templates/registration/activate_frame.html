@@ -1,0 +1,13 @@
+{% extends "blank_form.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Activation failed" %}{% endblock title %}
+
+{% block content %}
+  <div class="form-holder">
+    <header>
+      <p>{% trans "Account activation is failed" %}.</p>
+      <p>{% trans "There is wrong activation key" %}.</p>
+    </header>
+  </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+div.k-dropzone {
+  min-width: 464px;
+  font: 13px/54px arial, helvetica, sans-serif;
+  color: #9b9b9b;
+  border: 1px dashed #bfbfbf;
+  padding: 0 0 0 34px;
+  background: url(../images/sprites.png) no-repeat 9px -621px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  position: relative;
+}
+
+div.k-dropzone em {
+  visibility: visible;
+}
+
+div.k-upload-button {
+  width: auto !important;
+}
+
+div.k-button {
+  color: #0089c5 !important;
+  text-decoration: underline;
+  white-space: nowrap;
+  border: 0;
+  background: none;
+}
+
+div.k-button:hover {
+  text-decoration: none;
+  background: none;
+}
+
+.k-upload-files {
+  padding: 15px 0 0 125px;
+  clear: both !important;
+  border: 0 !important;
+  background: none;
+}
+
+.k-upload {
+  overflow: auto;
+}

@@ -1,0 +1,43 @@
+{% extends "inner.html" %}
+{% load i18n %}
+
+{% block workspace %}
+  <header class="heading">
+    <h2>{% trans "Change your email" %}</h2>
+  </header>
+  <form action="{% url 'change_email_create' %}" method="POST" class="addmember-form">{% csrf_token %}
+    <div class="m1">
+      <dl class="settings">
+        <dd>
+          <ul>
+            <li><a href="{% url 'profiles:edit' pk=current_membership.pk %}">{% trans "My Profile" %}</a></li>
+            <li><a href="{% url 'accounts:boards' %}">{% trans "My Boards" %}</a></li>
+            <li><a href="{% url 'auth_password_change' %}">{% trans "Security settings" %}</a></li>
+          </ul>
+        </dd>
+        <dt>{% trans "Change email" %}</dt>
+      </dl>
+      <div class="fields" style="margin: 0 200px 0 140px;">
+        <div class="c1">
+          <ul class="fields-list">
+            <li>
+            <label for="{{ form.new_email.auto_id }}">{% trans "New email" %}</label>
+              <input class="txt" id="{{ form.new_email.auto_id }}" maxlength="30" name="{{ form.new_email.name }}" type="text">
+              {% if form.new_email.errors %}
+              <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="{{ form.new_email.auto_id }}" role="alert">
+                <span class="k-icon k-warning"></span>
+                {{ form.new_email.errors.0 }}
+              </span>
+              {% endif %}
+            </li>
+          </ul>
+          <div class="btns">
+            <input type="submit" value="{% trans "Change email" %}" class="btn"/>
+            <input type="reset" class="reset" value="{% trans "Reset" %}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+

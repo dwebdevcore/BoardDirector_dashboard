@@ -1,0 +1,31 @@
+@import '../config';
+
+.inner-menu {
+  border-top: 1px solid $gray-lighter;
+  border-bottom: 1px solid $gray-lighter;
+  padding: 20px 0;
+  font: 14px ProximaNova-Semibold, arial, helvetica, sans-serif;
+
+  a {
+    display: inline-block;
+    margin-right: 25px;
+    font-weight: bold;
+    color: $gray-light;
+
+    &.active {
+      color: $brand-active;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.section-tab {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

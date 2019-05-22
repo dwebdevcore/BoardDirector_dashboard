@@ -1,0 +1,73 @@
+{% extends "inner.html" %}
+{% load i18n common_tags static thumbnail %}
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/profile/edit-profile.js' %}"></script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css.generated/news.css' %}"/>
+{% endblock extra_css %}
+
+{% block workspace %}
+  <header class="heading">
+    {% if form.instance.id > 0 %}
+    <h2>{% trans 'Update News' %}</h2>
+    {% else %}
+    <h2>{% trans 'Add News' %}</h2>
+    {% endif %}
+  </header>
+  <ul class="error">
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    {% for error in form.file.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  <form method="post" enctype="multipart/form-data" class="createmeeting-form updatemeeting addmember-form">
+    {% csrf_token %}
+    <div class="fields">
+      <div class="c1">
+        <ul>
+          <li>
+            <label for="id_title">Title:</label>
+            <input type="text" name="title" id="id_title" 
+            required placeholder="Untitled Article" 
+            value="{% if form.title.value %}{{ form.title.value }}{% endif %}"
+            class="txt title title-news" maxlength="255" />
+          </li>
+          <li>
+            <label for="id_file">
+              {% if form.instance.file %}{% trans "Update Picture" %}
+              {% else %}{% trans "Add Picture" %}{% endif %}:
+            </label>
+            {% if form.instance.file %}
+            {% thumbnail form.instance.file "240x150" as thumb %}
+              <img src="{{ thumb.url }}"  width="{{ thumb.x }}" height="{{ thumb.y }}">
+            {% endthumbnail %}
+            {% endif %}
+            <input type="file" name="file" id="id_file" />
+          </li>
+          <li>
+            <label for="id_text">Text:</label>
+            <div class="textarea">
+              <textarea name="text" id="id_text" required rows="10" cols="40" class="kendo_editor">
+                {% if form.text.value %}{{ form.text.value }}{% endif %}
+              </textarea>
+            </div>
+          </li>
+          <li>
+            <label for="id_is_publish">Published:</label>
+            <input type="checkbox" name="is_publish" id="id_is_publish" 
+            {% if form.instance.is_publish %}checked="checked"{% endif %}>
+          </li>
+        </ul>
+      </div>
+      <div class='btns'>
+      <input type="submit" class="btn btn-edit" value="{% trans 'Update News' %}">
+      </div>
+    </div>
+  </form>
+{% endblock workspace %}

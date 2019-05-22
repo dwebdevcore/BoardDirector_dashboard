@@ -1,0 +1,162 @@
+{% load common_tags permissions_tags i18n %}
+
+{# All Items #}
+<ul class="upcoming-meetings folder-items {% if current_membership.is_admin %}sortable{% endif %} {% if search %}has-search{% endif %}" 
+  {% if current_membership.is_admin and object.slug %}data-ordering-url="{% acc_url 'folders:folder_ordering' slug=object.slug %}"{% endif %}>
+  {% for item in items %}
+    {% if item.is_folder %}
+      {% has_permission 'documents.folder' 'edit' item as permission_edit %}
+      {% has_permission 'documents.folder' 'delete' item as permission_delete %}
+      {% has_permission 'documents.folder' 'share' item as permission_share %}
+      <li data-iid="{{ item.id }}" data-itype="folder" data-islug='{{ item.slug }}' class='folder'>
+        <ul class="inner">
+          <li>
+            <a href="{{ item.get_absolute_url }}" class="list-folder-new"><i class="fa fa-folder"></i></a>
+          </li>
+          <li class="folder-items-name">
+            <a href="{{ item.get_absolute_url }}"><strong>{{ item|folder_display_name:current_membership }}</strong></a>
+
+            {% if search %}
+              <div class="folders-search-result-path">
+                {% for doc in item.get_parents_without_root %}
+                  <a href="{% acc_url 'folders:folder_detail' slug=doc.slug %}">{{ doc }}</a>
+                  {% if not forloop.last %}/{% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </li>
+          <li style="color:#969696">
+            {{ item.sort_date }}{% if item.user %} | {% trans 'By' %} {{ item.user.get_full_name }}{% endif %}
+          </li>
+          <li class="innerlinks">
+            {# Edit #}
+            {% if item.protected %}
+              <span class="dummy-link"><i class="fa fa-shield"></i></span>
+            {% elif permission_edit or permission_share or permission_delete %}
+              {% if permission_edit %}
+                <a href="#" title="Edit" class="edit-folder-link" data-form-action="{% acc_url 'folders:folder_edit' slug=item.slug %}" data-folder-name="{{ item.name }}"><i class="fa fa-pencil"></i> </a>
+              {% endif %}
+              {# Submenu #}
+              <a href="#" class="sublinks">
+                <i class="fa fa-ellipsis-v"></i>
+                <div class="sublinkslist">
+                  {# Move #}
+                  {% if permission_edit and folder_move_form and not no_move %}
+                    <div><a href="javascript:void(0)" data-folder-slug="{{ item.slug }}" data-doc-type="{{ item.type }}" class="move-folder-link"><i class="fa fa-folder-open"></i>&nbsp; {% trans "Move" %}</a></div>
+                  {% endif %}
+                  {# Delete #}
+                  {% if permission_delete %}
+                    <div><a href="{% acc_url 'folders:folder_delete' slug=item.slug %}" class="delete-folder-link"><i class="fa fa-trash"></i>&nbsp; {% trans "Delete" %}</a></div>
+                  {% endif %}
+                  {# Share #}
+                  {% if permission_share and not no_sharing %}
+                    <hr>
+                    <a href="#" title="Share" class="share-folder-link" data-dialog-url="{% acc_url 'folders:share_detail' slug=item.slug %}"><i class="fa fa-users"></i>&nbsp; {% trans "Permisions" %}</a>
+                  {% endif %}
+                </div>
+              </a>
+            {% endif %}
+          </li>
+        </ul>
+      </li>
+    {% elif item.is_file %}
+      {% has_permission 'documents.document' 'edit' item as permission_edit %}
+      {% has_permission 'documents.document' 'delete' item as permission_delete %}
+      {% has_permission 'documents.document' 'share' item as permission_share %}
+      <li data-iid="{{ item.id }}" data-itype="file" class='file'>
+        <ul class="inner">
+          <li>
+            <a href="{{ item.get_viewer_or_download_url }}" target="_blank" class="list-folder-new {{item.extension}}">
+              <i class="fa fa-file-{{ item.file_type }}-o"></i>
+            </a>
+          </li>
+          <li class="folder-items-name">
+            <a href="{{ item.get_viewer_or_download_url }}" target="_blank"><strong>{{ item }}</strong></a>
+
+            {% if search %}
+              <div class="folders-search-result-path">
+                {% for doc in item.folder.get_parents_without_root %}
+                  <a href="{% acc_url 'folders:folder_detail' slug=doc.slug %}">{{ doc }}</a>
+                  /
+                {% endfor %}
+                <a href="{% acc_url 'folders:folder_detail' slug=item.folder.slug %}">{{ item.folder }}</a>
+              </div>
+            {% endif %}
+          </li>
+          <li style="color:#969696">
+            {% if not item.revisions %}
+              {% trans 'Version' %} 1 | {{ item.created_at }} | {% trans 'By' %} {{ item.user.get_full_name }}
+            {% else %}
+              {% trans 'Version' %} {{ item.revisions|length|add:"1" }} | {{ item.created_at }} | {% trans 'By' %} {{ item.user.get_full_name }}
+            {% endif %}
+            {% for revision in item.revisions %}
+              <div style="clear:both; line-height:5px; height:5px;"></div>
+              {% trans 'Version' %} {{ forloop.revcounter }} | {{ item.created_at }} | {% trans 'By' %} {{ revision.user.get_full_name }}&nbsp; <a href="{{ revision.get_download_url }}"><i class="fa fa-download" style="color:#969696"></i></a>
+            {% endfor %}
+          </li>
+          <li class="innerlinks">
+            {# Edit #}
+            {% if permission_edit %}
+            <a href="#" class="sublinks"><i class="fa fa-pencil"></i>
+              <div class="sublinkslist">
+                <div><a class="edit-in-popup" href="#" title="Edit" data-doc-filename="{{ item.name|default:item.filename }}" data-doc-id="{{ item.id }}" data-doc-type="{{ item.type }}"><i class="fa fa-upload"></i>&nbsp; {% trans "Upload new version" %}</a></div>
+                <div><a class="rename-in-popup" href="#" title="Rename" data-doc-filename="{{ item.name|default:item.filename }}" data-doc-id="{{ item.id }}" data-doc-type="{{ item.type }}"><i class="fa fa-i-cursor"></i>&nbsp; {% trans "Rename" %}</a></div>
+              </div>
+            </a>
+            {% endif %}
+            {# Download, delete #}
+            <a href="#" class="sublinks"><i class="fa fa-ellipsis-v"></i>
+              <div class="sublinkslist">
+                {% if not folder.committee and not folder.meeting %}
+                <div><a href="{{ item.get_download_url }}" data-doc-id="{{ item.id }}" data-doc-type="{{ item.type }}"><i class="fa fa-download"></i>&nbsp; {% trans "Download" %}</a></div>
+                {% endif %}
+                {% if folder.can_add_folders and permission_edit and folder_move_form and not no_move %}
+                  <div><a href="javascript:void(0)" data-doc-id="{{ item.id }}" data-doc-type="{{ item.type }}" class="move-document-link"><i class="fa fa-folder-open"></i>&nbsp; {% trans "Move" %}</a></div>
+                {% endif %}
+                {# Share #}
+                {% if permission_share and not no_sharing %}
+                  <a href="#" title="Share" class="share-folder-link" data-dialog-url="{% acc_url 'folders:share_detail' slug=item.folder.slug %}?document_id={{ item.id }}"><i class="fa fa-users"></i>&nbsp; {% trans "Sharing" %}</a>
+                {% endif %}
+                {% if permission_delete %}
+                  <hr>
+                  <div><a class="delete-doc-link" data-doc-id="{{ item.id }}" href="#"><i class="fa fa-trash"></i>&nbsp; {% trans "Delete" %}</a></div>
+                {% endif %}
+              </div>
+            </a>
+          </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endfor %}
+  {# Shared folder #}
+  {% if show_shared_folder %}
+    <li>
+      <ul class="inner">
+        <li>
+          <a href="{% acc_url 'folders:shared_folder' %}" class="list-folder-new"><i class="fa fa-folder"></i></a>
+        </li>
+        <li>
+          <a href="{% acc_url 'folders:shared_folder' %}"><strong>{% trans "Shared Documents" %}</strong></a>
+        </li>
+        <li></li>
+        <li class="innerlinks"></li>
+      </ul>
+    </li>
+  {% endif %}
+</ul>
+
+
+<script id="delete-document-confirmation" type="text/x-kendo-template">
+  <p class="delete-message">{% trans 'Are you sure you want to delete this document' %}?</p>
+  <div class="confirmation-buttons">
+    <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+    <button class="delete-cancel k-button">{% trans 'No' %}</button>
+  </div>
+</script>
+<script id="delete-folder-confirmation" type="text/x-kendo-template">
+  <p class="delete-message">{% trans 'Are you sure you want to delete this folder with all associated folders and documents' %}?</p>
+  <div class="confirmation-buttons">
+    <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+    <button class="delete-cancel k-button">{% trans 'No' %}</button>
+  </div>
+</script>

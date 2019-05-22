@@ -1,0 +1,14 @@
+{% extends "inner.html" %}
+{% load i18n %}
+
+{% block workspace %}
+  <header class="heading">
+    <h2>{% trans 'Billing Address' %}</h2>
+  </header>
+  <form action="" class="createmeeting-form" method="POST">{% csrf_token %}
+    <ul>
+      {% include 'billing/includes/address_form.html' %}
+    </ul>
+    <input type="submit" value="{% trans 'Save Changes' %}" class="submit">
+  </form>
+{% endblock workspace %}

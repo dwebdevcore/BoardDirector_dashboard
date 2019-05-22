@@ -1,0 +1,1824 @@
+[
+{
+  "pk": 1,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 2,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 3,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 4,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 5,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 6,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 7,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 8,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 9,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 10,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 11,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 12,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 13,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 14,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 15,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 16,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 17,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 18,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 19,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 20,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 21,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 22,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 23,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 24,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 25,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "accounts",
+      "account"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 26,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "accounts",
+      "account"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 27,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 28,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 29,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 30,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 31,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 32,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 33,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 34,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 35,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 36,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 37,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 38,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 39,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 40,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 41,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 42,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 43,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 44,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 45,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 46,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 47,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 48,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 49,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 50,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 51,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 52,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 53,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 54,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 55,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 56,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 57,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 58,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 4,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 59,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 4,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 60,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 4,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 61,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 4,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 62,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 5,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 63,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 5,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 64,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 65,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 66,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 67,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 68,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 69,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 70,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 71,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 72,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 73,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 74,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 75,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 76,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 77,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 78,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 79,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 80,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 81,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 82,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 83,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 84,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 85,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 86,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 87,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 6,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 88,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 7,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 89,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 7,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 90,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 7,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 91,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 7,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 92,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 93,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 94,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 95,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 96,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 97,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 98,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 99,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 100,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 101,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 102,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 103,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 104,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 105,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 106,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 107,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 108,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 109,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 110,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 111,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 112,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 113,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 114,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 115,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 116,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 117,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 118,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 119,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "profiles",
+      "membership"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 120,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 121,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 122,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 123,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "committees",
+      "committee"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 124,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 125,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 126,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 127,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "meetings",
+      "meeting"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 128,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 129,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 130,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 131,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "folder"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 132,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 133,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 134,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 135,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "documents",
+      "document"
+    ],
+    "permission": "delete"
+  }
+},
+{
+  "pk": 136,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 137,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 138,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 139,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "news",
+      "news"
+    ],
+    "permission": "delete"
+  }
+},
+
+{
+  "pk": 140,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 141,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 142,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 143,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 0,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "delete"
+  }
+},
+
+{
+  "pk": 144,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "view"
+  }
+},
+{
+  "pk": 145,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "add"
+  }
+},
+{
+  "pk": 146,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "edit"
+  }
+},
+{
+  "pk": 147,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 1,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "delete"
+  }
+},
+
+
+{
+  "pk": 148,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 20,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "view"
+  }
+},
+
+
+{
+  "pk": 149,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 21,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "view"
+  }
+},
+
+
+{
+  "pk": 150,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 2,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "view"
+  }
+},
+
+
+{
+  "pk": 151,
+  "model": "permissions.rolepermission",
+  "fields": {
+    "role": 3,
+    "content_type": [
+      "voting",
+      "voting"
+    ],
+    "permission": "view"
+  }
+}
+]

@@ -1,0 +1,49 @@
+{% extends 'inner.html' %}
+
+{% load static common_tags i18n %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.js' | min_for_prod %}"></script>
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.js' | min_for_prod %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'js/libs/sweetalert2/sweetalert2.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css.generated/voting-vote.css' %}"/>
+{% endblock %}
+
+{% block end_js %}
+  {{ block.super }}
+  <script src="{% static 'js/libs/vue/vue.js'|min_for_prod %}"></script>
+  <script src="{% static 'js/libs/vue/vue-router.js'|min_for_prod %}"></script>
+  <script src="{% static 'js/libs/vue/vue2-selectize.js' %}"></script>
+  <script src="{% static 'js/libs/momentjs/moment.js'|min_for_prod %}"></script>
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/libs/sweetalert2/sweetalert2.min.js' %}"></script>
+
+  <script src="{% static 'js.generated/voting-vote.entry.js' %}"></script>
+  <script src="{% static 'js/jquery-ui-1.11.4.custom.min.js' %}"></script>
+{% endblock %}
+
+{% block workspace %}
+  <div id="app">
+    <router-view></router-view>
+  </div>
+
+  <div class="hidden">
+    {# Views are imported in single page instead of .vue components so that Django's i18n can be used #}
+    {% include 'voting/vote-views/vote_main.html' %}
+  </div>
+
+
+
+  <script type="text/javascript">
+      window.voter_key = {{ voter_key|json }};
+      window.urls['vote_voting_details'] = '{% acc_url 'api-voting-vote-voting-detail' pk=voter_key %}';
+      window.urls['vote_voting_mark_done'] = '{% acc_url 'api-voting-vote-voting-mark-done' pk=voter_key %}';
+      window.urls['profiles_memberships_list'] = '{% acc_url 'api-profiles-memberships-list' %}';
+  </script>
+{% endblock %}

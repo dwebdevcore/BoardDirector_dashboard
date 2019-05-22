@@ -1,0 +1,6 @@
+This directory contains javascript with ES6 features which is transpiled into js.generated folder with babel by gulp webpack task.
+
+Currently this generated files are committed into git (also not minified). This allows to keep all build in dev and don't change anything
+in production (i.e. don't have node and all this stuff).
+
+.map files are not committed and kept locally (this can be changed if needed).

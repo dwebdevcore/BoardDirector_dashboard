@@ -1,0 +1,235 @@
+@import 'config';
+
+@import 'meetings/details-roster';
+@import 'meetings/details-form';
+@import 'meetings/meeting-details';
+@import 'meetings/next-previous';
+@import 'meetings/meeting-file-types';
+
+@import 'common/right-side';
+@import 'common/document-items';
+@import 'common/property-list';
+
+.meeting-content h3 {
+  color: $brand-primary;
+  font-size: 15px;
+  font-weight: bold;
+
+  a {
+    color: $brand-primary
+  }
+}
+
+#wrapper-for-location {
+  position: relative;
+  width: 400px;
+  max-width: 50%;
+  display: inline-block;
+}
+
+#select-location-box {
+    width: 100%;
+  height: 52px;
+  display: block;
+}
+
+#edit-location-box {
+    border-width: 0;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 25px;
+    width: 90%;
+    outline: none;
+    padding: 0 10px;
+    z-index: 9;
+    font-size: 1em;
+}
+
+input#id_location {
+  width: 400px;
+}
+
+.content {
+  font: 14px/20px ProximaNova-Regular, arial, helvetica, sans-serif;
+}
+
+.content.meeting-detail-btns {
+  width: 100%;
+  border-top: 0;
+}
+
+.content.meeting-detail {
+  width: 100%;
+  border-top: 0;
+}
+
+.content.meeting-detail ul {
+  padding-bottom: 0;
+}
+
+.meeting-form-body {
+  width: 100%;
+  float: none;
+  margin-right: 30px;
+}
+
+.meeting-form-body .txt.title, .meeting-form-body .txt.textarea {
+  width: 95%; /* Very hacky */
+}
+
+.common-form .panel-body .submit {
+  display: block;
+  float: none;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.common-form .submit.cancel-meeting, .common-form .submit.btn-default {
+  background-image: none;
+  padding: 0 17px 0 17px;
+  background-color: #fff;
+  color: #333;
+  border-color: #c9c9c9;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.heading .btn {
+  margin: 0 0 0 10px;
+}
+
+.common-form .submit.btn-default.success {
+  color: lightgreen;
+}
+//
+//.common-form .submit.cancel-meeting:hover, .common-form .submit.btn-default:hover {
+//  border-color: #c9c9c9;
+//}
+
+.draft-meeting-label {
+  color: red;
+  font-size: 75%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.buttons-wrap {
+  margin-bottom: 10px;
+}
+//
+//.header-meet .btn {
+//  float: none;
+//  margin: 0 10px;
+//}
+//.header-meet .btn.delete {
+//  margin: 0;
+//}
+//
+.location-link {
+  display: none;
+  color: #008ac6;
+}
+
+/***
+"Common section" - maybe move to some more general styles
+***/
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.white-box {
+  background: white;
+  padding: 10px 5px 5px 5px;
+}
+
+table.meeting-details {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+}
+
+table.meeting-details td {
+  padding: 0;
+  vertical-align: top;
+}
+
+table.meeting-details td:nth-child(1) {
+  padding: 10px 15px 0 10px;
+}
+
+.filename span{
+  font-size: 90%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.selectize-field {
+  float: left;
+  width: 400px;
+}
+
+.content-header .selectize-control {
+  min-width: 16em;
+}
+
+.content-header .committee-select {
+  min-width: 20em;
+}
+
+.dashboard-meetings.meetings-meetings {
+  width: 100%;
+  margin: 0 0 1em 0;
+  display: block;
+}
+
+.meetings-meetings .dashboard-meeting-card {
+  // max-width: 85%;
+  margin-bottom: 15px;
+  padding: 20px 20px;
+  background-position-y: 22px;
+  background-position-x: -10px;
+}
+
+// .meetings-meetings .dashboard-meeting-card:nth-child(even) {
+//   background-color: #f6f6f6;
+// }
+
+.meetings-meetings .dashboard-meeting-card:hover {
+  background-color: #f5f5f5;
+  border-color: #c0c0c0;
+  cursor: pointer;
+  transition: background-color 0.33s ease;
+}
+
+
+.meetings-meetings .dashboard-meeting-card .meeting-description {
+  width: auto;
+  margin-left: 150px;
+  display: block;
+}
+
+.meetings-meetings .loader, .meetings-meetings .empty {
+  padding: 1em;
+  font-variant: small-caps;
+  text-align: center;
+  color: #202020;
+  background-color: #f5f5f5;
+  border: #e0e0e0 solid 1px;
+  border-width: 0 0 1px 0;
+}
+
+h3.line {
+  padding: 0.7em 2em 0.4em 2em;
+  line-height: 1;
+  vertical-align: bottom;
+  background-color: #929292;
+  color: white;
+  margin: 10px 0 20px 0;
+}
+

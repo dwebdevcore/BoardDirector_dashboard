@@ -1,0 +1,47 @@
+{% extends "blank_form.html" %}
+{% load i18n static %}
+
+{% block extra_js %}
+  <script src="{% static 'js/jquery.slugify.js' %}"></script>
+  <script>
+    $(function($) {
+      $('#id_url').slugify('#id_name'); // Type as you slug
+    });
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  <link href="{% static 'js/libs/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'css.generated/registration.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+<div class="form-holder">
+    <header>
+      <h2>{% trans "Signup for account" %}</h2>
+      <p><span>{{ trial_period }}{% trans "-DAY free trial." %}</span> {% trans "No credit card required" %}</p>
+    </header>
+    <form method="post" action="" enctype="multipart/form-data" class="form" id="signup-form">{% csrf_token %}
+      {% include 'registration/includes/registration_form_contents.html' %}
+
+      <div class="holder">
+        <input type="submit" value="GET STARTED" class="btn" id="submit-signup">
+        <p>{% trans "Already a member?" %} <a target="_top" href="{% url 'auth_login' %}">{% trans "Login" %}</a></p>
+      </div>
+      <p class="note">{% trans 'By clicking "Get Started", you are agreeing to the' %} <a target="_top" href="{% url 'terms' %}">{% trans "Terms of Service" %}</a> {% trans "and" %} <a target="_top" href="{% url 'privacy' %}">{% trans "Privacy Policy." %}</a></p>
+    </form>
+  </div>
+{#  <script>#}
+{#        $('.form-holder').on('click', '#submit-signup', function(e){#}
+{#            e.preventDefault();#}
+{#            $.post('', $('#signup-form').serialize(), function(data){#}
+{#                if (data.signed_in){#}
+{#                    window.top.location.href = data.redirect;#}
+{#                } else if (data.html) {#}
+{#                    $('.form-holder').children('form').replaceWith($(data.html).find('div.form-holder').children('form'));#}
+{#                }#}
+{#            })#}
+{#        });#}
+{#  </script>#}
+{% endblock %}

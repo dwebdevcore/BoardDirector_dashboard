@@ -1,0 +1,36 @@
+{% load i18n user_tags common_tags %}
+
+  <div class="cell1 activities-object">
+    <strong>{{ object.get_action_flag_display }} {{ object.content_type.name|capfirst }}: </strong>
+    <i>
+      {% if object.content_type.name == 'meeting' or object.content_type.name == 'committee'  %}
+         <a href="{{ object.content_object.get_absolute_url }}" >{{ object.content_object.name|capfirst }}</a>
+      {% elif object.content_type.name == 'document' %}
+        <a href="{{ object.content_object.get_download_url }}">{{ object.content_object.name|capfirst  }}</a>
+      {% elif object.content_type.name == 'account' %}
+        {{ object.content_object.name }}
+      {% endif %}
+    </i>
+  </div>
+  <div class="cell2">
+    <i>
+    {% with object.init_user|membership:request.current_account as membership %}
+      {% if object.content_type.name == 'document' %}
+        {% trans "Uploaded " %}
+      {% else %}
+        {% if object.action_flag == object.ADDITION %}
+          {% trans "Added " %}
+        {% else %}
+          {% trans "Updated " %}
+        {% endif %}
+      {% endif %}
+      {% if object.content_type.name == 'meeting'  %}
+        {{ object.content_object.start|date:"N j, Y" }} {% trans "at" %} {{ object.content_object.start|date:"H:i A"}}
+      {% elif object.content_type.name == 'document' %}
+        {{ object.content_object.created_at|date:"N j, Y" }} {% trans "at" %} {{ object.content_object.created_at|date:"P" }}
+      {% elif object.content_type.name == 'account' %}
+        {{ object.content_object.date_created|date:"N j, Y" }} {% trans "at" %} {{ object.content_object.date_created|date:"P" }}
+      {% endif %}
+    {% endwith %}
+    </i>
+  </div>

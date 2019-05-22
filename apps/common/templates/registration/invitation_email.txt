@@ -1,0 +1,9 @@
+{% load i18n %}{% trans 'Invitation' %}{% if password %}
+  {% blocktrans with acc_name=account.name email=user.email %}
+  Administrator created account for you. Now you are a member of the Board of {{ acc_name }} {{ board_detail_url }}.
+  Link to your profile - {{ profile_detail_url }}
+    email - {{ email }}
+    password - {{ password }}
+  {% endblocktrans %}{% else %}
+  {% blocktrans with acc_name=account.name %}You were invited to the Board of {{ acc_name }} {{ board_detail_url }}.{% endblocktrans %}
+{% endif %}

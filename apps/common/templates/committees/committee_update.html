@@ -1,0 +1,77 @@
+{% extends "inner.html" %}
+{% load i18n static common_tags %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/committee.js' %}"></script>
+  <script src="{% static 'js/documents.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+  <script type="text/javascript">
+      var DOC_DELETE_URL = "{% url 'documents:delete' %}"
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css.generated/committees.css' %}"/>
+{% endblock %}
+
+{% block workspace %}
+  <ul class="breadcrumbs breadcrumbs-separator">
+    <li><a href="{% acc_url 'committees:list' %}">{% trans 'Committees' %}</a></li>
+    {% if object.id %}
+      <li><a href="{% acc_url 'committees:detail' pk=object.id %}">{{ object.name }}</a></li>
+      <li>{% trans 'Update Committee' %}</li>
+    {% else %}
+      <li>{% trans 'New Committee' %}</li>
+    {% endif %}
+  </ul>
+
+
+  <header class="heading">
+    {% if object.id %}
+      <h2>{% trans 'Update Committee' %}</h2>
+    {% else %}
+      <h2>{% trans 'Create Committee' %}</h2>
+    {% endif %}
+  </header>
+  <ul class="error">
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  <form method="post" enctype="multipart/form-data" class="common-form">{% csrf_token %}
+    <ul>
+      {% include 'committees/includes/edit_form.html' %}
+    </ul>
+    <input type="hidden" id="committee_id" value="{{ object.id }}">
+
+    <button type="submit" class="btn btn-primary btn-md offset-label">
+      <i class="fa fa-plus-circle icon"></i>
+      {% if object.id %}
+        {% trans 'Update Committee' %}
+      {% else %}
+        {% trans 'Create Committee' %}
+      {% endif %}
+    </button>
+
+    {% if object.id %}
+      <a href="{% acc_url 'committees:detail' pk=object.id %}" class="btn btn-default btn-md">{% trans 'Cancel' %}</a>
+    {% else %}
+      <a href="{% acc_url 'committees:list' %}" class="btn btn-default btn-md">{% trans 'Cancel' %}</a>
+    {% endif %}
+  </form>
+
+  <script id="delete-confirmation" type="text/x-kendo-template">
+    <p class="delete-message">{% trans 'Are you sure you want to delete this document' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="delete-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+{% endblock workspace %}

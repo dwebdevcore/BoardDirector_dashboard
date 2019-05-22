@@ -1,0 +1,18 @@
+{% extends "blank_form.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Registration completed' %}{% endblock %}
+
+{% block extra_css %}
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="form-holder">
+    <header>
+      <div class="notice"><span class="tick">{% trans "Thank you for joining Board of Directors" %}!</span></div>
+      <p>{% trans "An email has been sent to your email to activate your account" %}.</p>
+    </header>
+  </div>
+{% endblock %}

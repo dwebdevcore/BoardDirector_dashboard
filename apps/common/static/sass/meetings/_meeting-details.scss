@@ -1,0 +1,225 @@
+@import '../_config';
+
+
+.repeat-description {
+  color: $gray-light;
+  font-style: italic;
+}
+
+
+.meeting-repetition + .meeting-repetition {
+  margin-top: 10px;
+}
+
+.meeting-detail .meeting-desc,
+.meeting-detail .meeting-date,
+.meeting-detail .meeting-loc,
+.meeting-detail .meeting-docs
+{
+  padding: 30px 0;
+  border-bottom: 1px solid $gray-lighter;
+}
+
+.meeting-detail .meeting-desc {
+  padding: 10px 0;
+}
+
+.meeting-detail .location-desc,
+.meeting-detail .location-link {
+  display: inline-block;
+  padding: 20px 0;
+}
+
+.meeting-detail .meeting-loc #map {
+  width: 100px;
+  height: 100px;
+  border: 1px solid $gray-lighter;
+  border-radius: 6px;
+}
+
+.meeting-detail .col-1 {
+  width: 120px;
+}
+
+.meeting-detail .col-2 {
+  width: 250px;
+}
+
+.meeting-doc {
+  float: left;
+  margin-right: 28px;
+}
+
+.meeting-doc:last-of-type {
+  margin-right: 0;
+}
+
+.other-docs {
+  border-left: 1px solid $gray-lighter;
+}
+
+/*-------------------------------------
+ remove "google logo" and "term of use"
+ --------------------------------------*/
+.gmnoprint a, .gmnoprint span {
+    display:none;
+}
+.gmnoprint div {
+    background:none !important;
+}
+img[src="https://maps.gstatic.com/mapfiles/api-3/images/google4.png"],
+img[src="http://maps.gstatic.com/mapfiles/api-3/images/google4.png"],
+a[href^="http://maps.google.com/maps"] {
+    display:none !important;
+}
+
+
+.meeting-icon {
+    height: 80px;
+    width: 90px;
+
+    position: relative;
+    border: 6px solid #0088c9;
+    border-radius:6px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    &:before,&:after {
+      content:"";
+      display: block;
+      position: absolute;
+      background: #0088c9;
+      border:1px solid #ffffff;
+      width: 8px;
+      height: 25px;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border-radius:4px;
+      top:-18px;
+    }
+
+    &:before {
+      left: 10px;
+    }
+    &:after {
+      right: 10px;
+    }
+
+    .month {
+      color: #ffffff;
+      /* position: absolute;
+      top: 12px;
+      left: 26px; */
+      height:16px;
+      text-transform: uppercase;
+      font:12px/16px ProximaNova-Semibold, arial, helvetica, sans-serif;
+      background: #0088c9;
+      text-align: center;
+    }
+
+    .day {
+      color: #0088c7;
+      text-align: center;
+      text-transform: uppercase;
+      height: 50px;
+      font-size: 30px;
+      line-height: 50px;
+      font-family: ProximaNova-Semibold, arial, helvetica, sans-serif;
+      background: #ffffff;
+    }
+}
+
+
+/** Meeting Event customization */
+.event-icon {
+  border-color: #00aa00;
+  .month {
+    background: #00aa00;
+  }
+  .day {
+    color: #00aa00;
+  }
+  &:before, &:after{
+    background: #00aa00;
+  }
+}
+
+.roster-collapse {
+  cursor: pointer;
+  background-color: #0088c9;
+  padding: 10px;
+  color: white;
+  &:after{
+
+  }
+}
+
+.roster-content {
+  display: none;
+
+  .radio {
+    cursor: pointer;
+  }
+
+  .approved-docs {
+    text-align: left;
+
+    i {
+      color: #228822;
+    }
+  }
+}
+
+/* Go to Folder button like on dashboard page */
+.goto-btn {
+  color: #0088c9;
+  padding: 10px 22px;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.goto-btn:hover {
+  color: #09bde8;
+}
+
+.goto-btn i {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+}
+
+.goto-btn i:after {
+  top: 2px;
+  left: 1px;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border: 1px solid #0088c9;
+  border-left: 0;
+  border-bottom: 0;
+  -webkit-transform: rotate(45deg);
+  -khtml-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.goto-btn:hover i:after {
+  border: 1px solid #09bde8;
+  border-left: 0;
+  border-bottom: 0;
+}

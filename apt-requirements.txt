@@ -1,0 +1,9 @@
+# Prerequisite to installing the pip requirements
+
+# PostgreSQL
+sudo apt-get install postgresql libpq-dev
+
+# Pillow jpeg and freetype support
+sudo apt-get install libjpeg-dev libfreetype6-dev
+# Needed on Ubuntu 14.04
+sudo ln -s /usr/include/freetype2 /usr/include/freetype

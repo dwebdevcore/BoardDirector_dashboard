@@ -1,0 +1,63 @@
+{% extends "profiles/edit_profile.html" %}
+{% load i18n user_tags common_tags %}
+
+{% block workspace %}
+  <header class="heading">
+    {% if current_membership == form.instance %}
+    <h2>{% trans "Edit your profile" %}</h2>
+    {% else %}
+    <h2>{% trans "Edit assistant profile" %}</h2>
+    {% endif %}
+  </header>
+  <form action="" method="POST" class="addmember-form" enctype="multipart/form-data">{% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+    <div class="m1">
+      <!--<div class="picture">
+        <div class="photo">
+          <img src="{{ form.instance|avatar:'' }}"  width="240" alt="{{ form.instance.get_full_name }}" id="avatar"
+          {% if form.instance.crops and form.instance.avatar %}data-crop-orig-w="{{ form.instance.avatar.width }}" data-crop-x="{{ form.instance.crops.data.rect.x }}" data-crop-y="{{ form.instance.crops.data.rect.y }}" data-crop-w="{{ form.instance.crops.data.rect.width }}" data-crop-h="{{ form.instance.crops.data.rect.height }}"{% endif %}>
+        </div>
+
+        <div class="add-photo">
+          <a class="upload-link" href="">{% if form.instance.avatar %}{% trans "Upload New Picture" %}{% else %}{% trans "Add Profile Picture" %}{% endif %}</a>
+          <input type="file" class="avatar-input" name="avatar" {% if form.instance.avatar %}data-img=true{% endif %} />
+        </div>
+        {% if form.instance.avatar %}
+          <div class="add-photo add-thumb">
+            <a class="" href="#">{% trans "Save Thumbnail" %}</a>
+          </div>
+        {% endif %}
+      </div>
+      <dl class="settings">
+        {% if current_membership == form.instance %}
+        <dt>{% trans "My Profile" %}</dt>
+        {% else %}
+        <dt>{% trans "Assistant Profile" %}</dt>
+        {% endif %}
+        <dd>
+          <ul>
+            {% if current_membership == form.instance %}
+              <li><a href="{% url 'accounts:boards' %}">{% trans "My Boards" %}</a></li>
+              <li><a href="{% url 'auth_password_change' %}"> {% trans "Change password" %}</a></li>
+              <li><a href="{% url 'change_email_index' %}">{% trans "Change email" %}</a></li>
+            {% else %}
+              <li><a href="{% url 'auth_members_password_change' pk=form.instance.pk %}"> {% trans "Change password" %}</a></li>
+            {% endif %}
+          </ul>
+        </dd>
+      </dl>-->
+      <div class="fields">
+        <div class="c1">
+          {% include 'profiles/includes/profiles_form_tabs.html' %}
+          <div class="btns">
+            <input type="submit" value="{% trans "Save Assistant" %}" class="btn"/>
+            <input type="reset" class="reset" value="{% trans "Cancel" %}"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+

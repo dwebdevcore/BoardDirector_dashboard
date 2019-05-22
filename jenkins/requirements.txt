@@ -1,0 +1,4 @@
+-r ../requirements.txt
+-e git+git://github.com/kmmbvnr/django-jenkins.git#egg=django-jenkins
+pep8
+pyflakes

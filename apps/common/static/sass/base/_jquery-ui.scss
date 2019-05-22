@@ -1,0 +1,25 @@
+@import "../config";
+
+body .ui-dialog {
+  .ui-dialog-buttonpane {
+    background-color: $gray-lighter;
+
+    button {
+      background: $brand-primary;
+      margin: 20px 0 20px 10px;
+    }
+
+    button:first-child {
+      margin-left: 0;
+    }
+
+    button.cancel-button {
+      top: 32px;
+    }
+  }
+
+  .ui-dialog-content {
+    /* Some conflict shows extra 1px */
+    overflow-y: hidden;
+  }
+}

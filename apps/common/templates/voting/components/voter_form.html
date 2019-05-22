@@ -1,0 +1,39 @@
+{% load i18n %}
+<div class="voter-form-template">
+  <errors :error="errors.non_field_errors"></errors>
+  <ul>
+    <li>
+      <label class="control-label">{% trans 'All Members' %}</label>
+      <vue2-selectize v-model="voter.all_members" class="selectize-300px"
+          :settings="{dropdownParent: 'body', maxItems: 10000, plugins: ['remove_button']}"
+          placeholder="{% trans 'Select All Members' %}">
+        <option value="members">{% trans 'Board Members' %}</option>
+{#        <option value="guests">{% trans 'All Guests' %}</option>#}
+      </vue2-selectize>
+      <errors :error="errors.all_members"></errors>
+    </li>
+    <li>
+      <label class="control-label">{% trans 'OR Member' %}</label>
+      <vue2-selectize v-model="voter.memberships" class="selectize-300px"
+          :settings="{dropdownParent: 'body', maxItems: 10000, plugins: ['remove_button']}"
+          placeholder="{% trans 'Select Member' %}">
+        <option :value="m.id" v-for="m in available_memberships">${ m.first_name } ${ m.last_name }</option>
+      </vue2-selectize>
+      <errors :error="errors.memberships"></errors>
+    </li>
+    <li>
+      <label class="control-label">{% trans 'OR Committee' %}</label>
+      <vue2-selectize v-model="voter.committees" class="selectize-300px"
+          :settings="{dropdownParent: 'body', maxItems: 10000, plugins: ['remove_button']}"
+          placeholder="{% trans 'Select Committee' %}">
+        <option :value="c.id" v-for="c in committees">${ c.name }</option>
+      </vue2-selectize>
+      <errors :error="errors.committees"></errors>
+    </li>
+    {#    <li>#}
+    {#      <label class="control-label">{% trans 'Vote Weight' %}</label>#}
+    {#      <input type="text" v-model.number="voter.weight" class="txt voter-weight">#}
+    {#      <errors :error="errors.weight"></errors>#}
+    {#    </li>#}
+  </ul>
+</div>

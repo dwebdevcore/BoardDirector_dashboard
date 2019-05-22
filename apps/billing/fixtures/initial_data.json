@@ -1,0 +1,86 @@
+[
+{
+  "pk": 1,
+  "model": "billing.plan",
+  "fields": {
+    "available": false,
+    "name": 1,
+    "max_members": 9,
+    "max_storage": 53687091200,
+    "stripe_year_plan_id": "starter_year_2016",
+    "year_price": 499,
+    "stripe_month_plan_id": "starter_month_2016",
+    "month_price": 49
+  }
+},
+{
+  "pk": 2,
+  "model": "billing.plan",
+  "fields": {
+    "available": false,
+    "name": 2,
+    "max_members": 19,
+    "max_storage": 53687091200,
+    "stripe_year_plan_id": "standard_year_2016",
+    "year_price": 999,
+    "stripe_month_plan_id": "standard_month_2016",
+    "month_price": 99
+  }
+},
+{
+  "pk": 3,
+  "model": "billing.plan",
+  "fields": {
+    "available": false,
+    "name": 3,
+    "max_members": 0,
+    "max_storage": 0,
+    "stripe_year_plan_id": "premier_year_2016",
+    "year_price": 1499,
+    "stripe_month_plan_id": "premier_month_2016",
+    "month_price": 149
+  }
+},
+{
+  "pk": 4,
+  "model": "billing.plan",
+  "fields": {
+    "available": true,
+    "name": 4,
+    "max_members": 9,
+    "max_storage": 53687091200,
+    "stripe_year_plan_id": "starter_year",
+    "year_price": 990,
+    "stripe_month_plan_id": "starter_month",
+    "month_price": 99
+  }
+},
+{
+  "pk": 5,
+  "model": "billing.plan",
+  "fields": {
+    "available": true,
+    "name": 5,
+    "max_members": 19,
+    "max_storage": 53687091200,
+    "stripe_year_plan_id": "standard_year",
+    "year_price": 1990,
+    "stripe_month_plan_id": "standard_month",
+    "month_price": 199
+  }
+},
+{
+  "pk": 6,
+  "model": "billing.plan",
+  "fields": {
+    "available": true,
+    "name": 6,
+    "max_members": 49,
+    "max_storage": 214748364800,
+    "stripe_year_plan_id": "premier_year",
+    "year_price": 2990,
+    "stripe_month_plan_id": "premier_month",
+    "month_price": 299 
+  }
+}
+]

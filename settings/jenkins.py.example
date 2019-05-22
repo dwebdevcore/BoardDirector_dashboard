@@ -1,0 +1,34 @@
+# -*- coding: utf-8 -*-
+from os import listdir
+
+from .base import *
+
+DEBUG = True
+TEMPLATE_DEBUG = True
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'boarddocumentsdb',
+    }
+}
+
+SECRET_KEY = '^d_kl&amp;3woc8$*k7)dy^ygbb-52v4zs7k1#+$p!bnp5po5v*64='
+STRIPE_PUBLIC_KEY = 'pk_test_rRkCco9HaDKYLyKdSWF1S2cI'
+STRIPE_SECRET_KEY = 'sk_test_o2jXQ1RqEnZLpFlnW9Maw6ni'
+SECURE_PROXY_SSL_HEADER = ('', '')
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = '/tmp/app-messages'
+
+INSTALLED_APPS += ('django_jenkins',)
+JENKINS_TASKS = (
+    'django_jenkins.tasks.with_coverage',
+    #'django_jenkins.tasks.django_tests',
+    'django_jenkins.tasks.run_pep8',
+    'django_jenkins.tasks.run_pyflakes',
+    'django_jenkins.tasks.run_pylint',
+)
+
+PROJECT_APPS = listdir('apps')

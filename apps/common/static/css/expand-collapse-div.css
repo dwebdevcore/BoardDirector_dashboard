@@ -1,0 +1,14 @@
+.expand-header {
+    /* background-color:#d3d3d3; */
+    padding: 10px;
+    cursor: pointer;
+    /*font-weight: bold;*/
+
+    background-color: #0088c9;
+    font-size: 13px;
+    color: #fff;
+}
+.expand-content {
+    display: none;
+    padding : 5px;
+}

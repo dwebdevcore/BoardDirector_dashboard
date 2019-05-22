@@ -1,0 +1,85 @@
+{% extends "registration/base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="visual">
+    <div class="wrapper">
+      <div class="text">
+        <h2>Manage Your Board</h2>
+        <h3>Your board of director essentials in one convenient and secure location</h3>
+        <a class="btn" href="{% url 'registration_register' %}">TRY IT FOR FREE</a>
+        <p class="note">No credit card required. Be up in minutes.</p>
+      </div>
+      <div class="ipad-holder">
+        <img src="{% static 'images-external/img2.jpg' %}" width="342" height="250" alt="">
+      </div>
+    </div>
+  </div>
+  <div id="main">
+    <article class="content">
+      <section class="block">
+        <hgroup>
+          <h3>Board Management Made Simple</h3>
+          <h4>A simple and elegant solution for board management delivered securely in the cloud.</h4>
+        </hgroup>
+        <div class="holder">
+          <div class="img"><img src="{% static 'images-external/img3.jpg' %}" width="523" height="320" alt="image description"></div>
+          <div class="text">
+            <h4>No&#45;fuss management</h4>
+            <ul class="list">
+              <li>Compliance for secure storage of board documents</li>
+              <li>Easy&#45;to&#45;locate records of meetings, minutes and reports</li>
+              <li>No more wondering who has which documents</li>
+              <li>Centralized calendaring for board directors</li>
+            </ul>
+            <a class="btn" href="{% url 'registration_register' %}">TRY IT FOR FREE</a>
+            <p class="note">No credit card required. BE UP in minutes.</p>
+          </div>
+        </div>
+      </section>
+      <section class="boxes">
+        <h3>Simple, Powerful and Secure Board Management</h3>
+        <div class="holder">
+          <div class="box">
+            <h4>Manage Organization</h4>
+            <p>Add and update information about your organization. No software to download, just log in and get organized. Your docs are accessible from anywhere.</p>
+            <div class="img"><img src="{% static 'images-external/ico1.png' %}" width="64" height="64" alt=""></div>
+            <span class="divider"></span>
+          </div>
+          <div class="box">
+            <h4>Manage Directors</h4>
+            <p>Add and update information about your Directors in the organization including Officers, Committees and service start and term end dates.</p>
+            <div class="img"><img src="{% static 'images-external/ico2.png' %}" width="64" height="64" alt=""></div>
+            <span class="divider"></span>
+          </div>
+          <div class="box">
+            <h4>Manage Documents</h4>
+            <p>Upload PDFs or Word Docs connected to board meeting dates, and securely store your documents in one location where everyone knows where to find them.</p>
+            <div class="img"><img src="{% static 'images-external/ico3.png' %}" width="64" height="64" alt=""></div>
+          </div>
+        </div>
+      </section>
+      <section class="built-boards">
+        <div class="img"><img src="{% static 'images-external/img4.png' %}" width="594" height="420" alt="image description"></div>
+        <div class="text">
+          <h3>Built for organizing boards</h3>
+          <ul class="list">
+            <li>Manage members and terms</li>
+            <li>Organize and populate committees</li>
+            <li>Schedule meetings</li>
+            <li>Share agendas in advance</li>
+            <li>Archive documents for audit purposes</li>
+            <li>Retrieve all information easily and securely</li>
+          </ul>
+          <a class="btn" href="{% url 'registration_register' %}">Try for Free</a>
+        </div>
+      </section>
+      <div class="trial-holder">
+        <p><span>{{ trial_period }}-DAY free trial.</span>  Start managing your board in minutes.</p>
+        <a class="btn" href="{% url 'registration_register' %}">Get Started</a>
+      </div>
+    </article>
+  </div>
+  {% include 'google_analytic.html' %}
+{% endblock %}

@@ -1,0 +1,176 @@
+{% load i18n common_tags %}
+
+<div id="voting-questions-template" v-if="voting">
+  <div class="right-side createmeeting-form content">
+    <div class="panel panel-default">
+      <div class="panel-header">
+        {% trans 'Voting status' %}
+      </div>
+      <div class="panel-body">
+        <div>
+          <span class="item-title"><i class="fa fa-map-pin" aria-hidden="true"></i> {% trans 'Status' %}:</span>
+          <span class="item-value" v-if="voting.state == 0">{% trans 'Draft' %}</span>
+          <span class="item-value" v-if="voting.state == 1">{% trans 'Published' %}</span>
+        </div>
+
+        <button class="btn btn-primary btn-md mt-10 w-100" @click="publish" v-if="voting.state == 0">{% trans 'Publish' %}</button>
+        <router-link class="btn btn-default btn-md mt-10 w-100" :to="'/view/' + voting.id">{% trans 'Back' %}</router-link>
+      </div>
+    </div>
+
+    <div class="panel panel-default" v-if="voting.state == 1">
+      <div class="panel-header">
+        {% trans 'Reminder' %}
+      </div>
+      <div class="panel-body">
+        <button class="btn btn-primary btn-md mt-10 w-100" @click="resend_email">{% trans 'Send reminder' %}</button>
+      </div>
+    </div>
+  </div>
+
+  <ul class="breadcrumbs breadcrumbs-separator">
+    <li>
+      <router-link to="/all">{% trans 'Votings' %}</router-link>
+    </li>
+    <li>
+      <router-link :to="'/view/' + voting.id">${ voting.name }</router-link>
+    </li>
+    <li>{% trans 'Questions' %}</li>
+  </ul>
+
+  <header class="heading">
+    <h2>${ voting.name }: {% trans 'Questions' %}</h2>
+  </header>
+
+  <div class="voting-questions">
+    <errors :error="voting._errors && voting._errors.questions"></errors>
+
+    <div class="voting-question" v-for="(question, num) in voting.questions" :class="{'highlight-form': edit_questions[question.id]}">
+      <hr class="full-width" :class="{'first-hr': num == 0}"/>
+
+      <h3 class="voting-question-header">${ num + 1 }. ${ question.question }
+        <div class="voting-question-controls" v-if="voting.can_edit">
+          <button class="btn btn-default" @click="start_edit_question(question)">{% trans 'Edit' %}</button>
+          <button class="btn btn-default" @click="delete_question(question)">{% trans 'Delete' %}</button>
+        </div>
+      </h3>
+
+      <div v-if="!edit_questions[question.id]">
+        <div class="voting-question-description" v-if="question.description" v-html="$options.filters.nl2br(question.description)"></div>
+
+        <div v-if="question.question_type == 1">
+          <i>{% trans 'Yes/no question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'Yes' %}
+              </div>
+            </li>
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'No' %}
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 5">
+          <i>{% trans 'For/against/abstain question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'For' %}
+              </div>
+            </li>
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'Against' %}
+              </div>
+            </li>
+            <li class="question-answer">
+              <div class="question-question">
+                {% trans 'Abstain' %}
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 2">
+          <i>{% trans 'Single select question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer" v-for="answer in question.answers">
+              <div class="question-question"> ${ answer.answer }</div>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 3">
+          <i>{% trans 'Multiple select question' %}</i>
+          <ul class="question-answer-list">
+            <li class="question-answer" v-for="answer in question.answers">
+              <div class="question-question"> ${ answer.answer }</div>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="question.question_type == 4">
+          <i>{% trans 'Election' %}</i>
+
+          <div class="question-candidate-container">
+            <div class="question-candidate question-answer" v-for="(candidate, index) in question.candidates">
+              <span class="candidate-index">${ index + 1 }.</span>
+              <div class="candidate-info">
+                <img class="candidate-avatar" :src="membership_by_id[candidate.membership].avatar_url" v-if="membership_by_id[candidate.membership]">
+                <div class="candidate-description">
+                  <span class="candidate-name">${ candidate.first_name } ${ candidate.last_name }</span>
+                  <div class="candidate-notes">${ candidate.notes }</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <form class="common-form" action="javascript:void(0)" v-if="edit_questions[question.id]">
+        <question-form :question="edit_questions[question.id]" :memberships="memberships"></question-form>
+
+        <div class="mt-10">
+          <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}" @click="save_question(edit_questions[question.id])">
+          <button class="btn btn-default" @click="edit_questions[question.id] = false">{% trans 'Cancel' %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="mt-10" v-if="voting.can_edit && !edit_questions[0]">
+    <button class="btn btn-default" @click="add_question()" v-if="voting.questions.length == 0">{% trans 'Add Question' %}</button>
+    <button class="btn btn-default" @click="add_question()" v-if="voting.questions.length > 0">{% trans 'Add Another Question' %}</button>
+  </div>
+
+  <form class="common-form highlight-form" action="javascript:void(0)" v-if="edit_questions[0] && voting.can_edit">
+    <h3>{% trans 'New question' %}</h3>
+
+    <question-form :question="edit_questions[0]" :memberships="memberships"></question-form>
+
+    <div class="mt-10">
+      <input type="submit" class="btn btn-primary" value="{% trans 'Save New Question' %}" @click="save_question(edit_questions[0])">
+      <button class="btn btn-default" @click="edit_questions[0] = null">{% trans 'Cancel' %}</button>
+    </div>
+  </form>
+
+  <hr class="full-width"/>
+</div>
+
+<script type="text/javascript">
+    window.trans.delete_question = '{% trans 'Delete Question?' %}';
+    window.trans.delete_question_text = "{% trans "You can't revert this action." %}";
+    window.trans.delete_voter = '{% trans 'Delete Voter?' %}';
+    window.trans.delete_voter_text = "{% trans "You can't revert this action." %}";
+    window.trans.delete_text = '{% trans "DELETE" %}';
+    window.trans.cancel_text = '{% trans "Cancel" %}';
+    window.trans.voter_no_field_filled = '{% trans 'Either Voter or Committee or All Members must be selected.' %}';
+    window.trans.resend_done = '{% trans 'Reminders are sent to voters.' %}';
+    window.trans.anonymous_voting = '{% trans 'Anonymous voting' %}';
+</script>

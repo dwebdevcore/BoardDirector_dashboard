@@ -1,0 +1,286 @@
+{% extends "inner.html" %}
+{% load i18n compress common_tags %}
+{% load static from staticfiles %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/billing.js' %}"></script>
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui-1.11.4.custom.min.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+
+  <script src="https://js.stripe.com/v3/"></script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  <link href="{% static 'css.generated/billing.css' %}" rel="stylesheet"/>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="{% static 'css/update-doc-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}">
+  <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.bootstrap3.css' %}">
+{% endblock extra_css %}
+
+{% block workspace %}
+  <div class="compact-section">
+    <div class="compact-section-body">
+      <header class="heading">
+        <h1>{% trans 'Plans and Billing' %}</h1>
+      </header>
+    </div>
+  </div>
+
+  {% if messages %}
+    <div class="compact-section">
+      <div class="compact-section-body">
+        {% for message in messages %}
+          <div class="alert alert-dismissable alert-{% if not message.tags %}info{% elif message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <form action="" id="billing-form" method="post" data-role="validator" novalidate="novalidate">
+    {% csrf_token %}
+    {{ change_plan_form.plan }}
+    {{ change_plan_form.cycle }}
+    {# Always manually to keep it clean on refresh: no point in transfering sensetive token. Also in case of error - it's better to recreate token with new data. #}
+    <input type="hidden" name="{{ form.stripe_token.name }}" id="{{ form.stripe_token.id_for_label }}"/>
+
+    <div class="compact-section compact-section-border font-size-larger">
+      <div class="compact-section-body tall-rows">
+        <h1>{% trans 'Subscription' %}</h1>
+
+        <div class="row">
+          <div class="col-md-6">{% trans 'Subscription status' %}</div>
+          <div class="col-md-6">
+            {% if account.is_trial %}
+              <div class="text-info">
+                <i class="fa fa-exclamation-triangle"></i>
+                <span>
+                  {% blocktrans count days=account.trial_days_left %}
+                    Your Trial ends in {{ days }} day
+                  {% plural %}
+                    Your Trial ends in {{ days }} days
+                  {% endblocktrans %}
+                </span>
+              </div>
+            {% else %}
+              <b>{% trans 'Subscribed' %}</b>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row plan-form">
+          <div class="col-md-6">{% trans 'Plan details' %}</div>
+          <div class="col-md-6">
+            <b><span class="plan-name">{{ billing.account.plan }}</span> Plan</b>
+            <a href="javascript:void(0)" class="refresh-plan text-primary"><i class="fa fa-refresh"></i> {% trans 'Change Plan' %}
+              {#            <a href="javascript:void(0)" class="refresh-plan text-primary" data-toggle="modal" data-target="#change-plan-dialog"><i class="fa fa-refresh"></i> {% trans 'Change Plan' %}#}
+            </a>
+            <div class="small plan-cost-description">
+              ${{ billing.account.get_next_pay_charge }}
+              {% if billing.is_monthly %}{% trans 'Monthly' %}{% else %}{% trans 'Annually' %}{% endif %}
+            </div>
+            <div class="label label-danger hidden save-warning">{% trans 'Please save form to apply changes.' %}</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">{% trans 'Next Charge' %}</div>
+          <div class="col-md-6">
+            {% if account.is_trial %}
+              <b>{{ account.trial_till_date|date:"N j, Y" }}</b>
+            {% else %}
+              <b>{{ account.get_next_pay_date|date:"N j, Y" }}</b>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">{% trans 'Paying Method' %}</div>
+          <div class="col-md-6">
+            {% if account.stripe_customer_id %}
+              <div>
+                {% blocktrans with card_type=billing.card_type|default_if_none:'' last_num=billing.card_last_nums expiration=billing.expiration_str %}
+                  {{ card_type }} ending {{ last_num }} expires {{ expiration }}
+                {% endblocktrans %}</div>
+            {% else %}
+              <div class="text-info">{% trans 'Please enter billing details' %}</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="compact-section compact-section-border">
+      <div class="compact-section-body tall-rows">
+        <h1>{% trans 'Billing information' %}</h1>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label for="{{ form.name.id_for_label }}" class="control-label">{% trans 'Name on Card' %}<span class="star">*</span></label>
+            {% field_errors form.name %}
+            {{ form.name }}
+          </div>
+          <div class="col-md-6">
+            <label for="{{ form.mail.id_for_label }}" class="control-label">{% trans 'Email' %}<span class="star">*</span></label>
+            {% field_errors form.mail %}
+            {{ form.mail }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-9">
+            <label for="{{ form.address.id_for_label }}" class="control-label">{% trans 'Address' %}<span class="star">*</span></label>
+            {% field_errors form.address %}
+            {{ form.address | attrs:'class:form-control' }}
+          </div>
+          <div class="col-md-3">
+            <label for="{{ form.unit_number.id_for_label }}" class="control-label">{% trans 'Unit Number' %}</label>
+            {% field_errors form.unit_number %}
+            {{ form.unit_number }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label for="{{ form.city.id_for_label }}" class="control-label">{% trans 'City' %}<span class="star">*</span></label>
+            {% field_errors form.city %}
+            {{ form.city }}
+          </div>
+          <div class="col-md-6">
+            <label for="{{ form.state.id_for_label }}" class="control-label">{% trans 'State/Province' %}<span class="star">*</span></label>
+            {% field_errors form.state %}
+            {{ form.state }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="{{ form.country.id_for_label }}" class="control-label">{% trans 'Country' %}<span class="star">*</span></label>
+            {% field_errors form.country %}
+            {{ form.country }}
+          </div>
+          <div class="col-md-6">
+            <label for="{{ form.zip.id_for_label }}" class="control-label">{% trans 'Zip/Postal Code' %}<span class="star">*</span></label>
+            {% field_errors form.zip %}
+            {{ form.zip }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="compact-section compact-section-border">
+      <div class="compact-section-body tall-rows">
+
+        <h1>{% trans 'Payment Method' %}</h1>
+        {% if account.stripe_customer_id %}
+          <div class="well current-payment-method">
+            <div class="mb-10"><b>Current Credit Card</b></div>
+            <div class="mb-10">
+              {% blocktrans with card_type=billing.card_type last_num=billing.card_last_nums expiration=billing.expiration_str %}
+                {{ card_type | default_if_none: '' }} XXXX-XXXX-XXXX-{{ last_num }} expires {{ expiration }}
+              {% endblocktrans %}
+            </div>
+            <div>
+              <a href="javascript:void(0)" class="btn btn-default change-payment-method">{% trans 'Change Payment Method' %}</a>
+            </div>
+          </div>
+        {% endif %}
+
+
+        <div class="well creditcard-info {% if account.stripe_customer_id %}display-none{% endif %}">
+          <ul class="cards">
+            <li><img src="{% static 'images/ico-visa.png' %}" width="32" height="23" alt="Visa"></li>
+            <li><img src="{% static 'images/ico-mastercard.png' %}" width="32" height="23" alt="MasterCard"></li>
+            <li><img src="{% static 'images/ico-amex.png' %}" width="32" height="23" alt="American Express"></li>
+          </ul>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label class="control-label">{% trans 'Credit Card' %}</label>
+
+              <div id="card-element" data-stripe-public-key="{{ stripe_public_key }}">
+                <!-- a Stripe Element will be inserted here. -->
+              </div>
+
+              <!-- Used to display form errors -->
+              <div id="card-errors" class="text-danger"></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3>Promo Code</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <p>{% trans 'Have a promo code?' %}</p>
+              {% field_errors form.discount %}
+              {{ form.discount | attrs:'class: form-control' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-30">
+          <input type="submit" value="{% trans 'Save Billing' %}" class="btn btn-primary btn-lg">
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="change-plan-dialog" style="display: none;"
+      title="{% trans "CHANGE YOUR PLAN" %}"
+      data-cancel-button-text="{% trans 'or CANCEL' %}"
+      data-send-button-text="{% trans 'Change Plan' %}"
+  >
+    {% for plan in plans %}
+      <div class="billing-plan">
+        <div class="billing-plan-description">
+          <h2 class="plan-name">{{ plan.name_str }}</h2>
+          <ul>
+            {% if plan.is_unlimited %}
+              <li>{% trans 'Unlimited' %}</li>
+              <li>{% trans 'Unlimited' %}</li>
+            {% else %}
+              <li>{% blocktrans with members=plan.max_members_str %}Up to {{ members }} Users{% endblocktrans %}</li>
+              <li>{% blocktrans with storage=plan.max_storage_size %}{{ storage }} Storage{% endblocktrans %}</li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="billing-plan-selection">
+          <button class="btn btn-default month{% if plan.id == account.plan.id and billing.is_monthly %} selected-plan{% endif %}"
+              data-plan-id="{{ plan.id }}" data-cycle="1"
+              data-cost-text="${{ plan.month_price }} {% trans 'Monthly' %}">${{ plan.month_price }} {% trans 'a month' %}</button>
+          <button class="btn btn-default year{% if plan.id == account.plan.id and not billing.is_monthly %} selected-plan{% endif %}"
+              data-plan-id="{{ plan.id }}" data-cycle="2"
+              data-cost-text="${{ plan.year_price }} {% trans 'Annually' %}">${{ plan.year_price }} {% trans 'yearly' %}
+            {% comment %} <span class="text-save">({% trans "save" %} ${{ plan.save_for_year }})</span> {% endcomment %}
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+
+  <script id="cvv-information" type="text/x-kendo-template">
+    <div class="cvv-info">
+      <h3>{% trans 'Visa, Mastercard, Discover' %}</h3>
+      <img src="{% static 'images/cv_card.gif' %}" alt="">
+    </div>
+    <div class="cvv-info">
+      <h3>{% trans 'American Express' %}</h3>
+      <img src="{% static 'images/cv_amex_card.gif' %}" alt="">
+    </div>
+  </script>
+{% endblock workspace %}

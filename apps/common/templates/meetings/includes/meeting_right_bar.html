@@ -1,0 +1,165 @@
+{% load i18n static common_tags permissions_tags %}
+
+{% has_permission 'meetings.meeting' 'edit' meeting as permission_edit %}
+
+<div class="right-side createmeeting-form content">
+  <div class="panel panel-default">
+    <div class="panel-header">
+      {% if is_event %}{% trans 'Event Status' %}
+        {% else %}{% trans 'Meeting Status' %}
+      {% endif %}
+    </div>
+    <div class="panel-body">
+      <div>
+        <span class="item-title"><i class="fa fa-map-pin" aria-hidden="true"></i> {% trans 'Status' %}:</span>
+        <span class="item-value">{% if meeting.is_published %}{% trans 'Published' %}{% else %}{% trans 'Draft' %}{% endif %}</span>
+      </div>
+
+      {% if meeting.is_published and meeting.last_published %}
+        <div class="panel-body-expand mt-10">
+          <span class="item-title"><i class="fa fa-calendar" aria-hidden="true"></i> {% trans 'Published on' %}:</span>
+          <span class="item-value meeting-timing">{{ meeting.last_published }}</span>
+        </div>
+      {% endif %}
+
+      {% if form %}
+        <form onsubmit="return false">
+          <div>
+            {% if meeting.id %}
+              <button type="submit" class="btn btn-md btn-primary w-100 mt-10">
+                <i class="fa fa-plus-circle icon pull-left"></i>
+                {% if is_event %}{% trans 'Save Event' %}
+                  {% else %}{% trans 'Save Meeting' %}
+                {% endif %}
+              </button>
+            {% else %}
+              <button type="submit" class="btn btn-md btn-primary w-100 mt-10 draft-meeting">
+                <i class="fa fa-plus-circle icon pull-left"></i>
+                {% trans 'Save as Draft' %}
+              </button>
+              {% if is_event %}
+                <button type="submit" class="btn btn-md btn-primary w-100 mt-10 publish-meeting">
+                  <i class="fa fa-plus-circle icon pull-left"></i>
+                  {% trans 'Publish Event' %}
+                </button>
+              {% else %}
+                <button type="submit" class="btn btn-md btn-primary w-100 mt-10 publish-meeting">
+                  <i class="fa fa-plus-circle icon pull-left"></i>
+                  {% trans 'Publish Meeting' %}
+                </button>
+              {% endif %}
+            {% endif %}
+          </div>
+          <div>
+            {% if meeting.id %}
+              <a rel="button" class="btn btn-md btn-default w-100 mt-10" href="{% acc_url meeting_type_namespace|add:':detail' pk=meeting.id %}">{% trans 'Cancel' %}</a>
+            {% else %}
+              <a rel="button" class="btn btn-md btn-default w-100 mt-10" href="{% acc_url meeting_type_namespace|add:':list' %}">{% trans 'Cancel' %}</a>
+            {% endif %}
+          </div>
+        </form>
+      {% elif not meeting.is_published %}
+        <div>
+          <form action="{% acc_url meeting_type_namespace|add:':publish' pk=meeting.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="publish"/>
+            <button class="btn btn-md btn-default w-100 mt-10">
+              {% if is_event %}{% trans 'Publish Event' %}
+                {% else %}{% trans 'Publish Meeting' %}
+              {% endif %}
+            </button>
+          </form>
+        </div>
+      {% endif %}
+
+      {% if not form %}
+        <div class="buttons-wrap mt-20">
+          {% has_permission 'meetings.meeting' 'delete' meeting as permission_delete %}
+          {% has_permission 'meetings.meeting' 'edit' meeting as permission_edit %}
+
+          {% if permission_edit %}
+            <a class="btn btn-md btn-primary" href="{% acc_url meeting_type_namespace|add:':update' pk=meeting.id %}">
+              <i class="fa fa-plus-circle icon"></i>
+              {% trans 'Edit' %}</a>
+          {% endif %}
+
+          {% if permission_delete %}
+            <a 
+            class="btn btn-md btn-danger delete delete-button" 
+            data-url="{% acc_url meeting_type_namespace|add:':delete' pk=meeting.id %}"
+            data-form-action-url="{% acc_url meeting_type_namespace|add:':delete' pk=meeting.id %}"
+            data-user-name="{{ membership.get_full_name }}"
+            class="btn edit-btn invite-popup-button"
+            href="#"
+            id="btn-delete-{{ membership_object.user.pk }}"
+            ><i class="delete icon"></i>{% trans 'Delete' %}</a>
+        {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if meeting.is_published %}
+    <div class="panel panel-default mt-20">
+      <div class="panel-header">
+        {% if is_event %}{% trans 'Email Event Details' %}
+          {% else %}{% trans 'Email Meeting Details' %}
+        {% endif %}
+      </div>
+      <div class="panel-body">
+        <div>
+          {% if meeting.account.send_notification %}
+            {% if permission_edit %}
+            <a class='reminder-button btn btn-md btn-default w-100'>
+            {% if meeting.last_email_sent %}{% trans 'Send Reminder' %}
+            {% else %}{% trans 'Email Meeting Details' %}{% endif %}
+            </a>
+              {% if form %}
+                <div class="text-center">{% trans 'Please save changes before sending' %}</div>
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <span>{% trans 'Notifications are disabled for this board.' %}</span>
+          {% endif %}
+        </div>
+        {% if meeting.last_email_sent %}
+          <div class="panel-body-expand mt-10">
+            <span class="item-title"><i class="fa fa-calendar" aria-hidden="true"></i> {% trans 'Last email sent' %}:</span>
+            <span class="item-value meeting-timing">{{ meeting.last_email_sent }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if not form %}
+    <div class="panel panel-default">
+      <div class="panel-header"><span style="color: #0089c5">{% trans 'RSVP' %}</span></div>
+      <div class="panel-body">
+      {% if meeting.repeat_type %}
+        {% for repetition in future_repetitions %}
+        <div class="meeting-repetition">
+          <div class="meeting-repetition-date">
+            {# NOTE: URL intentionally contains date which is UTC date. So it'll differ for TZ < UTC. #}
+            <a href="?date={{ repetition.date.isoformat }}">{{ repetition.start|date:"N j, Y" }}</a>
+            {% include 'rsvp/includes/rsvp_response_for_meeting_repetition.html' with repetition=repetition no_repetition=True %}
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="meeting-repetition">
+        <div class="meeting-repetition-date">
+          {# NOTE: URL intentionally contains date which is UTC date. So it'll differ for TZ < UTC. #}
+          <a href="?date={{ current_repetition.date.isoformat }}">{{ current_repetition.start|date:"N j, Y" }}</a>
+          {% include 'rsvp/includes/rsvp_response_for_meeting_repetition.html' with repetition=current_repetition %}
+        </div>
+      </div>
+      {% endif %}
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      window.urls.rsvp_response = '{% acc_url 'rsvp:update' %}';
+    </script>
+  {% endif %}
+</div>

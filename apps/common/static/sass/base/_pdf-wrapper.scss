@@ -1,0 +1,18 @@
+#pdf-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+
+#pdf-wrapper iframe {
+  width: 80vw;
+  height: 80vh;
+  margin-left: 10vw;
+  margin-top: 10vh;
+}

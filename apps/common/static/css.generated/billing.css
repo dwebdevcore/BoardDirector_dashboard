@@ -1,0 +1,89 @@
+.message {
+  display: none !important; }
+
+.submit-message {
+  display: block !important;
+  font-size: 16px;
+  text-align: center; }
+
+.creditcard-info {
+  position: relative; }
+
+.creditcard-info label {
+  font-weight: bold;
+  font-size: 13px;
+  color: black; }
+
+.creditcard-info input {
+  border-radius: 0;
+  height: 29px;
+  padding: 5px 8px; }
+
+.creditcard-info .cards {
+  position: absolute;
+  right: 10px;
+  top: 8px; }
+
+.creditcard-info .cards li {
+  float: left;
+  margin: 0 0 0 6px; }
+
+.creditcard-info .k-datepicker {
+  width: 100%; }
+
+.creditcard-info .k-picker-wrap .k-input {
+  height: 27px; }
+
+.creditcard-info .form-group {
+  padding-bottom: 10px; }
+
+.creditcard-info #id_new_cvv {
+  width: 80px; }
+
+#card-element {
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  background: white; }
+
+.billing-plan {
+  background-color: #eeeeee;
+  padding: 15px 25px; }
+  .billing-plan .billing-plan-description {
+    width: 150px;
+    float: left; }
+  .billing-plan .billing-plan-selection {
+    padding-top: 20px;
+    text-align: right; }
+    .billing-plan .billing-plan-selection .text-save {
+      color: #52B66D;
+      font-weight: normal; }
+    .billing-plan .billing-plan-selection .btn {
+      font-weight: bold;
+      padding: 10px 20px; }
+    .billing-plan .billing-plan-selection .btn.month {
+      width: 150px;
+      margin-right: 20px; }
+    .billing-plan .billing-plan-selection .btn.year {
+      width: 220px; }
+    .billing-plan .billing-plan-selection .btn.selected-plan {
+      background: #E2F6FF;
+      border-color: #79BEDF; }
+  .billing-plan h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold; }
+  .billing-plan ul {
+    list-style: disc;
+    padding-left: 20px; }
+    .billing-plan ul li {
+      margin-bottom: 5px; }
+  .billing-plan:before, .billing-plan:after {
+    content: " ";
+    display: table; }
+  .billing-plan:after {
+    clear: both; }
+
+.billing-plan + .billing-plan {
+  border-top: 3px solid white; }
+
+/*# sourceMappingURL=maps/billing.css.map */

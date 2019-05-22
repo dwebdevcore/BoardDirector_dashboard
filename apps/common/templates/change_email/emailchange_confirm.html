@@ -1,0 +1,15 @@
+{% extends "inner.html" %}
+{% load i18n %}
+
+{% block workspace %}
+  <header class="heading">
+    <h2>{% trans "Email change confirm" %}</h2>
+  </header>
+  <div>
+    {% if confirmed %}
+    <p>{% trans "The email address change was confirmed. Your new email address will be used as primary address." %}</p>
+    {% else %}
+    <p>{% trans "The email address change has not been confirmed. Please request a new one." %}</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "blank_form.html" %}
+
+{% load i18n common_tags static %}
+
+{% block extra_css %}
+  <link href="{% static 'js/libs/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css.generated/registration.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+  <div class="form-holder">
+    <header>
+      <h2>{% trans "Login to your ACCOUNT" %}</h2>
+    </header>
+    <form method="post" action="" class="form" id="login-form">{% csrf_token %}
+      {% include 'registration/includes/login_form.html' %}
+      <div class="login-line">
+        <input type="submit" value="{% trans 'Log in' %}" class="btn btn-primary" id="submit-login">
+      </div>
+      <div class="add-holder">
+        <div class="check">
+          <input type="checkbox" id="rememberme" checked="checked" name="rememberme">
+          <label for="rememberme" style="float: none;">{% trans "Remember me" %}</label>
+        </div>
+        <a target="_top" class="password-help" href="{% url 'auth_password_reset' %}">{% trans "Password help?" %}</a>
+      </div>
+      <footer>
+        <p>{% trans "Don't have an account?" %} <a target="_top" href="{% url 'registration_register' %}">{% trans "Sign up for Board Director" %}</a></p>
+      </footer>
+    </form>
+  </div>
+  <script>
+      $(document).ready(function () {
+          $('.form-holder').on('click', '#submit-login', function (e) {
+              e.preventDefault();
+              $.post('{{ request.path }}', $('#login-form').serialize(), function (data) {
+                  if (data.logged_in) {
+                      window.top.location.href = data.redirect;
+                  } else if (data.html) {
+                      $('.form-holder').children('form').replaceWith($(data.html).find('div.form-holder').children('form'));
+                  }
+              })
+          });
+      });
+  </script>
+  {% include 'google_analytic.html' %}
+{% endblock %}

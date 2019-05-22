@@ -1,0 +1,77 @@
+{% if doc_board_book %}
+  <li>
+    <ul class="archives">
+      <li>
+        <div class="items">
+          {% include 'documents/document_item.html' with doc=doc_board_book %}
+        </div>
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if form.board_book %}
+    <li>
+      {{ form.board_book.label_tag }}
+      {{ form.board_book }}
+    </li>
+  {% endif %}
+{% endif %}
+
+{% if doc_agenda %}
+  <li>
+    <ul class="archives">
+      <li>
+        <div class="items">
+          {% include 'documents/document_item.html' with doc=doc_agenda %}
+        </div>
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if form.agenda %}
+    <li>
+      {{ form.agenda.label_tag }}
+      {{ form.agenda }}
+    </li>
+  {% endif %}
+{% endif %}
+
+
+{% if doc_minutes %}
+  <li>
+    <ul class="archives">
+      <li>
+        <div class="items">
+          {% include 'documents/document_item.html' with doc=doc_minutes %}
+        </div>
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if form.minutes %}
+    <li>
+      {{ form.minutes.label_tag }}
+      {{ form.minutes }}
+    </li>
+  {% endif %}
+{% endif %}
+
+{% if other_docs %}
+  <li>
+    <ul class="archives">
+      <li>
+        <div class="items">
+          {% for doc in other_docs %}
+            {% include 'documents/document_item.html' %}
+          {% endfor %}
+        </div>
+      </li>
+    </ul>
+  </li>
+{% endif %}
+<li>
+  {% if form.other %}
+    {{ form.other.label_tag }}
+    {{ form.other }}
+  {% endif %}
+</li>

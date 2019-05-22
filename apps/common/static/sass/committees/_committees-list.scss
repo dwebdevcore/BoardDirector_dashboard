@@ -1,0 +1,88 @@
+@import '../config';
+
+.committee {
+  border-bottom: 1px solid #ebebeb;
+  overflow: hidden;
+  padding: 24px 12px 30px;
+  color: $color-very-dark-gray;
+  font: 12px/18px arial, helvetica, sans-serif;
+}
+
+.committee-i {
+  background: #fafafa;
+}
+
+.committee .text {
+  float: left;
+  width: 80%;
+}
+
+.committee .text h3 {
+  text-transform: uppercase;
+  margin: 0 0 6px;
+  font: 14px ProximaNova-Bold, arial, helvetica, sans-serif;
+}
+
+.committee .text h3 a {
+  color: $color-dark-gray;
+}
+
+.committee .text p {
+  margin: 0 0 20px;
+}
+
+.committee .info {
+  float: right;
+  width: 15%;
+  margin: 26px 0 0 2%;
+  border-left: 1px solid #ebebeb;
+  padding: 0 0 0 2%;
+  color: $color-dark-gray;
+}
+
+.committee .info dt {
+  margin: 0 0 6px;
+}
+
+.committee .info dd {
+  margin: 0;
+}
+
+.committee .info dd strong {
+  display: block;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: $color-dark-gray;
+}
+
+.committee .footer {
+  overflow: hidden;
+  padding: 6px 0 0;
+}
+
+.committee .btn {
+  margin: 0 29px 0 0;
+  float: left;
+}
+
+.committee footer dl {
+  display: inline-block;
+  margin: 0;
+  line-height: 30px;
+  color: $color-very-dark-gray;
+}
+
+.committee footer dt {
+  display: inline-block;
+  font-weight: normal;
+  margin: 0 8px 0 0;
+}
+
+.committee footer dd {
+  display: inline-block;
+  margin: 0;
+}
+
+.committee footer dd a {
+  color: $brand-primary;
+}

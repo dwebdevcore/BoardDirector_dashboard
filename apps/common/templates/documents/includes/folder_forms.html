@@ -1,0 +1,92 @@
+{% load i18n common_tags %}
+{# Add folder popup #}
+{% if folder_add_form %}
+  <div class="add-folder-popup">
+    <div data-url=""
+       id="add-folder-dialog"
+       title="{% trans "Create New Folder" %}"
+       data-cancel-button-text="{% trans 'or Cancel' %}"
+       data-send-button-text="{% trans 'Create' %}"
+    >
+      <div>
+        <form class="folder-form" action="{% acc_url 'folders:folder_add' slug=folder.slug %}" id="add-folder-form" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_add-name">Folder Name:</label>
+            {{ folder_add_form.name }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{# Edit folder popup #}
+{% if folder_edit_form %}
+  <div class="edit-folder-popup">
+    <div data-url=""
+       id="edit-folder-dialog"
+       title="{% trans "Edit Folder" %}"
+       data-cancel-button-text="{% trans 'or Cancel' %}"
+       data-send-button-text="{% trans 'Save' %}"
+    >
+      <div>
+        <form class="folder-form" action="" id="edit-folder-form" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_edit-name">Folder Name:</label>
+            {{ folder_edit_form.name }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{# Move folder popup #}
+{% if folder_move_form %}
+  <div class="move-folder-popup">
+    <input type="hidden" id="folder-lookup-url" value="{% acc_url 'folders:folder_lookup' %}">
+    <div id="move-folder-dialog"
+        data-root-slug="{{ folder.get_root.slug }}"
+        data-cancel-button-text="{% trans 'or Cancel' %}"
+        data-move-folder-title="{% trans "Move Folder" %}"
+        data-move-document-title="{% trans "Move Document" %}"
+        data-move-folder-url="{% acc_url 'folders:folder_move' slug='SLUGTEMPLATE' %}"
+        data-move-document-url="{% url 'documents:move' document_id='000000000' %}"
+        data-send-button-text-folder="{% trans 'Move folder' %}"
+        data-send-button-text-document="{% trans 'Move document' %}"
+    >
+      <div class="move-folder-form">
+        <div class="move-folder-title">{% trans "Please select target folder:" %}</div>
+        <div class="lookup-folder-children-target"></div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{# Sharing #}
+<div class="share-folder-popup">
+  <div data-url=""
+     id="share-folder-dialog"
+     title="{% trans "Sharing & Permissions" %}"
+     data-cancel-button-text="{% trans 'or CANCEL' %}"
+     data-send-button-text="{% trans 'ADD' %}"
+  >
+    <div id="share-folder-target" data-dialog-url=""></div>
+  </div>
+</div>
+
+{# Confirm move file to sub-folder (drag-n-drop) #}
+<div class="confirm-move-file-popup">
+  <div id="confirm-move-file"
+       data-move-document-url="{% url 'documents:move' document_id='000000000' %}"
+       title="Moving document">
+      <div class="subtitle"></div>
+      <form id='confirm-file-move-form' action="#">{% csrf_token %}
+        <input type="hidden" name="target_slug" value=""/>
+        <input type="hidden" name="document_id" value=""/>
+      </form>
+    </div>
+  </div>
+</div>

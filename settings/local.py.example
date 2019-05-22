@@ -1,0 +1,118 @@
+# -*- coding: utf-8 -*-
+import sys
+
+from .base import *
+
+DEBUG = True
+TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
+
+# Sometimes handy to review emails:
+# pip install django-eml-email-backend
+# EMAIL_BACKEND = 'eml_email_backend.EmailBackend'
+# EMAIL_FILE_PATH = '/vagrant/mail/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+TESTING = sys.argv[1:2] == ['test']
+# TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
+
+DOMAIN = 'localhost:8000'
+ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'boarddocuments_db',
+        'USER': '',
+    }
+}
+
+if TESTING:
+    # In-memory DB for testing.
+    class DisableMigrations(object):
+        def __contains__(self, item):
+            return True
+
+        def __getitem__(self, item):
+            return None
+
+    # Uncomment to disable migrations to greatly speedup tests sacrificing migrations testing (5s -> 0.3s for db setup step)
+    # MIGRATION_MODULES = DisableMigrations()
+
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = None
+    PASSWORD_HASHERS = (
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    )
+
+if not TESTING:
+    # debug toolbar settings
+    INTERNAL_IPS = ('127.0.0.1',)
+
+    MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+
+    INSTALLED_APPS += ('debug_toolbar', 'django_coverage')
+
+    DEBUG_TOOLBAR_PANELS = (
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        # 'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+    )
+
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+# facebook.com
+FACEBOOK_APP_ID = '143252899073551'
+FACEBOOK_API_SECRET = 'af57b34aab45634703cd66aac902f5f0'
+
+# twitter.com
+TWITTER_CONSUMER_KEY = 'zYiequymuKMJEndgcq4PCQ'
+TWITTER_CONSUMER_SECRET = 'YfwLaNGB4R6CIbjXjn2PTv4aWcGyzCYwX2rCFYz1zA'
+
+# google.com
+GOOGLE_OAUTH2_CLIENT_ID = '958738170776-nqd5vb1r8uvts7ddd9o9i40au8fj7je9.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'HsRwfQDKOpgCpt7b92NO6-8-'
+GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
+
+# Stripe keys
+STRIPE_PUBLIC_KEY = 'pk_test_rRkCco9HaDKYLyKdSWF1S2cI'
+STRIPE_SECRET_KEY = 'sk_test_o2jXQ1RqEnZLpFlnW9Maw6ni'
+
+# google calendar (enable calendar api)
+GOOGLE_CLIENT_ID = '1036098598697-bkbqigjufqtq7a7hl8a1340fgjtmd14a.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'OQir9VOx0ohVmNZPLEYalvwV'
+
+# office 365 calendar (add calendars ... on Delegated Permissions)
+OFFICE_CLIENT_ID = '809735b2-155d-409a-8699-9f081169aca8'
+OFFICE_CLIENT_SECRET = 'rJZZNdLQKyLeeUw2mcFU8YP'
+
+# Customer.io keys, development acc info@boarddirector.co
+CUSTOMERIO_SITE_ID = 'd86d6ec34de5ff8e7118'
+CUSTOMERIO_API_KEY = '4a528e3704f73b96cdf9'
+CUSTOMERIO_ENABLED = not TESTING
+
+# Chameleon
+CHAMELEON_ENABLED = False
+
+# Fixes for SSL and CSRF problems on runserver
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+if 'common.middleware.ForceSSLMiddleware' in MIDDLEWARE:
+    mw = list(MIDDLEWARE)
+    mw.remove('common.middleware.ForceSSLMiddleware')
+    MIDDLEWARE = tuple(mw)
+
+
+def disable_warnings():
+    import warnings
+    from django.utils.deprecation import RemovedInDjango20Warning, RemovedInDjango21Warning
+    old_show_warning = warnings.showwarning
+    warnings.showwarning = lambda warning, *x: None if type(warning) in (RemovedInDjango20Warning, RemovedInDjango21Warning) else old_show_warning(warning, *x)
+
+
+disable_warnings()

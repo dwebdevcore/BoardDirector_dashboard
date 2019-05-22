@@ -1,0 +1,65 @@
+{% load i18n common_tags %}
+
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% if form.non_field_errors %}
+  <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" role="alert">
+    <span class="k-icon k-warning"></span>
+    {{ form.non_field_errors.0 }}
+  </span>
+{% endif %}
+
+{% for field in form.visible_fields %}
+  {% if field.name != 'board_book' and field.name != 'agenda' and field.name != 'minutes' and field.name != 'other' and field.name != 'action' and 'repeat' not in field.name %}
+    {% if field.name != 'time_end' %}
+      <li>
+    {% endif %}
+
+  {% if field.name == 'name' or field.name == 'description' %}
+    {{ field }}
+  {% else %}
+    {{ field.label_tag }}
+
+    {% if field.name == 'extra_members' %}
+      <div class="selectize-field">{{ field }}</div>
+    {% else %}
+      {{ field }}
+    {% endif %}
+  {% endif %}
+
+  {% field_errors field %}
+
+  {% if field.name != 'time_start' %}
+    </li>
+  {% endif %}
+
+    {% if field.name == 'time_end' %}
+      <li>
+        <label for="repeat-checkbox">{% trans 'Repeat' %}</label>
+
+        <div class="repeat-control">
+          <input type="checkbox" id="repeat-checkbox" {% if form.repeat_type.value %}checked{% endif %}>
+          <span id="repeat-string"></span>
+          <a href="javascript:void(0)" id="repeat-change" class="btn btn-default">{% trans 'Change' %}</a>
+
+          {% field_errors_with_field_name form.repeat_end_date %}
+          {% field_errors_with_field_name form.repeat_max_count %}
+          {% field_errors_with_field_name form.repeat_interval %}
+          {% field_errors_with_field_name form.repeat_type %}
+
+        </div>
+
+        {# Important to include inside form so that fields are saved #}
+        {% include 'meetings/includes/meeting_repeat_dialog.html' %}
+      </li>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+<script type="text/javascript">
+    window.repeat_type_choices = {};
+    {% for k, v in form.repeat_type.field.choices %}
+        window.repeat_type_choices[{{ k|default:0 }}] = '{{ v }}';{% endfor %}
+</script>

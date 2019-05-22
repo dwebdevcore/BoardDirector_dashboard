@@ -1,0 +1,31 @@
+{% extends "registration/base.html" %}
+{% load i18n static %}
+
+{% block extra_js %}
+  <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+  <script src="{% static 'js/jquery.slugify.js' %}"></script>
+  <script>
+    $(function($) {
+      $('#id_url').slugify('#id_name'); // Type as you slug
+    });
+  </script>
+{% endblock extra_js %}
+
+{% block content %}
+<div class="form-holder">
+    <header>
+      <h2>{% trans "Signup for account" %}</h2>
+      <p><span>{{ trial_period }}{% trans "-DAY free trial." %}</span> {% trans "No credit card required" %}</p>
+    </header>
+    <form method="post" action="" enctype="multipart/form-data" class="form">{% csrf_token %}
+      {% include 'registration/includes/registration_form_contents.html' %}
+
+      <div class="holder">
+        <input type="submit" value="GET STARTED" class="btn">
+        <p>{% trans "Already a member?" %} <a href="{% url 'auth_login' %}">{% trans "Login" %}</a></p>
+      </div>
+      <p class="note">{% trans 'By clicking "Get Started", you are agreeing to the' %} <a href="{% url 'terms' %}">{% trans "Terms of Service" %}</a> {% trans "and" %} <a href="{% url 'privacy' %}">{% trans "Privacy Policy." %}</a></p>
+    </form>
+  </div>
+  {% include 'google_analytic.html' %}
+{% endblock %}

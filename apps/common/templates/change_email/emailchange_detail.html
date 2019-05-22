@@ -1,0 +1,26 @@
+{% extends "inner.html" %}
+{% load i18n %}
+
+{% block workspace %}
+  <header class="heading">
+    <h2>{% trans "Your requests for changing email" %}</h2>
+  </header>
+  <div class="recent-activity">
+    <table>
+      <tr>
+        <td class="cell1">{% trans "New email" %}</td>
+        <td class="cell2">{% trans "Creation date" %}</td>
+        <td class="cell3">{% trans "Delete" %}</td>
+      </tr>
+      <tr>
+        <td class="cell1">{{ object.new_email }}</td>
+        <td class="cell2">{{ object.date }}</td>
+        <td class="cell3">
+          <form class= "delete_change_email" method="POST" action="{% url 'change_email_delete' pk=object.pk %}">{% csrf_token %}
+            <button class="btn delete">{% trans "Delete request" %}</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+  </div>
+{% endblock %}

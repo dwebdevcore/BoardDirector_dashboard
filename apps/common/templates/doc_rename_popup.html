@@ -1,0 +1,15 @@
+{% load i18n static %}
+{% load common_tags %}
+
+<form action="#">
+  <div class="update-archive-popup">
+    <div data-url=""
+       id="rename-archive-dialog"
+       title="{% trans "Rename" %}"
+       data-cancel-button-text="{% trans 'or Cancel' %}"
+       data-send-button-text="{% trans 'Rename' %}"
+    >
+      <div id="rename-archive-file-wrapper"></div>
+    </div>
+  </div>
+</form>

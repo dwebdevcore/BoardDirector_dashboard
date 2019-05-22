@@ -1,0 +1,45 @@
+{% extends "inner.html" %}
+{% load i18n static common_tags permissions_tags compress %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/meetings.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {{ super }}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css.generated/meetings.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.bootstrap3.css' %}"/>
+  {% endcompress %}
+{% endblock extra_css %}
+
+
+
+
+{% block workspace %}
+  <header class="heading">
+    <div class="content-header">
+      <div class="pull-right">
+        <form action="" class="inline-form">
+          <label for="browse-by">{% trans 'Browse by' %}:</label>
+          {{ form.order_by }}
+          {{ form.committee }}
+        </form>
+      </div>
+      <h2>
+        {% if is_event %}{% trans 'Past Events' %}
+          {% else %}{% trans 'Past Meetings' %}
+        {% endif %}</h2>
+    </div>
+  </header>
+  <div id="meetings">
+    {% include 'meetings/includes/meetings.html' %}
+  </div>
+{% endblock workspace %}

@@ -1,0 +1,105 @@
+{% load i18n common_tags permissions_tags voting_tags %}
+
+{% if active_tab == 'dashboard' %}
+
+{% endif %}
+
+<aside id="aside">
+  <ul>
+    {% if current_membership %}
+      <li{% if active_tab == 'dashboard' %} class="active"{% endif %}>
+        <a class="dash-menu" href="{% acc_url 'dashboard:dashboard' %}">
+          <span class="name-menu">{% trans "Dashboard" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'meetings.meeting:view' %}
+      <li{% if active_tab == 'meetings' %} class="active"{% endif %}>
+        <a class="meet-menu" href="{% acc_url 'meetings:list' %}">
+          <span class="name-menu">{% trans "Meetings" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'documents.folder:view' %}
+      <li{% if active_tab == 'folders' %} class="active"{% endif %}>
+        <a class="governance-menu" href="{% acc_url 'folders:rootfolder_detail' %}">
+          <span class="name-menu">{% trans "Documents" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'committees.committee:view' %}
+      <li{% if active_tab == 'committees' %} class="active"{% endif %}>
+        <a class="committees-menu" href="{% acc_url 'committees:list' %}">
+          <span class="name-menu">{% trans "Committees" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'profiles.membership:view' %}
+      <li{% if active_tab == 'members' %} class="active"{% endif %}>
+        <a class="members-menu" href="{% acc_url 'board_members' %}">
+          <span class="name-menu">{% trans "Members" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'profiles.membership:view' %}
+      <li{% if active_tab == 'guests' %} class="active"{% endif %}>
+        <a class="guest-menu" href="{% acc_url 'board_guests' %}">
+          <span class="name-menu">{% trans "Guests" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'meetings.meeting:view' %}
+      <li{% if active_tab == 'events' %} class="active"{% endif %}>
+        <a class="event-menu" href="{% acc_url 'events:list' %}">
+          <span class="name-menu">{% trans "Events" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'meetings.meeting:view' %}
+      <li{% if active_tab == 'calendar' %} class="active"{% endif %}>
+        <a class="calendar-menu" href="{% acc_url 'calendar:list' %}">
+          <span class="name-menu">{% trans "Calendar" %}</span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'news.news:view' %}
+      <li class="menu-item-fa {% if active_tab == 'news' %} active{% endif %}">
+        <a class="news-menu" href="{% acc_url 'news:list' %}">
+          <span class="name-menu">
+            <i class="fa fa-rss" aria-hidden="true"></i>
+
+            {% trans "News" %}
+          </span>
+        </a>
+      </li>
+    {% endif %}
+    {% if current_membership|has_role_permission:'voting.voting:view' %}
+      <li class="menu-item-fa {% if active_tab == 'voting' %} active{% endif %}">
+        <a class="news-menu" href="{% acc_url 'voting:voting-main' %}">
+          <span class="name-menu">
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+
+            {% trans "Voting" %}
+            {% votings_to_attend request as votings_count %}
+            {% if votings_count %}
+              <span class="menu-voting-count">{{ votings_count }}</span>
+            {% endif %}
+          </span>
+        </a>
+      </li>
+    {% endif %}
+    {# Voting by key #}
+    {% if not current_membership and voter_key %}
+      <li class="menu-item-fa active">
+        <a class="news-menu" href="{% acc_url 'voting:voting-vote-by-key' voter_key=voter_key %}">
+          <span class="name-menu">
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+
+            {% trans "Voting" %}
+            <span class="menu-voting-count">1</span>
+          </span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</aside>

@@ -1,0 +1,90 @@
+{% extends "inner.html" %}
+{% load i18n user_tags common_tags permissions_tags static compress thumbnail %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/invite-user.js' %}"></script><!-- fixme: delete dialog -->
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css.generated/news.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+
+<div class="right-side">
+
+  {% has_permission 'news.news' 'edit' news as permission_edit %}
+  {% has_permission 'news.news' 'delete' news as permission_delete %}
+
+  {% if permission_delete or permission_edit %}
+  <div class="panel panel-default">
+
+      <div class="panel-header">News actions</div>
+
+      <div class="panel-body">
+      {# Edit #}
+      {% if permission_edit %}
+      <a class="btn btn-md btn-primary mt-10" href="{% acc_url 'news:edit' pk=news.id %}">
+        <i class="fa fa-edit icon"></i>
+        {% trans "Edit News" %}
+      </a><br>
+      {% endif %}
+
+      {# Delete #}
+      {% if permission_delete %}
+      <a class="btn btn-md btn-danger mt-10 delete delete-button" 
+      data-url="{% acc_url 'news:delete' pk=news.id %}"
+      data-form-action-url="{% acc_url 'news:delete' pk=news.id %}"
+      data-user-name="{{ membership.get_full_name }}"
+      href="#"
+      id="btn-delete-{{ membership_object.user.pk }}"
+      >
+        <i class="fa fa-minus-circle icon"></i>
+        {% trans "Delete News" %}
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+<ul class="breadcrumbs">
+  <li><a href="{% acc_url 'news:list' %}">{% trans 'News' %}</a></li>
+  <li>{{ news.title }}</li>
+</ul>
+<div class="content content-box">
+  <h2>{{ news.title }}</h2>
+  {% if news.file %}
+  {% thumbnail news.file "360x240" as thumb %}
+  <div class="news-photo">
+    <img src="{{ thumb.url }}" width="{{ thumb.x }}" height="{{ thumb.y }}" title="{{ news.title|title }}" alt="{{ news.title|title }}">
+  </div>
+  {% endthumbnail %}
+  {% endif %}
+  <div class='news-text'>{{ news.text|safe }}</div>
+</div>
+
+<!-- popup dialogs -->
+<div class="delete-popup">
+  <div id="delete-confirm" title="Delete profile">
+    <div class="subtitle">
+        {% trans 'Are you sure you want to delete this news?' %}
+    </div>
+    <form id='delete-form' action="#">{% csrf_token %}</form>
+  </div>
+</div>
+
+{% endblock workspace %}

@@ -1,0 +1,1 @@
+Some outdated libs need patches. It's just easier to include them into project then bother with updates, patches, etc.

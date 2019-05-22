@@ -1,0 +1,87 @@
+{% extends "inner.html" %}
+{% load i18n common_tags user_tags permissions_tags compress %}
+{% load static from staticfiles %}
+
+{% block article_class %}meetings-list{% endblock article_class %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.js' | min_for_prod %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  {{ super }}
+  {% compress js %}
+  <script src="{% static 'js/meetings_list.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+  {% endcompress %}
+{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'css.generated/dashboard.css' %}"/>
+<link rel="stylesheet" href="{% static 'css.generated/meetings.css' %}"/>
+<link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}"/>
+<link rel="stylesheet" href="{% static 'js/selectize/css/selectize.bootstrap3.css' %}"/>
+{% endcompress %}
+{% endblock %}
+
+{% block workspace %}
+  <div class='heading'>
+  
+    <div class='content-header'>
+  
+      <div class="pull-right">
+        <form action="#" class="inline-form" id='meeting-filter'>
+          <label for="browse-by">{% trans 'Browse by' %}:</label>
+          {{ form.order_by }} {{ form.committee }}
+        </form>
+        &nbsp;
+        <label>{% trans 'Jump to' %}:</label>
+        <a href='#past-meetings'>
+          {% if is_event %}{% trans 'Past events' %} {% else %}{% trans 'Past meetings' %} {% endif %}</a>
+        &nbsp;
+        {% if current_membership|has_role_permission:'meetings.meeting:add' %}
+        <a class="btn btn-md btn-primary" href="{% acc_url meeting_type_namespace|add:':create' %}">
+          <i class="fa fa-plus-circle icon"></i>
+          {% if is_event %}{% trans 'ADD EVENT' %} {% else %}{% trans 'ADD MEETING' %} {% endif %}
+        </a>
+        {% endif %}
+    
+      </div>
+      <h2>{% if is_event %}{% trans 'Events' %} {% else %}{% trans 'Meetings' %} {% endif %}</h2>
+    </div>
+  </div>
+
+  <div class="dashboard-meetings meetings-meetings">
+    <h3 id="upcoming-meetings" class='line'>
+      {% if is_event %}{% trans 'UPCOMING EVENTS' %}{% else %}{% trans 'UPCOMING MEETINGS' %}{% endif %}
+    </h3>
+  
+    <div id='upcoming-meetings-holder'>
+      <div class='listing'></div>
+      <div class='loader'>loading data …</div>
+    </div>
+  
+    <h3 id="past-meetings" class='line'>
+        {% if is_event %}{% trans 'PAST EVENTS' %}{% else %}{% trans 'PAST MEETINGS' %}{% endif %}
+    </h3>
+  
+    <div id='past-meetings-holder'>
+      <div class='listing'></div>
+      <div class='loader'>loading data …</div>
+    </div>
+  
+  </div>
+
+  <script type="text/javascript">
+    var api_meetings_list = "{% acc_url 'api-meetings-meetings-list' %}";
+    {% if is_event %}
+    var url_meetings_list = "{% acc_url 'events:list' %}";
+    var is_events_list = true;
+    {% else %} 
+    var url_meetings_list = "{% acc_url 'meetings:list' %}";
+    var is_events_list = false;
+    {% endif %}
+  </script>
+{% endblock workspace %}

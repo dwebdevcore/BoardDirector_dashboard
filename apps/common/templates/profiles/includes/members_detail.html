@@ -1,0 +1,82 @@
+{% load i18n user_tags permissions_tags %}
+  <div class="bio-holder">
+    {% if membership_object %}
+      
+    <h2 class='primary-title title1'>{{ membership_object.get_full_name }}</h2>
+    <div class="photo">
+      {% if membership_object.avatar %}
+      <img src="{{ membership_object|avatar:'270x270' }}" alt="{{ membership_object.get_full_name }}">
+      {% else %}
+      <img src="/static/images/default_avatar_sq.svg" class="noimage" alt="">
+      {% endif %}
+    </div>
+      
+    <h3>{{ membership_object.get_role_name }}</h3>
+
+    <div class='details-block hr'>
+      <p>
+        <strong>
+          {% if membership_object.is_guest %}{% trans 'Guest since' %}:
+          {% else %}{% trans 'Joined Board' %}:{% endif %}
+        </strong>
+        {{ membership_object.date_joined_board|date:"N j, Y" }}
+        
+        {% if not membership_object.is_guest and membership_object.term_expires %}
+        <span>|</span>
+        <strong>
+          {% trans 'Term Dates' %}:
+        </strong>
+        {{ membership_object.term_start|date:"N j, Y"|default:'-' }}
+        —
+        {{ membership_object.term_expires|date:"N j, Y"|default:'-' }}
+        {% endif %}
+      </p>
+      <p>
+        {% if membership_object.role == membership_object.ROLES.assistant %}
+          <strong>{% trans "Executive Assistant to" %}:</strong>
+            {% for boss in membership_object.get_bosses %}
+              <a href="{{ boss.get_absolute_url }}">{{ boss }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        {% elif membership_object.committees.all %}
+          <strong>{% trans "Committes" %}:</strong>
+            {% for com in membership_object.committees.all %}
+              <a href="{{ com.get_absolute_url }}">{{ com.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        {% endif %}
+      </p>
+    </div>
+
+    {% if membership_object.bio %}
+    <div class='details-block hr'>
+        <h4>{{ membership_object.intro }}</h4>
+        {{ membership_object.bio|linebreaks }}
+    </div>
+    {% endif %}
+
+    {% if membership_object.employer or membership_object.job_title or membership_object.position %}
+    <div class='details-block hr'>
+      {% if membership_object.position %}
+        <p><strong>{% trans 'Profile Position' %}:</strong>
+        {{ membership_object.position }}</p>
+      {% endif %}
+      {% if membership_object.employer %}
+        <p><strong>{% trans 'Employer' %}:</strong>
+        {{ membership_object.employer }}</p>
+      {% endif %}
+      {% if membership_object.job_title %}
+        <p><strong>{% trans 'Job Title' %}:</strong>
+        {{ membership_object.job_title }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  {% endif %}
+</div>
+
+  <script id="delete-confirmation" type="text/x-kendo-template">
+    <p class="delete-message">{% trans 'Are you sure you want to delete this record' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="delete-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>

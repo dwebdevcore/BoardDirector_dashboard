@@ -1,0 +1,105 @@
+/**
+ * Originally ".common-form", used for some reason all over the project. 
+ */
+
+.common-form li {
+  margin: 0;
+  padding: 0 0 23px;
+}
+
+.common-form li:last-child {
+  padding-bottom: 0;
+}
+
+.common-form li {
+  overflow: auto;
+}
+
+.common-form li:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.common-form .txt {
+  background: none;
+  border: 1px solid #dcdcdc;
+  font-size: 13px;
+  padding: 7px 9px 6px; /* 7+6 padding to match btn-sm height */
+  width: 197px;
+  margin: 0;
+  float: left;
+  position: relative;
+}
+
+.common-form .focus .txt {
+  border-color: #008ac6;
+  -webkit-box-shadow: 0 0 3px #008ac6;
+  -moz-box-shadow: 0 0 3px #008ac6;
+  box-shadow: 0 0 3px #008ac6;
+}
+
+.common-form label {
+  float: left;
+  text-align: left;
+  width: 115px;
+  font: bold 13px/28px arial, helvetica, sans-serif;
+  color: #4a4a4a;
+  margin: 0 16px 0 0;
+  padding-top: 2px;
+}
+
+.common-form select {
+  width: 216px;
+}
+
+.common-form textarea {
+  width: 300px;
+}
+
+.common-form .label-to {
+  text-align: center;
+  width: 45px;
+  margin: 0;
+}
+
+.common-form .check-holder {
+  overflow: hidden;
+  padding: 0 0 20px 130px;
+}
+
+.common-form .check-holder label {
+  font: 13px/18px arial, helvetica, sans-serif;
+  width: auto;
+  text-align: left;
+}
+
+.common-form ul {
+  padding-bottom: 14px;
+}
+
+.common-form .submit {
+  float: left;
+  margin: 0;
+}
+
+.common-form .submit:hover {
+  cursor: pointer;
+}
+
+.common-form label ~ label {
+  margin-left: 20px;
+  width: auto;
+  float: none;
+}
+
+.common-form .offset-label {
+  display: inline-block;
+  margin-left: 130px;
+}
+
+.common-form .textarea {
+  float: left;
+  width: 80%;
+  border: 1px solid #dcdcdc;
+}

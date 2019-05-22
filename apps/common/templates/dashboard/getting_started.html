@@ -1,0 +1,60 @@
+{% extends "inner.html" %}
+{% load i18n static common_tags user_tags %}
+
+{% block article_class %}dashboard{% endblock article_class %}
+{% block extra_css %}
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/getting_started.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/getting_started.js' %}"></script>
+{% endblock extra_js %}
+
+{% block workspace %}
+<div class="getting-started">
+  <div class="header text-center">
+    <h2>Hurray!</h2>
+    <h2>Let's get started, {{ current_membership.get_full_name }}!</h2>
+    <p>Board Director is a simple tool to help you manage {{ request.current_account.name }}'s documents, meetings, committees, <br/>and its Board of Directors. It's easy to set up and use. Here's a few steps to get you started.</p>
+  </div>
+  <div class="steps text-center {% if has_memberships %}finished{% endif %}">
+    <h3>Step 1: Add Board Members.</h3>
+    <p>Start by adding your first Board Members. Once you've configured the roster and you're<br/>ready for everyone to sign in, you'll need to invite them.</p>
+    <a href="{% acc_url 'member_create' %}">Add A New Board Member <i class="fa fa-arrow-right"></i></a>
+  </div>
+  <div class="steps text-center {% if has_meetings %}finished{% endif %}">
+    <h3>Step 2: Add First Board Meeting.</h3>
+    <p>Create your first Board Meeting and upload your first agenda, minutes and reports. Once<br/>you've created your first meeting, you'll need to invite them.</p>
+    <a href="{% acc_url 'meetings:create' %}">Create Your First Meeting <i class="fa fa-arrow-right"></i></a>
+  </div>
+  <div class="steps text-center {% if has_documents %}finished{% endif %}">
+    <h3>Step 3: Upload Your First Documents.</h3>
+    <p>Create folders, subfolders and upload your first documents. By default, we've added some<br/>basic folders an organization may need. Feel free to add new, rename, or delete folders.</p>
+    <a href="{% acc_url 'folders:rootfolder_detail'  %}">Upload Your First Documents <i class="fa fa-arrow-right"></i></a>
+  </div>
+  <div class="steps text-center {% if has_committees %}finished{% endif %}">
+    <h3>Step 4: Create Your First Committee.</h3>
+    <p>Create your first committee, add a chairperson, and invite board members. By default, we've added<br/>some committees an organization may need. Feel free to add new, rename, or delete committees.</p>
+    <a href="{% acc_url 'committees:create' %}">Create Your First Committee <i class="fa fa-arrow-right"></i></a>
+  </div>
+  <div class="help-div">
+    <div>
+      <h4>Need Help?</h4>
+      <p>If you have any questions, feel free to email us <a href="mailto:support@boarddirector.co">support@boarddirector.co</a></p>
+    </div>
+  </div>
+  <div class="text-center">
+    <a href="{% acc_url 'dashboard:getting_started' %}?show_guide=false" class="close-guide">CLOSE GUIDE <i class="fa fa-close"></i></a>
+  </div>
+</div>
+
+<script id="close-guide-confirmation" type="text/x-kendo-template">
+  <p class="delete-message">{% trans 'Are you sure you want to close the Getting Started Guide' %}?</p>
+  <div class="confirmation-buttons">
+    <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+    <button class="delete-cancel k-button">{% trans 'No' %}</button>
+  </div>
+</script>
+{% endblock workspace %}

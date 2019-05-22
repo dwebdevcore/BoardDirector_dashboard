@@ -1,0 +1,114 @@
+.pricing-table{
+    margin:0;
+    position:relative;
+}
+.pricing-table table{
+    width:100%;
+    table-layout:fixed;
+    padding:0;
+    margin:0 0 25px;
+    border:0;
+    background:#f9f9f9;
+    border-collapse:separate;
+    border-spacing:0;
+    text-align:center;
+}
+.pricing-table tr,
+.pricing-table td,
+.pricing-table th{
+    border-style:none;
+    padding:0;
+    margin:0;
+    vertical-align:middle;
+}
+.pricing-table th{
+    width:33%;
+    background:#464646;
+    height:72px;
+    text-transform:uppercase;
+    color:#fff;
+    font:18px ProximaNova-Regular, arial, helvetica, sans-serif;
+    border-left:1px solid #747474;
+    border-top:#464646;
+}
+.pricing-table th:first-child{
+    border-radius:4px 0 0;
+    border-style:none;
+}
+.pricing-table th:last-child{border-radius:0 4px 0 0;}
+.most-popular{
+    position:absolute;
+    right:26px;
+    top:-24px;
+    color:#fff;
+    font:12px/13px ProximaNova-Bold, arial, helvetica, sans-serif;
+    background:#d44395;
+    border-radius:50%;
+    width:69px;
+    height:69px;
+    overflow:hidden;
+    text-transform:uppercase;
+    text-align:center;
+}
+.most-popular span{
+    display:block;
+    margin:22px 0 0;
+}
+.pricing-table .price-row{color:#fff;}
+.pricing-table .price-row td{
+    background:#0088c4;
+    border-left:1px solid #40a6d3;
+    height:120px;
+}
+.pricing-table .price-row td:first-child{border-style:none;}
+.pricing-table .price-row strong{
+    font:60px/64px ProximaNova-Semibold, arial, helvetica, sans-serif;
+    position:relative;
+}
+.pricing-table .price-row strong span{
+    position:absolute;
+    left:-14px;
+    top:10px;
+    font-size:16px;
+    line-height:normal;
+}
+.pricing-table .price-row em{
+    display:block;
+    font:14px ProximaNova-Bold, arial, helvetica, sans-serif;
+    margin-top:-10px;
+}
+.pricing-table .priceyear-row td{
+    background:#0074a7;
+    border-left:1px solid #4097bd;
+    height:54px;
+    color:#fff;
+    font:14px/18px ProximaNova-Regular, arial, helvetica, sans-serif;
+}
+.pricing-table .priceyear-row td span{display:block;}
+.pricing-table .priceyear-row td:first-child{border-style:none;}
+.pricing-table .btn{
+    margin:0 auto;
+}
+.pricing-table .footer-row td{
+    background:#f9f9f9;
+    position:relative;
+    border:1px solid #e9e9e9;
+    border-top:none;
+    border-left:none;
+    height:179px;
+    text-transform:uppercase;
+}
+.pricing-table .footer-row td span{
+    display:block;
+    font:14px ProximaNova-Semibold, arial, helvetica, sans-serif;
+    margin:0 0 20px
+}
+.pricing-table .footer-row td:first-child{
+    border-left:1px solid #e9e9e9;
+    border-radius:0 0 0 4px;
+}
+.pricing-table .footer-row td:last-child{border-radius:0 0 4px 0;}
+.pricing-table p{
+    margin:0 0 24px;
+    text-align:center;
+}

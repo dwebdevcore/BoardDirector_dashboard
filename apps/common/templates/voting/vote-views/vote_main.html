@@ -1,0 +1,118 @@
+{% load i18n common_tags %}
+
+<div id="main-template" v-if="voting">
+  <div class="heading">
+    <div class="content-header">
+      <h2>${ voting.name }</h2>
+    </div>
+  </div>
+
+  <div class="voting-description" v-if="voting.description" v-html="$options.filters.nl2br(voting.description)"></div>
+
+  <div v-if="voting.voting_done">
+    <div class="voting-done svg">
+      <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="-263.5 236.5 26 26">
+        <g class="svg-success">
+          <circle cx="-250.5" cy="249.5" r="12"/>
+          <path d="M-256.46 249.65l3.9 3.74 8.02-7.8"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="voting-done-message">
+      {% trans 'Voting is done.' %}<br/>
+      {% trans 'Thanks for your vote!' %}<br/>
+
+      <div class="mt-20">
+        <a href="{% acc_url 'voting:voting-main' %}" class="btn btn-primary btn-lg">{% trans 'Back to Votes' %}</a>
+      </div>
+    </div>
+  </div>
+
+  <div v-else-if="!voting.is_in_progress">
+    <div class="alert alert-danger">
+      {% trans 'This voting is not in progress.' %}
+    </div>
+  </div>
+
+  <div v-else>
+    <div class="question">
+      <div class="question-name">#${ current_question_index + 1}. ${ question.question }</div>
+
+      <div class="question-description" v-if="question.description" v-html="$options.filters.nl2br(question.description)"></div>
+
+      <div class="question-yes-no" v-if="question.question_type == VOTING_TYPE.YES_NO">
+        <Errors :error="errors.yes_no"></Errors>
+        <div class="question-answer" :class="{'selected-answer': answer.yes_no === true }">
+          <label><input type="radio" :value="true" v-model="answer.yes_no"> {% trans 'Yes' %}</label>
+        </div>
+        <div class="question-answer" :class="{'selected-answer': answer.yes_no === false }">
+          <label><input type="radio" :value="false" v-model="answer.yes_no"> {% trans 'No' %}</label>
+        </div>
+      </div>
+
+
+      <div class="question-yes-no" v-if="question.question_type == VOTING_TYPE.FOR_AGAINST_ABSTAIN">
+        <Errors :error="errors.for_against_abstain"></Errors>
+        <div class="question-answer" :class="{'selected-answer': answer.for_against_abstain === FAA_CHOICES.FOR_ }">
+          <label><input type="radio" :value="FAA_CHOICES.FOR_" v-model="answer.for_against_abstain"> {% trans 'For' %}</label>
+        </div>
+        <div class="question-answer" :class="{'selected-answer': answer.for_against_abstain === FAA_CHOICES.AGAINST }">
+          <label><input type="radio" :value="FAA_CHOICES.AGAINST" v-model="answer.for_against_abstain"> {% trans 'Against' %}</label>
+        </div>
+        <div class="question-answer" :class="{'selected-answer': answer.for_against_abstain === FAA_CHOICES.ABSTAIN }">
+          <label><input type="radio" :value="FAA_CHOICES.ABSTAIN" v-model="answer.for_against_abstain"> {% trans 'Abstain' %}</label>
+        </div>
+      </div>
+
+
+      <div class="question-single-select" v-if="question.question_type == VOTING_TYPE.SINGLE_SELECT">
+        <Errors :error="errors.answers"></Errors>
+        <div class="question-answer" v-for="a in question.answers" :class="{'selected-answer': answer.answers.indexOf(a.id) != -1 }">
+          <label><input type="radio" :value="a.id" v-model="answer.answers[0]"> ${ a.answer }</label>
+        </div>
+      </div>
+
+
+      <div class="question-multiple-select" v-if="question.question_type == VOTING_TYPE.MULTIPLE_SELECT">
+        <Errors :error="errors.answers"></Errors>
+        <div class="question-answer" v-for="a in question.answers" :class="{'selected-answer': answer.answers.indexOf(a.id) != -1 }">
+          <label><input type="checkbox" :value="a.id" v-model="answer.answers"> ${ a.answer }</label>
+        </div>
+      </div>
+
+
+      <div class="question-election" v-if="question.question_type == VOTING_TYPE.ELECTION">
+        <Errors :error="errors.candidate"></Errors>
+        <div class="question-answer" v-for="candidate in question.candidates" :class="{'selected-answer': answer.candidate == candidate.id }">
+          <label class="question-candidate">
+            <div class="candidate-select">
+              <input type="radio" :value="candidate.id" v-model="answer.candidate">
+            </div>
+
+            <img class="candidate-avatar" :src="candidate.avatar_url" v-if="candidate.avatar_url">
+            <div class="candidate-description">
+              <span class="candidate-name">${ candidate.first_name } ${ candidate.last_name }</span>
+              <div class="candidate-notes">${ candidate.notes }</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="question-answer-vote-note common-form">
+        <a href="javascript:void(0)" @click="toggle_vote_note" v-if="!show_vote_note">{% trans 'Add notes' %}</a>
+        <a href="javascript:void(0)" @click="toggle_vote_note" v-if="show_vote_note">{% trans 'Hide notes' %}</a>
+
+        <div v-if="show_vote_note">
+          <textarea class="txt" v-model="answer.vote_note" rows="4" v-focus.lazy="true"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="voting-controls">
+      <button class="btn btn-default" v-if="current_question_index > 0" @click="previous_question">{% trans 'Previous Question' %}</button>
+      <button class="btn btn-default" v-if="current_question_index < voting.questions.length - 1" @click="post_answer">{% trans 'Next Question' %}</button>
+      <button class="btn btn-primary" v-if="current_question_index == voting.questions.length - 1" @click="post_answer">{% trans 'Cast Vote' %}</button>
+    </div>
+  </div>
+</div>

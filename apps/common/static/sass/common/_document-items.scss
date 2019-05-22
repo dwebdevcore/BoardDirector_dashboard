@@ -1,0 +1,88 @@
+.document-item.no-file-type {
+  padding-left: 10px;
+  background: none;
+}
+
+.document-item .title {
+  overflow: hidden;
+  padding: 0 0 15px;
+  margin-top: 0;
+}
+
+.document-item .title h3 {
+  float: left;
+  color: #000;
+  margin: 0 15px 0 0;
+  font: bold 15px arial, helvetica, sans-serif;
+}
+
+.document-item .label,
+.document-edit-item .label {
+  float: left;
+  color: #828282;
+  font: 10px/17px arial, helvetica, sans-serif;
+  padding: 0 11px;
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  margin: 0 6px 0 0;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.document-item .label span {
+  display: block;
+  border-top: 2px solid #ffd200;
+  -moz-border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px;
+  border-radius: 4px 4px 0 0;
+  margin: 0 -11px;
+  padding: 0 11px 2px;
+  line-height: 13px;
+}
+
+.document-item .delete, .fields-list .remove {
+  float: left;
+  text-indent: -9999px;
+  background: url(../images/sprites.png) 0 -330px;
+  width: 13px;
+  height: 15px;
+  margin: 2px 0 0 4px;
+}
+
+.document-item h4{
+  margin:0 0 6px;
+  text-transform:uppercase;
+  color:#616161;
+  font:11px arial, helvetica, sans-serif;
+}
+
+.document-item .meeting a.download {
+  text-indent: 0;
+  width: 60px;
+  height: 16px;
+  padding: 0 7px 0 0;
+  color: #0089c5;
+  text-decoration: underline;
+}
+.document-item .meeting a.edit {
+  text-indent: 0;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: #666666;
+  font-size: 11px;
+  padding: 2px 18px;
+  text-decoration: none;
+  background: none;
+  width: 20px;
+  height: 12px;
+}
+
+.document-edit-item input {
+  float: left;
+}

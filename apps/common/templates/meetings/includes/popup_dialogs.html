@@ -1,0 +1,78 @@
+{% load i18n static compress common_tags %}
+
+<!-- popup dialogs -->
+<div class="dialog-popup">
+  <div id="delete-confirm" {% if is_event %}title="Delete event"{% else %}title="Delete meeting"{% endif %}>
+    <div class="subtitle">
+        {% if is_event %}
+        {% trans 'Are you sure you want to delete this event' %}?
+        {%else %}
+        {% trans 'Are you sure you want to delete this meeting with all associated documents' %}?
+        {% endif %}
+    </div>
+    <form id='delete-form' action="#">{% csrf_token %}</form>
+  </div>
+</div>
+      
+<div class="dialog-popup">
+  <div
+      id="reminder-dialog"
+      title="{% trans "Meeting EMAIL" %}"
+      data-send-button-text="{% trans "Send" %}"
+      data-cancel-button-text="{% trans "Cancel" %}"
+      data-url="{% acc_url meeting_type_namespace|add:':mail-details' pk=meeting.id %}">
+    <div class="subtitle">
+      We’ll send the meeting information to your Board Members and Guests.
+      You may also personalize your message.
+    </div>
+    <div class="pop-form">
+
+      <form action="{% acc_url meeting_type_namespace|add:':mail-details' pk=meeting.id %}" id="reminder-form">
+        <h4>Personalized Message</h4>
+        <input type="hidden" name="ajax" value="ajax"/>
+        <input type="hidden" name="kind" value="reminder"/>
+        <textarea name="pmessage" id="personal-message" cols='80' rows='4' 
+        placeholder="{% trans 'Type personal message…' %}"></textarea>
+        <label for="personal-message" class='optional'>(optional)</label>
+      
+        <h4>Meeting Details</h4>
+        <div class="m1-20 mt-10 white-box">
+          <table class="meeting-details"><tr>
+            <td><div class="meeting-icon {% if meeting.is_event %}event-icon{% endif %}">
+              <div class="month">{{ meeting.start|date:"N" }}</div>
+              <div class="day">{{ meeting.start|date:"j" }}</div>
+            </div></td>
+          <td>
+            <p>
+              <b>Attendees:</b>
+              {{ meeting.committee|default:'All Board Members' }}{% if meeting.extra_members_list %};
+              {% for m in meeting.extra_members_list %} <span class='membername'>{{m.get_full_name}}</span>{% if not forloop.last %};{% endif %}{% endfor %}
+              {% endif %}
+            </p>
+            <p><b>Date:</b> {{ meeting.start|date:"l, N j, Y" }}</p>
+            <p><b>Time:</b> {{ meeting.start|date:"g:i A" }} &ndash; {{ meeting.end|date:"g:i A e" }}</p>
+            <p><b>Location:</b> {{ meeting.location }}</p>
+            {% with meet_docs=meeting.get_main_docs %}{% if meet_docs %}
+            <p><b>Documents:</b>
+              {% for f in meet_docs %}{% if f %}
+              <span class='filename'>
+                <i class='fa fa-1x fa-file fa-file-{{ f.extension }}-o'></i>
+                <span>{{ f.name }}</span>
+              </span>
+              {% endif %}{% endfor %}
+            </p>
+            <p>
+              <label for='attachdo'>
+                <input type='checkbox' class='default' checked='checked' value='on' id='attachdo' name='attachdocs'>
+                Attach documents
+              </label>
+            </p>
+            {% endif %}{% endwith %}
+          </td>
+          </tr></table>
+        </div>  
+
+      </form>
+    </div>
+  </div>
+</div>

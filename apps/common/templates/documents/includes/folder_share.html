@@ -1,0 +1,56 @@
+{% load i18n common_tags %}
+
+<div class="folder-form-block folder-share-header">
+  <span class="list-folder-new"><i class="fa fa-folder"></i></span>
+  <strong>{{ object }}</strong>
+</div>
+
+<div id="share-folder-form-container" class="folder-form-block folder-share-form">
+  {% include 'documents/includes/folder_share_form.html' %}
+</div>
+
+{% if view_permissions or edit_permissions %}
+  <div class="folder-share-permissions clearfix">
+    <div class="permissions-list">
+      <div class="folder-share-permissions-header">{% trans 'Editors for' %} <strong>{{ object }}</strong></div>
+      <ul>
+        {% for p in edit_permissions %}
+          <li class="selectize-like-button">
+            {% if p.membership != None %}
+              {{ p.membership }}
+            {% else %}
+              {{ p.get_role_string }}
+            {% endif %}
+            <a class="delete-permission selectize-like-button-cross"
+                href="{% acc_url 'folders:share_delete' slug=folder.slug %}{% if document != None %}?document_id={{ document.id }}{% endif %}"
+                data-perm-id="{{ p.id }}">×</a>
+          </li>
+        {% endfor %}
+        {% if not edit_permissions %}
+          <span class="permissions-none">{% trans 'No editors' %}</span>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="permissions-list">
+      <div class="folder-share-permissions-header">{% trans 'Viewers' %} <strong>{{ object }}</strong></div>
+      <ul>
+        {% for p in view_permissions %}
+          <li class="selectize-like-button">
+            {% if p.membership != None %}
+              {{ p.membership }}
+            {% else %}
+              {{ p.get_role_string }}
+            {% endif %}
+            <a class="delete-permission selectize-like-button-cross"
+                href="{% acc_url 'folders:share_delete' slug=folder.slug %}{% if document != None %}?document_id={{ document.id }}{% endif %}"
+                data-perm-id="{{ p.id }}">×</a>
+          </li>
+        {% endfor %}
+        {% if not view_permissions %}
+          <span class="permissions-none">{% trans 'No viewers' %}</span>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+{% endif %}

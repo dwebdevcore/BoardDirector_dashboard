@@ -1,0 +1,40 @@
+{% load i18n %}
+
+{% if is_paginated %}
+  <ul class="pager">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+      <li><a href="?page=1">1</a></li>
+    {% endif %}
+
+    {% if page_obj.number > 3 %}
+      <li><a href="#" onclick="return false;">...</a></li>
+    {% endif %}
+
+    {% if page_obj.has_previous and page_obj.previous_page_number != 1 %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+    {% endif %}
+
+    <li class="active"><a href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+
+    {% if page_obj.has_next and page_obj.next_page_number != page_obj.paginator.num_pages %}
+      <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+      {% if page_obj.number == 1 and page_obj.next_page_number|add:"1" != page_obj.paginator.num_pages %}
+        <li><a href="?page={{ page_obj.next_page_number|add:"1" }}">{{ page_obj.next_page_number|add:"1" }}</a></li>
+      {% endif %}
+    {% endif %}
+
+    {% if page_obj.paginator.num_pages > page_obj.number|add:"2" %}<li><a href="#" onclick="return false;">...</a></li>{% endif %}
+
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% endif %}
+  </ul>
+{% endif %}

@@ -1,0 +1,39 @@
+{% load i18n %}
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+  {% if form.non_field_errors %}
+  <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" role="alert">
+    <span class="k-icon k-warning"></span>
+    {{ form.non_field_errors.0 }}
+  </span>
+  {% endif %}
+{% for field in form.visible_fields %}
+  {% if field.name != 'time_end' %}
+  <li>
+  {% endif %}
+  {% if field.name == 'name' %}
+    {{ field }}
+  {% elif field.field.type == 'file' %}
+    <span class="label">{{ field.label }}</span>
+    {{ field }}
+  {% elif field.name == 'description' %}
+    {{ field.label_tag }}
+    <div class="textarea">
+      {{ field }}
+    </div>
+  {% else %}
+    {{ field.label_tag }}
+    {{ field }}
+  {% endif %}
+  {% if field.errors %}
+  <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="{{ field.auto_id }}" role="alert">
+    <span class="k-icon k-warning"></span>
+    {{ field.errors.0 }}
+  </span>
+  {% endif %}
+
+  {% if field.name != 'time_start' %}
+  </li>
+  {% endif %}
+{% endfor %}

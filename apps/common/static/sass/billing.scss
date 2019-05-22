@@ -1,0 +1,124 @@
+@import "config";
+@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_mixins";
+
+.message {
+  display: none !important;
+}
+
+.submit-message {
+  display: block !important;
+  font-size: 16px;
+  text-align: center;
+}
+
+
+.creditcard-info {
+  position: relative;
+}
+
+.creditcard-info label {
+  font-weight: bold;
+  font-size: 13px;
+  color: black;
+}
+
+.creditcard-info input {
+  border-radius: 0;
+  height: 29px;
+  padding: 5px 8px;
+}
+
+.creditcard-info .cards {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
+.creditcard-info .cards li {
+  float: left;
+  margin: 0 0 0 6px;
+}
+
+.creditcard-info .k-datepicker {
+  width: 100%;
+}
+
+.creditcard-info .k-picker-wrap .k-input {
+  height: 27px;
+}
+
+.creditcard-info .form-group {
+  padding-bottom: 10px;
+}
+
+.creditcard-info #id_new_cvv {
+  width: 80px;
+}
+
+#card-element {
+  border: 1px solid $input-border;
+  padding: $padding-base-vertical $padding-base-horizontal;
+  background: white;
+}
+
+
+
+.billing-plan {
+  background-color: $gray-lighter;
+  padding: 15px 25px;
+
+  .billing-plan-description{
+    width: 150px;
+    float: left;
+  }
+
+  .billing-plan-selection {
+    padding-top: 20px;
+    text-align: right;
+
+    .text-save {
+      color: $color-success-light;
+      font-weight: normal;
+    }
+
+    .btn {
+      font-weight: bold;
+      padding: 10px 20px;
+    }
+
+    .btn.month {
+      width: 150px;
+      margin-right: 20px;
+    }
+
+    .btn.year {
+      width: 220px;
+    }
+
+    .btn.selected-plan {
+      background: $color-selection-light;
+      border-color: $color-selection;
+    }
+  }
+
+  h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 5px;
+    }
+  }
+
+  @include clearfix();
+}
+
+.billing-plan + .billing-plan {
+  border-top: 3px solid white;
+}

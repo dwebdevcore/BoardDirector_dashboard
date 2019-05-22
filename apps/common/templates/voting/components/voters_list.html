@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<div class="voters-list" id="voters-list-template">
+  <div class="voters-voter" v-for="(voter, index) in voters">
+    <div class="voter-index">${ index + 1 }.</div>
+    <div class="voter-avatar" v-if="voter.avatar_url">
+      <img :src="voter.avatar_url">
+    </div>
+    <div class="voter-name">
+      ${ voter.display_first_name }
+      ${ voter.display_last_name }
+      <span class="label label-success" v-if="voter.voting_done">{% trans 'Done' %}</span>
+    </div>
+    <div class="voter-actions" v-if="can_edit">
+      <button type="button" class="btn btn-default" @click="$emit('delete_voter', voter)">{% trans 'Delete' %}</button>
+    </div>
+  </div>
+</div>

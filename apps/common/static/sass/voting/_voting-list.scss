@@ -1,0 +1,21 @@
+.voting {
+  .voting-actions {
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .voting-actions .voting-actions-hidden {
+    display: inline-block;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  &:hover {
+    .voting-actions .voting-actions-hidden{
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+  }
+}

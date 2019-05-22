@@ -1,0 +1,240 @@
+{% extends "inner.html" %}
+{% load i18n user_tags common_tags permissions_tags static %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="{% static 'css/update-doc-popup.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css.generated/committees.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css.generated/folders-include.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css.generated/folders-include-new.css' %}"/>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.js' | min_for_prod %}"></script>
+  <script src="{% static 'js/jquery-ui-1.11.4.custom.min.js' %}"></script>
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+
+  <script src="{% static 'js/edit-docs-popup.js' %}"></script>
+  <script src="{% static 'js/folders.js' %}"></script>
+  <script src="{% static 'js/file-uploader.js' %}"></script>
+  <script src="{% static 'js/committee-details.js' %}"></script>
+  {#  <script src="{% static 'js/documents.js' %}"></script>  {% comment %} To enable uploading of docs {% endcomment %}#}
+  <script src="{% static 'js/object_delete.js' %}"></script>
+
+  <script type="text/javascript">
+      var DOC_DELETE_URL = "{% url 'documents:delete' %}"
+  </script>
+{% endblock extra_js %}
+
+{% block workspace %}
+  <ul class="breadcrumbs breadcrumbs-separator">
+    <li><a href="{% acc_url 'committees:list' %}">{% trans 'Committees' %}</a></li>
+    <li>{{ committee.name }}</li>
+  </ul>
+
+  <div class="content content-box">
+    {% has_permission 'committees.committee' 'edit' committee as permission_edit %}
+    {% has_permission 'committees.committee' 'delete' news as permission_delete %}
+
+    <div class="heading">
+      <h2>
+        {{ committee.name }}
+        {% if permission_edit or permission_delete %}
+          <div class="pull-right">
+            {% if permission_delete %}
+              <a class="btn btn-danger btn-md delete" href="{% acc_url 'committees:delete' pk=committee.id %}">
+                <i class="delete icon"></i>
+                {% trans 'Delete Committee' %}
+              </a>
+            {% endif %}
+            {% if permission_edit %}
+              <a class="btn btn-primary btn-md edit_committee" href="{% acc_url 'committees:update' pk=committee.id %}">
+                <i class="fa fa-plus-circle icon"></i>
+                {% trans 'Edit Committee' %}</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </h2>
+    </div>
+
+    <div class="inner-menu" role="tablist">
+      <a href="#overview" class="active">{% trans 'Overview' %}</a>
+      <a href="#members">{% trans 'Committee Members' %}</a>
+      <a href="#documents">{% trans 'Documents' %}</a>
+      <a href="#meeting-documents">{% trans 'Meeting Documents' %}</a>
+      {#      <a href="#tasks">{% trans 'Tasks List' %}</a>#}
+    </div>
+
+    <div class="sections committee-description section-tab" id="overview">
+      <p>{% if committee.description %}{{ committee.description|safe }}{% else %}{% trans 'No description for committee yet.' %}{% endif %}</p>
+    </div>
+
+    <div class="sections committee-members-list section-tab" id="members">
+      {% with show_links=current_membership|has_role_permission:'profiles.membership:view' %}
+        <div class="section">
+          <h3>{% trans 'Committee Leadership' %}</h3>
+          <ul class="committee-members">
+            {% for man in chairman %}
+              <li>
+                {% if show_links %}
+                  <a class="img" href="{{ man.get_absolute_url }}"><img src="{{ man|avatar:'120x90' }}" width="120" alt="{{ man }}"></a>
+                  <span><a href="{{ man.get_absolute_url }}">{{ man.get_full_name }}</a>, {% trans 'Chairman' %}</span>
+                {% else %}
+                  <span class="img"><img src="{{ man|avatar:'120x90' }}" width="120" alt="{{ man }}"></span>
+                  <span>{{ man.get_full_name }}, {% trans 'Chairman' %}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <hr/>
+
+        <div class="section">
+          <h3>{% trans 'Committee Members' %}</h3>
+          <ul class="committee-members">
+            {% for man in ordinary_members %}
+              <li>
+                {% if show_links %}
+                  <a class="img" href="{{ man.get_absolute_url }}"><img src="{{ man|avatar:'120x90' }}" width="120" alt="{{ man }}"></a>
+                  <span><a href="{{ man.get_absolute_url }}">{{ man.get_full_name }}</a></span>
+                {% else %}
+                  <span class="img"><img src="{{ man|avatar:'120x90' }}" width="120" alt="{{ man }}"></span>
+                  <span>{{ man.get_full_name }}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endwith %}
+
+      {% if committee.upcoming_meetings %}
+        <div class="section">
+          <h3>{% trans 'Upcoming Meetings' %}</h3>
+          <ul class="list">
+            {% for meeting in committee.upcoming_meetings %}
+              <li><a href="{{ meeting.get_absolute_url }}">{{ meeting.start|date:"N j, Y, g:ia" }}&ndash;{{ meeting.end|date:"g:ia" }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if committee.past_meetings %}
+        <div class="section">
+          <h3>{% trans 'Past Minutes' %}</h3>
+          <ul class="list">
+            {% for meeting in committee.past_meetings %}
+              {% if meeting.get_minutes %}
+                <li><a class="{{ meeting.get_minutes.extension }}" href="{{ meeting.get_minutes.get_download_url }}">{{ meeting.start|date:"N j, Y" }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="sections committee-documents section-tab" id="documents">
+      {% include 'documents/includes/folder_items.html' with no_move=True no_sharing=True %}
+      {% include 'documents/includes/folder_forms.html' %}
+      {% include 'doc_upd_popup.html' %}
+
+      {% if folder %}
+        <h3>{% trans 'Add Documents' %}:</h3>
+        <form method="post" enctype="multipart/form-data" class="common-form create-document-form" action="{% acc_url 'folders:document_add' slug=folder.slug %}">
+          {% csrf_token %}
+          <input type="hidden" class="btn btn-primary" value="{% acc_url 'committees:detail' pk=object.id %}#documents" name="back">
+          {% for field in add_document_form %}
+            {{ field }}
+          {% endfor %}
+          <div class="documents-upload-files">
+            <input type="submit" class="btn btn-md btn-primary" value="{% trans 'Upload documents' %}" name="new_document">
+            <a href="{{ folder.get_absolute_url }}" class="btn btn-md btn-default documents-cancel-upload">{% trans 'Cancel upload' %}</a>
+          </div>
+        </form>
+      {% else %}
+        <div class="mt-10">{% trans 'Please save committee to add documents' %}</div>
+      {% endif %}
+    </div>
+
+    <div class="sections meeting-documents section-tab" id="meeting-documents">
+        {% if committee.upcoming_meetings %}
+        <div class="section">
+          <h3>{% trans 'Upcoming Meetings' %}</h3>
+          <dl>
+            {% for meeting in committee.upcoming_meetings %}
+            {% with meeting.get_main_docs as docs %}{% if docs %}
+              <dt>
+                <a href="{{ meeting.get_absolute_url }}">
+                  {{ meeting.name }}
+                  ({{ meeting.start|date:"N j, Y, g:ia" }}&ndash;{{ meeting.end|date:"g:ia" }})</a>
+              </dt>
+
+              {% if docs.0 %}
+              <dd>Board Book: <a href="{{ docs.0.get_download_url }}">{{ docs.0.filename|default:'Download' }}</a></dd>
+              {% endif %}
+              {% if docs.1 %}
+              <dd>Agenda: <a href="{{ docs.1.get_download_url }}">{{ docs.1.filename|default:'Download' }}</a></dd>
+              {% endif %}
+              {% if docs.2 %}
+              <dd>Minutes: <a href="{{ docs.2.get_download_url }}">{{ docs.2.filename|default:'Download' }}</a></dd>
+              {% endif %}
+
+              {% if meeting.folder %}
+              <dd><a href='{{meeting.folder.get_absolute_url}}'>{% trans 'View all meeting documents' %}</a></dd>
+              {% endif %}
+
+              {% endif %}{% endwith %}
+            {% endfor %}
+          </dl>
+        </div>
+      {% endif %}
+
+      {% if committee.past_meetings %}
+        <div class="section">
+          <h3>{% trans 'Past Meetings' %}</h3>
+          <dl>
+              {% for meeting in committee.past_meetings %}
+              {% with meeting.get_main_docs as docs %}{% if docs %}
+                <dt>
+                  <a href="{{ meeting.get_absolute_url }}">
+                    {{ meeting.name }}
+                    ({{ meeting.start|date:"N j, Y, g:ia" }}&ndash;{{ meeting.end|date:"g:ia" }})</a>
+                </dt>
+  
+                {% if docs.0 %}
+                <dd>Board Book: <a href="{{ docs.0.get_download_url }}">{{ docs.0.filename|default:'Download' }}</a></dd>
+                {% endif %}
+                {% if docs.1 %}
+                <dd>Agenda: <a href="{{ docs.1.get_download_url }}">{{ docs.1.filename|default:'Download' }}</a></dd>
+                {% endif %}
+                {% if docs.2 %}
+                <dd>Minutes: <a href="{{ docs.2.get_download_url }}">{{ docs.2.filename|default:'Download' }}</a></dd>
+                {% endif %}
+  
+                {% if meeting.folder %}
+                <dd><a href='{{meeting.folder.get_absolute_url}}'>{% trans 'View all meeting documents' %}</a></dd>
+                {% endif %}
+  
+                {% endif %}{% endwith %}
+              {% endfor %}
+              </dl>
+          </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <script id="delete-confirmation" type="text/x-kendo-template">
+    <p class="delete-message">{% trans 'Are you sure you want to delete this committee with all associated meetings and documents' %}?</p>
+    <div class="confirmation-buttons">
+      <button class="delete-confirm k-button">{% trans 'Yes' %}</button>
+      <button class="delete-cancel k-button">{% trans 'No' %}</button>
+    </div>
+  </script>
+{% endblock workspace %}

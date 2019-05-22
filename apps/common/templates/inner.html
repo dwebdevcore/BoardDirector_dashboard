@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load common_tags static user_tags %}
+{% load i18n %}
+{% load thumbnail %}
+{% block extra_css %}
+
+{% endblock extra_css %}
+{% block title %}{{ block.super }}{% endblock title %}
+
+{% block content %}
+<div class="popup-overlay" style="display: none;"></div>
+<header id="header">
+  <div id="brand">
+    <a class="brand-link" href="/accounts/"><span class="name-menu">BoardDirector</span></a>
+  </div>
+  <div id="company">
+    {% if current_membership.account.logo %}
+    {% thumbnail current_membership.account.logo "x50" as logo %}
+      <img src="{{ logo.url }}" width="{{ logo.x }}" height="{{ logo.y }}" 
+      id="logo-img" title="{{ current_membership.account }}">
+    {% endthumbnail %}
+    {% endif %}
+    {% if request.current_account %}
+      <a href="{% acc_url 'dashboard:dashboard' %}" class="logo-a">{{ request.current_account.name }}</a>
+      {% if request.current_account.show_guide and current_membership.is_admin %}
+        <a href="{% acc_url 'dashboard:getting_started' %}" class="top-close-guide">
+          <span class="large">GETTING STARTED GUIDE</span>
+          <span class="small">STARTING GUIDE</span>
+        </a>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="holder">
+    <ul>
+      {% if current_membership %}
+        <li>
+          <div class="current-membership-photo">
+            {% if current_membership.avatar %}
+            <img src="{{ current_membership|avatar:'50' }}">
+            {% else %}
+            <img src="{% static 'images/default_avatar_sq.svg' %}" width='50' height='50'>
+            {% endif %}
+          </div>
+        </li>
+      {% endif %}
+      <li>
+        <div class="personal">
+          <a class="opener" href="#">{{ current_membership.get_full_name }}</a>
+          <div class="drop">
+            <ul>
+              {% if current_membership %}
+                <li><a href="{% url 'profiles:edit' pk=current_membership.pk %}">{% trans "My Profile" %}</a></li> 
+                <li><a href="{% url 'accounts:boards' %}">{% trans "My Boards" %}</a></li>
+                {#<li><a href="{% url 'calendar-connection' %}" class="calendar-conn">#}
+                {#<i class="fa fa-calendar" aria-hidden="true"></i>{% trans "My Calendars" %}</a></li>#}
+              {% endif %}
+              <li><a class="signout" href="{% url 'auth_logout' %}">({% trans "Sign Out" %})</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      {% if current_membership.is_admin %}
+        <li>
+          <div class="settings">
+            <a class="opener" href="#">{% trans "Settings" %}</a>
+            <div class="drop">
+              <ul>
+                <li><a class="account-settings" href="{% acc_url 'board_detail' %}">{% trans "Board Settings" %}</a></li>
+                <li><a class="account-users" href="{% acc_url 'board_members' %}">{% trans "Members" %}</a></li>
+                <li><a class="billing" href="{% url 'billing:update_settings' %}">{% trans "Billing" %}</a></li>
+                <li><a class="plans-pricing" href="{% url 'billing:change_plan' %}">{% trans "Plans & Pricing" %}</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</header>
+<div id="twocolumns">
+  {% if request.current_account %}
+    {% include 'menu.html' %}
+  {% endif %}
+  <div id="content" class="{% block article_class %}{% endblock article_class %}">
+    <div class="alert" id="alert-board">
+      <button type="button" class="close" onclick="hide_alert();">&times;</button>
+      <div class="message"></div>
+    </div>
+    {% block update_notifications %}
+      {% update_notifications_for_user as update_notifications %}
+      {% if update_notifications %}
+        <div class="update-notifications">
+          {% for notification in update_notifications %}
+            <div class="update-notification">
+              <a href="{{ notification.details_link }}" target="_blank" class="update-notification-details">{% trans 'Read more' %}</a>
+              {{ notification.notification_text | linebreaks }}
+            </div>
+          {% endfor %}
+          <div class="update-notifications-mark-read-block">
+            <a href="{% url 'mark-update-notifications-read' %}?back={{ request.path | urlencode }}" class="update-notifications-mark-read">{% trans 'Mark all as read' %}</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endblock %}
+    {% block user_messages %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endblock user_messages %}
+    {% block workspace %}{% endblock workspace %}
+  </div>
+</div>
+{% endblock content %}

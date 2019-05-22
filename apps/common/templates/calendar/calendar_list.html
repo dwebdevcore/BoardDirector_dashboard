@@ -1,0 +1,72 @@
+{% extends "inner.html" %}
+{% load i18n static common_tags permissions_tags %}
+
+{% block extra_js %}
+  <script src="{% static 'js/jquery-ui-1.11.4.custom.min.js' %}"></script>
+  <script src="{% static 'js/fullcalendar.js' %}"></script>
+  <script>
+    function getRandomColor(hexs) {
+      if (!hexs) {
+        hexs = '0123456789ABCDEF';
+      }
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += hexs[Math.floor(Math.random() * hexs.length)];
+      }
+      return color;
+    }
+
+    function getCycledColor(hexs, c){
+      if (!hexs) {
+        hexs = '0123456789ABCDEF';
+      }
+      var color = '#';
+      for (var i = 0; i < 3; i++) {
+        color += hexs[((i+c)%3 + (i+c)%5 + (i+c)%8) % hexs.length];
+        color += '0';
+      }
+      return color;
+    }
+
+    $(document).ready(function() {
+      $('#calendar').fullCalendar({
+      editable: false,
+      height: '600',
+      timeFormat: 'h:mm tt{ - h:mm tt}',
+      events: [
+        {% for meeting in meetings %}
+          {
+            title: '{{ meeting.name }}',
+            start: new Date({{ meeting.start|date:'Y, m-1, d, G, i' }}),
+            end: new Date({{ meeting.end|date:'Y, m-1, d, G, i' }}),
+            allDay: false,
+            className: '{% if meeting.is_event %}event-item{% else %}meeting-item{% endif %}',
+            url: '{{ meeting.get_absolute_url }}',
+            {# backgroundColor: getRandomColor('3456789AB') #}
+            {# backgroundColor: getCycledColor('3456789AB', {{meeting.id}} ) #}
+            {% if meeting.committee.id %}backgroundColor: getCycledColor('3456789AB', {{ meeting.committee.id }}){% endif %}
+          }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    });
+    });
+  </script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  <link href="{% static 'css/fullcalendar.css' %}" rel="stylesheet" />
+{% endblock extra_css %}
+
+{% block workspace %}
+  <header class="heading">
+    <div class="holder">
+      <div class="bar right no_padding no_border offset_top_5">
+        {% if current_membership|has_role_permission:'meetings.meeting:add' %}
+          <a class="btn" href="{% acc_url 'meetings:create' %}">{% trans 'Add to Calendar' %}</a>
+        {% endif %}
+      </div>
+      <h2>{% trans 'Calendar' %}</h2>
+    </div>
+  </header>
+  <div id='calendar'></div>
+{% endblock workspace %}

@@ -1,0 +1,87 @@
+#content.has-right-side {
+  padding-right: 325px;
+}
+
+
+.right-side {
+  background: #f1f1f1;
+  padding: 50px 15px 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+}
+
+
+.right-side select {
+  width: 100%;
+}
+
+.right-side .selectArea {
+  margin: 5px 0 10px;
+}
+
+
+#content .right-side .btn {
+  font: bold 12px/17px arial, helvetica, sans-serif;
+}
+
+.right-side .btn {
+  text-transform: uppercase;
+}
+
+.right-side .panel-body {
+  margin-bottom: 10px;
+}
+
+
+
+.panel {
+  border-color: #e5e5e5;
+  background: white;
+  //box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.panel-header {
+  padding: 10px 20px;
+  font-weight: bold;
+  color: #424242;
+  font: 16px "ProximaNova-Semibold", "arial", "helvetica", sans-serif;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.panel-body {
+  padding: 10px 20px;
+  line-height: 24px;
+}
+
+.panel-body::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.panel-body-expand {
+}
+
+.item-title {
+  color: #444;
+}
+
+.item-title .fa {
+  color: #888;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.item-value {
+  color: #444;
+  font-weight: bold;
+}
+
+.item-value.meeting-timing {
+  display: block;
+  margin-left: 22px;
+}

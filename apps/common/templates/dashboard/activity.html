@@ -1,0 +1,54 @@
+{% extends "inner.html" %}
+{% load i18n %}
+{% load common_tags user_tags %}
+{% block article_class %}dashboard{% endblock article_class %}
+
+{% block workspace %}
+      <h2>{{ current_membership.get_full_name }}&rsquo;s {% trans "Activities" %}</h2>
+      <div class="recent-activity">
+        <table>
+          {% for object in recent %}
+          <tr>
+            <td class="cell1">{{ object.get_action_flag_display }} {{ object.content_type.name|capfirst }}:</td>
+
+            <td class="cell2"><a href="{% if object.content_type.name == 'meeting'  %}
+              {{ object.content_object.get_absolute_url }}
+            {% endif %}{{ object.content_object.meeting.get_absolute_url }}">{{ object.content_object.start|date:"N j, Y" }}{{ object.content_object.meeting.start|date:"N j, Y" }}</a></td>
+            <td class="cell3">
+              {% if object.content_type.name == 'document' %}
+                {% if object.content_object.type == object.content_object.CHARTER %}
+                {% else %}
+                {% trans "MEETING" %}: <a href="{{ object.content_object.meeting.get_absolute_url }}" >{{ object.content_object.meeting.name|capfirst }}</a>
+                {% endif %}
+                <br>
+                <a class = "{{ object.content_object.extension }} custom"  href="{{ object.content_object.get_download_url }}">{{ object.content_object.filename }}</a>
+              {% elif object.content_type.name == 'meeting' %}
+                <a href="{{ object.content_object.get_absolute_url }}">{{ object.content_object.name|capfirst  }}</a>
+                <br>
+                {% trans "TIME" %}: <a href="{{ object.content_object.get_absolute_url }}">{{ object.content_object.start|date:"H:i A"}}-{{ object.content_object.end|date:"H:i A" }}</a>
+                <br>
+                {% trans "LOCATION" %}: <a href="{{ object.content_object.get_absolute_url }}">{{ object.content_object.location }}</a>
+              {% elif object.content_type.name == 'committee' %}
+                <a href="{{ object.content_object.get_absolute_url }}">{{ object.content_object.name|capfirst }}</a>
+                {% if object.content_object.charter %}
+                  <a class = "{{ object.content_object.charter.extension }} custom" href="{{ object.content_object.charter.get_download_url }}">{{ object.content_object.charter.name }}</a>
+                {% endif %}
+              {% endif %}
+            </td>
+            <td class="cell4">
+              {% with object.init_user|membership:request.current_account as membership %}
+                {% if object.content_type.name == 'document' %}
+                  {% trans "Uploaded by " %} <a href="{{ membership.get_absolute_url }}">{{ membership.get_full_name }}</a>
+                {% endif %}
+                {% if object.content_type.name == 'meeting' or object.content_type.name == 'committee' %}
+                  {% trans "Added by " %} <a href="{{ membership.get_absolute_url }}">{{ membership.get_full_name }}</a>
+                {% endif %} on {{ object.action_time|date:"N j, Y, P" }}
+              {% endwith %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+      {% include 'pagination.html' %}
+{% endblock workspace %}

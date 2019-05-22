@@ -1,0 +1,29 @@
+@import './config.scss';
+
+//noinspection CssUnknownTarget
+@import 'bootstrap-sass';
+
+@import "base/fonts";
+@import "base/reset";
+@import "base/bootstrap-adjustments";
+@import "base/kendo-adjustments";
+@import "base/header";
+@import "base/footer";
+@import "base/aside";
+@import "base/tidio";
+@import "base/content";
+@import "base/breadcrumbs";
+@import "base/common";
+@import "base/common-form";
+@import "base/icons";
+@import "base/components";
+@import "base/fields-list";
+@import "base/file-types";
+@import "base/selectize-like-button";
+@import "base/pdf-wrapper";
+@import "base/jquery-ui";
+@import "base/update-notifications";
+@import "base/inner-menu";
+@import "base/bar";
+
+@import "base/dropzone";

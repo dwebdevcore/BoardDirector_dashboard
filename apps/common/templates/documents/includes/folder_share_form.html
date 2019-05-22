@@ -1,0 +1,22 @@
+{% load i18n common_tags %}
+{# Sharing #}
+
+<form id="share-folder-form"
+    class="folder-form"
+    action="{% acc_url 'folders:share_add' slug=folder.slug %}{% if document %}?document_id={{ document.id }}{% endif %}"
+    method="POST"
+    data-error-text="{% trans 'Sorry, you do not have permission to share' %} {{ object }}">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_share-role">{% trans "Invite Group of Collaborators" %}</label>
+    {{ form.role }}
+  </div>
+  <div class="form-group">
+    <label for="id_share-membership">{% trans "Invite Individual Collaborators" %}</label>
+    {{ form.memberships }}
+  </div>
+  <div class="form-group">
+    <label for="id_share-permission">{% trans "Permission" %}</label>
+    {{ form.permission }}
+  </div>
+</form>

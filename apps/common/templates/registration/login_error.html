@@ -1,0 +1,28 @@
+{% extends "blank_form.html" %}
+
+{% load i18n common_tags static %}
+
+{% block extra_css %}
+  <link href="{% static 'js/libs/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css.generated/registration.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+  <div class="form-holder">
+    <header>
+      <h2>{% trans "There was an error while performing social login" %}</h2>
+    </header>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="login-error {% if message.tags %}{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    <div class="text-center">
+      <a href="{{ request.session.login_back|default:'/' }}" class="btn btn-primary">{% trans 'Back' %}</a>
+    </div>
+  </div>
+  {% include 'google_analytic.html' %}
+{% endblock %}

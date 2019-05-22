@@ -1,0 +1,72 @@
+{% extends "inner.html" %}
+{% load i18n static user_tags common_tags permissions_tags compress %}
+
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.min.js' %}"></script>
+{% endblock %}
+
+
+{% block extra_css %}
+  {{ super }}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css.generated/calendar-connection.css' %}"/>
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+	<div class="content calendar">
+    <h2 class="border-bot">CALENDAR CONNECTION</h2>
+		<div id="connect_list">
+			<div class="row border-bot">
+				<div class="col-sm-2 col-xs-2 icon-calendar"><i class="fa fa-google fa-3x" aria-hidden="true"></i></div>
+				<div class="col-sm-8 col-xs-7">
+					<p class="black-title title2">Google Calendar</p>
+					<p class="description">Allows Board director to check Google Calendar for conflicts and add events to it.</p>
+				</div>
+				<div class="col-sm-2 col-xs-3 text-right">
+          {% if is_google_connected %}
+            <a class="btn btn-primary width_100 connect_type" href="{% url 'calendar-disconnect' 'google' %}">Disconnect</a>
+            <a class="btn btn-primary width_100 connect_type" href="{% url 'calendar-setting' 'google' %}">Settings...</a>
+          {% else %}
+            <a class="btn btn-primary width_100 connect_type" href="{{ google_url }}">Connect</a>
+          {% endif %}
+        </div>
+			</div>
+			<div class="row border-bot">
+				<div class="col-sm-2 col-xs-2 icon-calendar"><i class="fa fa-windows fa-3x" aria-hidden="true"></i></div>
+				<div class="col-sm-8 col-xs-7">
+					<p class="black-title title2">Office 365 Calendar</p>
+					<p class="description">Allows Board director to check Office 365 Calendar for conflicts and add events to it.</p>
+				</div>
+				<div class="col-sm-2 col-xs-3 text-right">
+          {% if is_office_connected %}
+            <a class="btn btn-primary width_100 connect_type" href="{% url 'calendar-disconnect' 'office' %}">Disconnect</a>
+            <a class="btn btn-primary width_100 connect_type" href="{% url 'calendar-setting' 'office' %}">Settings...</a>
+          {% else %}
+            <a class="btn btn-primary width_100 connect_type" href="{{ office_url }}">Connect</a>
+          {% endif %}
+        </div>
+			</div>
+{#			<div class="row border-bot">#}
+{#				<div class="col-sm-2 col-xs-2 icon-calendar"><i class="fa fa-calendar fa-3x" aria-hidden="true"></i></div>#}
+{#				<div class="col-sm-8 col-xs-7">#}
+{#					<p class="title">iClound Calendar</p>#}
+{#					<p class="description">Allows Board director to check iClound Calendar for conflicts and add events to it.</p>#}
+{#				</div>#}
+{#				<div class="col-sm-2 col-xs-3 text-right">#}
+{#          {% if is_ical_connected %}#}
+{#            <a class="btn btn-primary width_100 connect_type" href="{% url 'calendar-disconnect' 'ical' %}">Disconnect</a>#}
+{#            <a class="btn btn-primary width_100 connect_type" href="{% url 'calendar-setting' 'ical' %}">Settings...</a>#}
+{#          {% else %}#}
+{#            <a class="btn btn-primary width_100 connect_type" href="{{ ical_url }}">Connect</a>#}
+{#          {% endif %}#}
+{#        </div>#}
+{#			</div>#}
+		</div>
+	</div>
+{% endblock workspace %}

@@ -1,0 +1,58 @@
+@import './config.scss';
+@import "base/fonts";
+@import "base/reset";
+@import "base/header";
+@import "base/footer";
+@import "base/aside";
+@import "base/tidio";
+@import "base/content";
+@import "base/common";
+@import "base/components";
+@import "base/selectize-like-button";
+@import "base/pdf-wrapper";
+@import "base/jquery-ui";
+@import "base/file-types";
+@import "base/icons";
+@import "base/dropzone";
+@import "base/update-notifications";
+@import "base/inner-menu";
+@import "base/bar";
+@import "../css/all.css";
+@import "../css/custom.css";
+
+// Some minor changes due to other boxing model:
+#header .current-membership-photo {
+  height: 46px;
+  width: 46px;
+}
+
+#footer {
+  margin-top: -56px;
+}
+
+.settings:hover .opener {
+  margin-right: -1px;
+}
+
+.settings:hover .drop {
+  right: -1px;
+}
+
+.drop {
+  right: -2px;
+}
+
+@media screen and (max-width: $screen-legacy) {
+  #meeting-name {
+    width: 578px;
+  }
+  #location {
+    width: 446px;
+  }
+}
+
+.inactive-photo {
+  //-webkit-filter: grayscale(100%); /*Safari 6.0 - 9.0 */
+  //filter: grayscale(100%);
+  filter: opacity(30%);
+}

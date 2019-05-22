@@ -1,0 +1,23 @@
+{% extends "inner.html" %}
+{% load i18n compress user_tags common_tags permissions_tags static %}
+
+{% block extra_css %}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css.generated/members.css' %}">
+  {% endcompress %}
+{% endblock %}
+
+
+{% block workspace %}
+<header class="heading">
+    <h2>{% trans "Delete Profile" %}</h2>
+</header>
+
+<div class="fields btns clearfix">
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete profile "{{ object }}" and all related items?</p>
+        <p><input type="submit" value="{% trans "Confirm" %}" class='btn'/></p>
+        <p><a href="javascript:window.history.back();" class='reset'/>Go back</a></p>
+    </form>
+</div>
+{% endblock %}

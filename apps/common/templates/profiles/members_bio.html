@@ -1,0 +1,194 @@
+{% extends "inner.html" %}
+{% load i18n static user_tags common_tags permissions_tags compress %}
+
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  {% comment %} <script src="{% static 'js/object_delete.js' %}"></script> {% endcomment %}
+  <script src="{% static 'js/object_delete_jqui.js' %}"></script>
+  <script src="{% static 'js/invite-user.js' %}"></script>
+  <script src="{% static 'js/member_detail.js' %}"></script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css.generated/members.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+
+<div class="right-side">
+
+  {% has_permission 'profiles.membership' 'edit' membership_object as permission_edit %}
+  {% has_permission 'profiles.membership' 'delete' membership_object as permission_delete %}
+  {% has_permission 'profiles.membership' 'add' membership_object as permission_add %}
+  {% if permission_edit or permission_delete %}
+  <div class="panel panel-default">
+
+      <div class="panel-header">Profile actions</div>
+
+      <div class="panel-body">
+      {# Edit #}
+      {% if permission_edit %}
+      <a class="btn btn-md btn-primary mt-10" href="{% url 'profiles:edit' pk=membership_object.pk %}">
+        <i class="fa fa-edit icon"></i>
+        {% trans "Edit Profile" %}
+      </a><br>
+      {% endif %}
+
+      {# Delete & Invite #}
+      {% if request.user != membership_object.user %}
+        {% if permission_delete %}
+          {% if not membership_object.is_admin or current_membership.is_admin %}
+            <a 
+            class="btn btn-md btn-danger mt-10 delete delete-button" 
+            data-url="{% url 'profiles:delete' pk=membership_object.id %}"
+            data-form-action-url="{% url 'profiles:delete' pk=membership_object.id %}"
+            data-user-name="{{ membership.get_full_name }}"
+            class="btn edit-btn invite-popup-button"
+            href="#"
+            id="btn-delete-{{ membership_object.user.pk }}"
+            >
+              <i class="fa fa-minus-circle icon"></i>
+              {% if membership_object.role == membership_object.ROLES.assistant %}
+              {% trans "Delete Assistant" %}
+              {% elif membership_object.is_guest %}
+              {% trans "Delete Guest" %}
+              {% else %}
+              {% trans "Delete Member" %}
+              {% endif %}
+            </a><br>
+          {% endif %}
+        {% endif %}
+  
+        {% if permission_add and membership_object.is_active and not membership_object.is_invited %}
+        <a class="btn btn-md btn-default mt-10 btn" href="#" id="invite-popup-button">
+            <i class="fa fa-plus-square icon"></i>
+          {% trans "Invite" %}
+        </a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="panel panel-default contact-info">
+      <div class="panel-header">Contact Information</div>
+       <div class="panel-body">
+         <dl>
+          
+          {% with membership_object.get_phones as phones %}
+          {% if phones %}
+          <dt>
+            <i class='fa fa-phone'></i>
+            {% if phones|length > 1 %}{% trans 'Phone Numbers' %}:
+            {% else %}{% trans 'Phone Number' %}:{% endif %}
+          </dt>
+          {% for phone in phones %}<dd>{{ phone }}</dd>{% endfor %}
+          {% endif %}
+          {% endwith %}
+
+          {% if membership_object.account.view_email or permission_edit %}
+          <dt><i class='fa fa-envelope'></i> E-mail:</dt>
+          <dd><a class="email" href="mailto:{{ membership_object.user.email }}">
+            {{ membership_object.user.email }}</a></dd>
+          {% endif %}
+
+          {% if membership_object.assistant %}
+          <dt><i class='fa fa-user'></i>  {% trans 'Assistant' %}:</dt>
+          <dd>
+            <a href="{% url 'profiles:assistant_detail' member_pk=membership_object.pk pk=membership_object.assistant.pk %}">
+              {{ membership_object.assistant.get_full_name }}
+            </a>
+          </dd>
+         {% endif %}
+        </dl>
+      </div>
+    </div>
+  
+    {% with membership_object.user.social_auth.all as soapps %}
+    {% if soapps %}
+    <div class="panel panel-default social">
+      <div class="panel-header">Connect with {{ membership_object.first_name }}</div>
+      <div class="panel-body">
+        {% for sap in soapps %}
+        {% get_social_profile_name sap as sap_name %}
+        {% get_social_profile_url sap as sap_url %}
+        {% get_social_profile_icon sap as sap_icon %}
+        {% if sap_name %}
+        <p>
+          {% if sap_url %}
+          <i class='fa fa-{{ sap_icon }} icon'></i>
+          <a href='{{ sap_url }}'>{{ sap_name }}</a>
+          {% else %}
+          <i class='fa fa-{{ sap_icon }} icon'></i> {{ sap_name }}
+          {% endif %}
+        </p>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    
+</div>  
+
+<div class="bio">
+
+  {% if current_membership|has_role_permission:'profiles.membership:view' %}
+  <ul class="breadcrumbs breadcrumbs-separator">
+    {% if membership_object.is_guest %}
+      <li><a href="{% acc_url 'board_guests' %}">{% trans "Guests" %}</a></li>
+    {%else %}
+      <li><a href="{% acc_url 'board_members' %}">{% trans "Members" %}</a></li>
+    {% endif %}
+    <li>{{ membership_object }}</li>
+  </ul>
+  {% endif %}
+
+  {% include "profiles/includes/members_detail.html" %}
+
+</div>
+
+<!-- popup dialogs -->
+<div class="delete-popup">
+  <div id="delete-confirm" title="Delete profile">
+    <div class="subtitle">
+      {% trans "Are you sure you want to delete profile and all related items?" %}
+    </div>
+    <form id='delete-form' action="#">{% csrf_token %}</form>
+  </div>
+</div>
+  
+<div class="invite-popup">
+    <div
+        id="invite-dialog"
+        title="{% trans "Send welcome email" %}"
+        data-send-button-text="{% trans "Send invite" %}"
+        data-cancel-button-text="{% trans "Cancel" %}"
+        data-url="{% url 'profiles:invite' user_pk=membership_object.user.pk %}">
+      <div class="subtitle">
+        {% trans "This will send an invitation email to your new user containg their username, password and the URL to login." %}
+      </div>
+      <div class="invite-form">
+        <form action="{% url 'profiles:invite' user_pk=membership_object.user.pk %}" id="invite-form">
+          <input type="text" name="user" id="invite-user" value="{{ membership_object.get_full_name }}" readonly/>
+          <textarea name="personal-message" id="invite-pm" cols="30" rows="10" placeholder="{% trans "Type personal message..." %}"></textarea>
+          <label for="invite-pm" class="invite-pm">(optional)</label>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock workspace %}

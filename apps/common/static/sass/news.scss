@@ -1,0 +1,26 @@
+@import 'config';
+
+@import 'meetings/details-roster';
+@import 'meetings/details-form';
+@import 'meetings/meeting-details';
+@import 'meetings/next-previous';
+@import 'meetings/meeting-file-types';
+
+@import 'common/right-side';
+@import 'common/document-items';
+@import 'common/property-list';
+@import "common/social-icons";
+
+.content-box .news-photo {
+    float: left;
+    margin: 0 20px 20px 0;
+    border: 1px solid rgba(240, 240, 240, 0.5);
+}
+
+.content-box .news-text {
+    max-width: 80em;
+}
+
+.content-box .news-text p {
+    max-width: 70em;
+}

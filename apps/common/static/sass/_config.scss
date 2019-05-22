@@ -1,0 +1,48 @@
+// Fonts:
+$headings-font-family: 'Lato', sans-serif;
+$font-family-base: arial, helvetica, sans-serif;
+$font-size-base: 14px;
+$font-size-larger: ceil(($font-size-base * 1.1)) !default;
+//$line-height-base: 1.0;
+
+// Colors:
+$brand-primary: #0089c5;
+$brand-success: #3b8e00;
+$brand-danger: #d5351f;
+$brand-warning: #d6c317;
+$brand-info: #d44199;
+$brand-active: #29c1f8;
+$modal-backdrop-bg: rgba(8, 38, 51, 0.9);
+
+$state-info-text: $brand-info; // Might cause problems?
+
+$color-aside-bg: #363636;
+$color-dark-bg: #3f3f3e;
+$color-success-light: #52B66D;
+$color-selection-light: #E2F6FF;
+$color-selection: #79BEDF;
+$color-dark-gray: #4a4a4a;
+$color-very-dark-gray: #2d2d2d;
+$color-gray: #949494;
+$color-brand-light-bg: lighten($brand-warning, 40%);
+
+// Paddings:
+$compact-width: 600px;
+$screen-legacy: 850px; // Some old break point
+
+$content-padding-top: 30px;
+$content-padding-bottom: 30px;
+$content-padding-left: 40px;
+$content-padding-right: 25px;
+
+$border-radius-large: 3px;
+
+@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables";
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}

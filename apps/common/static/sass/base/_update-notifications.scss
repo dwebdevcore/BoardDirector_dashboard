@@ -1,0 +1,53 @@
+@import '../config';
+
+.update-notifications {
+  margin: -30px -25px 30px -40px;
+  background: $color-brand-light-bg;
+
+  .update-notification {
+    padding: 15px 25px 15px 40px;
+    border-bottom: 1px solid lighten($brand-warning, 25%);
+    @include clearfix;
+
+    p {
+      margin-top: 0;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .update-notification-details {
+    float: right;
+    color: $brand-primary;
+    border: 1px solid $brand-primary;
+    border-radius: $border-radius-base;
+    padding: 7px 10px;
+    display: inline-block;
+    margin-top: -5px;
+
+    &:hover {
+      background: $brand-primary;
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  .update-notifications-mark-read-block {
+    padding: 15px 25px 15px 40px;
+  }
+
+  .update-notifications-mark-read {
+    color: $brand-primary;
+    border: 1px solid $brand-primary;
+    border-radius: $border-radius-base;
+    padding: 7px 10px;
+
+    &:hover {
+      background: $brand-primary;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}

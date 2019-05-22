@@ -1,0 +1,45 @@
+{% extends "inner.html" %}
+{% load i18n common_tags permissions_tags static %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css.generated/committees.css' %}"/>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/committees.js' %}"></script>
+{% endblock extra_js %}
+
+{% block workspace %}
+  <header class="heading">
+    <div class="holder">
+      <h2>
+        {% trans 'Committees' %}
+        {% if current_membership|has_role_permission:'committees.committee:add' %}
+          <div class="pull-right">
+            <a class="btn btn-md btn-primary" href="{% acc_url 'committees:create' %}">
+              <i class="fa fa-plus-circle icon"></i>
+              {% trans 'Add Committee' %}
+            </a>
+          </div>
+        {% endif %}
+      </h2>
+    </div>
+  </header>
+  <div class="bar">
+    <form action="#" class="browse-by">
+      <label for="browse-by">{% trans 'Show' %}:</label>
+      {{ form.committee }}
+    </form>
+    {% if current_membership|has_role_permission:'committees.committee:add' %}
+      <a href="{{ members_email }}" class="email-l" id="mail-to">{% trans 'Email this group...' %}</a>
+    {% endif %}
+  </div>
+  <div id="committees">
+    {% include 'committees/includes/committees.html' %}
+  </div>
+{% endblock workspace %}

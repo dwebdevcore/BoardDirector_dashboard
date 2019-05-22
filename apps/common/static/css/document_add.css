@@ -1,0 +1,25 @@
+/* Add document page */
+form .btn {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 4px;
+    color: #fff;
+    border: 1px solid #008ac6;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    min-height: 40px;
+}
+form .btn {
+    background-color: #4c97d9;
+    background-image: none;
+    padding: 0px 17px 0px 17px;
+    font: normal 14px/38px arial, helvetica, sans-serif;
+}
+form .btn.back {
+    margin-left: 10px;
+    background-color: #fff;
+    color: #333;
+    border-color: #c9c9c9;
+}

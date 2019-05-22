@@ -1,0 +1,56 @@
+{% extends 'inner.html' %}
+{% load i18n permissions_tags static thumbnail %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script type="text/javascript">
+    var BOARD_SET_URL = "{% url 'accounts:boards' %}";
+    var BOARD_REACTIVATE_URL = "{% url 'accounts:reactivate' %}";
+  </script>
+  <script type="text/javascript" src="{% static 'js/board.js' %}"></script>
+{% endblock %}
+
+{% block workspace %}
+<div class="form-holder">
+  <header>
+    <h2>{% trans 'My Boards' %}</h2>
+  </header>
+  <div class="account-list">
+    <ul>
+      {% for membership in memberships %}
+        <li {% if not membership.account.is_active %}class="canceled"{% endif %}>
+          <a {% if not membership.account.logo %}class="account-list-img"{% endif %} href=""
+             data-account="{% if membership.account.is_active %}{{ membership.account.id }}{% endif %}">
+            {% if membership.account.logo %}
+            {% thumbnail membership.account.logo "x45" as logo %}
+              <img src="{{ logo.url }}" width="{{ logo.x }}" height="{{ logo.y }}" 
+              class="logo-img" title="{{ membership.account.name }}">
+            {% endthumbnail %}
+            {% endif %}
+            {{ membership.account.name }}
+
+          </a>
+          <span>
+          {% if not membership.account.is_active %}
+            {% if membership.account.date_cancel %}
+              {% if membership.account.can_be_activated %}- {% trans 'Account is canceled' %}.
+                {% if membership|has_role_permission:'accounts.account:edit' %}
+                  <a href="" data-account="{{ membership.account.id }}" class="reactivate">{% trans 'Click to re-activate' %}</a>.
+                {% endif %}
+              {% else %}
+                {% trans "Account was canceled " %} {{ membership.account.date_cancel|date:"N j, Y" }}.
+              {% endif %}
+            {% else %}
+              - {% trans 'Account has expired' %}.
+              {% if membership|has_role_permission:'accounts.account:edit' %}
+                <a href="{% url 'billing:update_settings' %}?account_id={{ membership.account.id }}" class="reactivate start_subscription">{% trans 'Start subscription?' %}</a>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock workspace %}

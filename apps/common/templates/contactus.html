@@ -1,0 +1,29 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% block content %}
+  <div class="form-holder">
+    <header>
+      {% block contact_us_header %}
+        <h2>{% trans "Contact US" %}</h2>
+        <p>{% trans "Please describe what you need help with and we will be happy to help." %}</p>
+      {% endblock %}
+    </header>
+    <form action="" method="POST" class="form">{% csrf_token %}
+      <ul>{% for field in form %}
+        <li>
+          {{ field.label_tag }}
+          {{ field }}
+        </li>
+          {% if field.errors %}
+          <span class="k-widget k-tooltip k-tooltip-validation k-invalid-msg" data-for="{{ field.auto_id }}" role="alert">
+            <span class="k-icon k-warning"></span>
+            {{ field.errors.0 }}
+          </span>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <input type="submit" value="{% trans "Send Feedback" %}" class="btn">
+    </form>
+  </div>
+  {% include 'google_analytic.html' %}
+{% endblock %}

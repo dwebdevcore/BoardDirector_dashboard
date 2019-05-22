@@ -1,0 +1,24 @@
+{% load i18n static %}
+
+<div class="document-item item {{ doc.extension }}{% if no_file_type %} no-file-type{% endif %}" id="item_{{ doc.id }}">
+  <div class="title">
+    <h3>{{ doc.filename }}</h3>
+    {% if edit_docs %}
+      {% spaceless %}
+        <a class="label edit" data-doc-id="{{ doc.id }}" data-doc-type="{{ doc.type }}" {% if doc.folder.meeting %}data-doc-meeting="{{ doc.folder.meeting.id }}"{% endif %} href="">{% trans 'Edit' %}</a>
+      {% endspaceless %}
+      <a class="delete" data-doc-id="{{ doc.id }}" href="">{% trans 'Delete' %}</a>
+    {% endif %}
+  </div>
+  {% if doc.folder.meeting %}
+    <h4>
+      {{ doc.folder.meeting.get_committee_name }}
+    </h4>
+  {% endif %}
+  <p>
+    <a href="{{ doc.get_download_url }}" data-doc-id="{{ doc.id }}" data-doc-type="{{ doc.type }}" {% if doc.folder.meeting %}data-doc-meeting="{{ doc.folder.meeting.id }}"{% endif %} class="download">{% trans 'Download' %}</a>
+    {% if doc.get_viewer_url %}
+      <a href="{{ doc.get_viewer_url }}" class="download" target="_blank">{% trans 'View' %}</a>
+    {% endif %}
+  </p>
+</div>

@@ -1,0 +1,29 @@
+{% extends "registration/base.html" %}
+
+{% load i18n common_tags %}
+
+{% block content %}
+  <div class="form-holder">
+    <header>
+      <h2>{% trans "Login to your ACCOUNT" %}</h2>
+    </header>
+    <form method="post" action="" class="form">{% csrf_token %}
+      {% include 'registration/includes/login_form.html' %}
+
+      <div class="login-line">
+        <input type="submit" value="{% trans 'Log in' %}" class="btn btn-primary">
+      </div>
+      <div class="add-holder">
+        <div class="check">
+          <input type="checkbox" id="rememberme" checked="checked" name="rememberme">
+          <label for="rememberme" style="float: none;">{% trans "Remember me" %}</label>
+        </div>
+        <a class="password-help" href="{% url 'auth_password_reset' %}">{% trans "Password help?" %}</a>
+      </div>
+      <footer>
+        <p>{% trans "Don't have an account?" %} <a href="{% url 'registration_register' %}">{% trans "Sign up for Board Director" %}</a></p>
+      </footer>
+    </form>
+  </div>
+  {% include 'google_analytic.html' %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "profiles/members_bio.html" %}
+{% load i18n common_tags user_tags permissions_tags %}
+
+{% block workspace %}
+  <header class="heading">
+    {% if membership_object %}
+      {% has_permission 'profiles.membership' 'edit' membership_object as permission_edit %}
+      {% if permission_edit %}
+        <a class="btn" id="member_edit_btn" href="{% url 'profiles:assistant_edit' member_pk=member.pk pk=membership_object.pk %}">{% trans "Edit Profile Assistant" %}</a>
+      {% endif %}
+      {% has_permission 'profiles.membership' 'delete' membership_object as permission_delete %}
+      {% if permission_delete %}
+        <a class="btn delete" href="{% url 'profiles:assistant_delete' member_pk=member.pk pk=membership_object.id %}">{% trans "Delete Assistent" %}</a>
+        {% if request.user != membership_object.user %}
+          <a class="btn" href="{% url 'profiles:invite' user_pk=membership_object.user.pk %}">{% trans "Invite" %}</a>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </header>
+  <div class="bio">
+    <ul class="breadcrumbs">
+      <li><a href="{% acc_url 'board_members' %}">{% trans "Members" %}</a></li>
+      <li><a href="{% url 'profiles:detail' pk=member.pk %}">{{ member.get_full_name|capfirst }}</a></li>
+      <li>{{ membership_object.get_full_name|capfirst }}</li>
+    </ul>
+    {% include "profiles/includes/members_detail.html" %}
+  </div>
+
+{% endblock workspace %}

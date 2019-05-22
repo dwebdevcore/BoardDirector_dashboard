@@ -1,0 +1,295 @@
+@import '../config';
+
+#twocolumns {
+  overflow: hidden;
+  /* padding-bottom:28px; */
+}
+
+#aside {
+  //float: left; // This thing gives unpredictable behavior with clear: left inside page.
+  width: 225px;
+  margin: 0 -1px 0 0;
+  position: absolute; // Better to use absolute positioning here.
+  z-index: 1;
+  background-color: #363636;
+}
+
+#aside ul {
+  background-color: #363636;
+}
+
+#aside li {
+  overflow: hidden;
+  background-color: #363636;
+}
+
+#aside li.active {
+  color: #7e7e7e;
+  background-color: #ffffff;
+}
+
+#brand {
+  float: left;
+  width: 225px;
+  height: 66px;
+  background-color: #363636;
+  //background-color: red;
+}
+
+#brand a {
+  display: block;
+  text-decoration: none;
+  padding: 12px 0 12px 20px;
+}
+
+#brand a:before {
+  content: "";
+  background-image: url(../images/logo.png);
+  display: inline-block;
+  vertical-align: middle;
+  width: 37px;
+  height: 41px;
+  margin-right: 6px;
+}
+
+#brand .name-menu {
+  color: #ffffff;
+  font-size: 15px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#company {
+  float: left;
+  padding: 25px 0 0 40px;
+}
+
+#company a {
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 18px;
+  float: left;
+  margin-top: 0;
+  letter-spacing: 2px;
+}
+
+.not-available {
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* msie */
+  background-color: #000;
+}
+
+#aside .name-menu {
+  display: inline-block;
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#aside li a {
+  display: block;
+  color: #cacaca;
+  padding: 15px 0 15px 20px;
+  position: relative;
+  text-decoration: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-bottom: 1px solid #474747;
+}
+
+#aside li:first-child {
+  border-top: 1px solid #474747;
+}
+
+#aside li:first-child:hover,
+#aside li:first-child.active,
+#aside li:first-child.active:hover {
+  border-top: 1px solid white;
+}
+
+#aside li a:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  background-image: url("../images/svg/sprite.svg");
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+#aside .active a,
+#aside .active a:hover {
+  background-color: #fff;
+  text-decoration: none;
+  color: #4b4b4b;
+  cursor: auto;
+  border-bottom: 1px solid #ffffff;
+}
+
+#aside li a:hover {
+  background-color: #f1f1f1;
+  text-decoration: none;
+  color: #4b4b4b;
+  border-bottom: 1px solid #ffffff;
+}
+
+#aside li a.dash-menu:before {
+  background-position: 0 -160px;
+}
+
+#aside .active a.dash-menu:before,
+#aside li a.dash-menu:hover:before {
+  background-position: 0 -200px;
+}
+
+#aside li a.meet-menu:before {
+  background-position: 0 -320px;
+}
+
+#aside .active a.meet-menu:before,
+#aside li a.meet-menu:hover:before {
+  background-position: 0 -360px;
+}
+
+#aside li a.event-menu:before {
+  background-position: 0 -480px;
+}
+
+#aside .active a.event-menu:before,
+#aside li a.event-menu:hover:before {
+  background-position: 0 -520px;
+}
+
+#aside li a.governance-menu:before {
+  background-position: 0 -240px;
+}
+
+#aside .active a.governance-menu:before,
+#aside li a.governance-menu:hover:before {
+  background-position: 0 -280px;
+}
+
+#aside li a.committees-menu:before {
+  background-position: 0 -120px;
+}
+
+#aside .active a.committees-menu:before,
+#aside li a.committees-menu:hover:before {
+  background-position: 0 -80px;
+}
+
+#aside li a.members-menu:before {
+  background-position: 0 -400px;
+}
+
+#aside .active a.members-menu:before,
+#aside li a.members-menu:hover:before {
+  background-position: 0 -440px;
+}
+
+#aside li a.guest-menu:before {
+  background-image: url(../images/svg/group-sprite.png);
+  background-position: 0 -120px;
+}
+
+#aside .active a.guest-menu:before,
+#aside li a.guest-menu:hover:before {
+  background-image: url(../images/svg/group-sprite.png);
+  background-position: 0 -80px;
+}
+
+#aside li a.calendar-menu:before {
+  background-position: 0 0;
+}
+
+#aside .active a.calendar-menu:before,
+#aside li a.calendar-menu:hover:before {
+  background-position: 0 -40px;
+}
+
+.aside {
+  float: right;
+  width: 20%;
+  margin: 0;
+  border-top: 1px solid #ebebeb;
+  padding: 25px 0 0;
+  text-align: center;
+}
+
+.aside h4 {
+  text-transform: uppercase;
+  margin: 0 0 18px;
+  color: #333;
+  font: 13px ProximaNova-Semibold, arial, helvetica, sans-serif;
+}
+
+.aside .box {
+  font-size: 13px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ebebeb;
+  margin: 0 0 20px;
+}
+
+.aside .box li {
+  padding: 0 0 8px;
+}
+
+.aside .box li a {
+  color: #008ac6;
+  display: inline-block;
+  line-height: 22px;
+}
+
+.aside .box .doc,
+.aside .box .pdf {
+  line-height: 32px;
+  padding: 0 0 0 42px;
+  background: url(../images/sprites.png) no-repeat 0 -472px;
+}
+
+.aside .box .doc {
+  background-position: 0 -528px;
+}
+
+#aside li.menu-item-fa {
+  a:before {
+    display: none;
+  }
+
+  .fa {
+    font-size: 28px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 9px;
+    margin-right: 19px;
+  }
+}
+
+@media screen and (max-width: $screen-legacy) {
+  #brand .name-menu {
+    display: none;
+  }
+
+  #brand {
+    width: 80px;
+  }
+
+  #aside {
+    width: 80px;
+  }
+  #aside .name-menu {
+    display: none;
+  }
+}
+
+.menu-voting-count {
+  display: inline-block;
+  color: white;
+  background-color: $brand-danger;
+  border-radius: 3px;
+  padding: 3px 5px;
+  margin-left: 5px;
+}

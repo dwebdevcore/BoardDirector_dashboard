@@ -1,0 +1,309 @@
+/* Part of folders css, which is safe to include in other pages, bootstrap-style also*/
+.pdf i {
+  color: #B60016; }
+
+.xlsx i {
+  color: #1F7244; }
+
+.docx i {
+  color: #2C5899; }
+
+#sort {
+  margin-right: 0px;
+  margin-left: 10px;
+  background-color: #fff;
+  color: #333333;
+  border-color: #c9c9c9; }
+
+.list-folder-new {
+  color: #ffdc6b;
+  background: none;
+  font-size: 45px;
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 8px; }
+
+ul.folder-items li ul.inner li {
+  float: left; }
+
+ul.folder-items li ul.inner li:nth-child(1) {
+  margin-left: 20px;
+  padding-bottom: 0px;
+  padding-top: 4px;
+  padding-right: 10px; }
+
+ul.folder-items li ul.inner li:nth-child(2) {
+  width: 30%; }
+
+ul.folder-items li ul.inner li:nth-child(3) {
+  width: 40%; }
+
+ul.folder-items li ul.inner li:nth-child(4) {
+  float: right;
+  margin-right: 2px; }
+
+ul.folder-items li {
+  padding: 0px;
+  padding-top: 7px;
+  padding-bottom: 4px; }
+
+ul.folder-items.ui-sortable li.ui-sortable-helper {
+  border-color: #cf7777;
+  background-color: rgba(255, 255, 220, 0.85);
+  box-shadow: 4px 4px 10px #7e7e7e; }
+
+ul.folder-items.ui-sortable .ui-droppable-active {
+  filter: hue-rotate(-5deg);
+  background-color: rgba(255, 255, 220, 0.85); }
+
+ul.folder-items.ui-sortable .ui-droppable-hover {
+  filter: saturate(175%);
+  z-index: 9999; }
+
+ul.folder-items > li:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+ul.folder-items li ul.inner li {
+  background-color: transparent;
+  border-bottom: 0px;
+  padding: 15px 20px 18px 0; }
+
+ul.folder-items li ul.inner li.innerlinks a:hover {
+  text-decoration: none;
+  color: #333333; }
+
+ul.folder-items li ul.inner li.innerlinks a {
+  font-size: 15px;
+  color: #787878;
+  padding-left: 20px; }
+
+ul.folder-items li ul.inner li.innerlinks .dummy-link {
+  font-size: 15px;
+  color: #787878;
+  padding-left: 20px; }
+
+div.sublinkslist {
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  right: 10px;
+  padding: 5px;
+  border: 1px solid #c9c9c9;
+  z-index: 999; }
+
+div.sublinkslist a {
+  clear: both;
+  padding-left: 3px !important;
+  clear: both;
+  display: block;
+  margin-bottom: 10px; }
+
+li.revisions {
+  width: 100%;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important; }
+
+li.revisions ul {
+  padding: 0px;
+  padding-left: 20px; }
+
+li.revisions ul li {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important; }
+
+li.revisions ul,
+li.revisions ul li {
+  width: 100% !important; }
+
+div.sortingLinks {
+  display: none;
+  position: absolute;
+  width: 100px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #c9c9c9;
+  float: right;
+  top: 130px; }
+
+div.sortingLinks a {
+  color: #787878;
+  display: block;
+  font-weight: bold;
+  padding: 12px 12px 11px 12px;
+  border-color: #c9c9c9;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px; }
+
+div.sortingLinks a:last-child {
+  border-width: 0px; }
+
+div.sortingLinks a:hover {
+  color: #333;
+  text-decoration: none; }
+
+div.sortingLinks a.active {
+  color: #0089ca;
+  font-weight: bold; }
+
+div.sortingLinks .title {
+  color: #000;
+  display: block;
+  font-weight: bold;
+  padding: 12px 12px 11px 12px;
+  border-color: #c9c9c9;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px; }
+
+div.folder-messages {
+  padding: 0px 0px 5px 20px;
+  margin-top: 40px; }
+
+/* New Folder templates */
+.add-folder-popup {
+  visibility: hidden; }
+
+.edit-folder-popup {
+  visibility: hidden; }
+
+.share-folder-popup {
+  visibility: hidden; }
+
+.update-archive-popup {
+  visibility: hidden; }
+
+.move-folder-popup {
+  visibility: hidden;
+  display: none; }
+
+.confirm-move-file-popup {
+  visibility: hidden;
+  display: none; }
+
+.folder-share-header {
+  padding: 10px 65px; }
+
+.folder-share-header strong {
+  vertical-align: 13px;
+  display: inline-block;
+  margin-left: 5px; }
+
+.folder-share-form {
+  background: #f3f3f3;
+  border-top: 1px solid #d5d5d5;
+  padding: 0 65px 10px; }
+
+.folder-form .form-group,
+.filename-form .form-group {
+  margin: 20px; }
+
+.folder-form .form-group label,
+.filename-form .form-group label {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #505050;
+  font-size: 12px; }
+
+.folder-form .form-group select {
+  display: block;
+  width: 100%;
+  /*height: 60px;*/
+  font-size: 14px;
+  padding: 0 10px;
+  border: 1px solid #d5d5d5; }
+
+.folder-form .form-group input,
+.filename-form .form-group input {
+  display: block;
+  width: 100%;
+  /*height: 34px;*/
+  padding: 6px 6px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #505050;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.folder-share-permissions {
+  padding: 20px 65px; }
+
+.folder-share-permissions::after {
+  clear: both;
+  content: ""; }
+
+.folder-share-permissions .permissions-list {
+  float: left;
+  width: 48%;
+  margin-left: 10px; }
+
+.folder-share-permissions ul {
+  list-style: none;
+  padding: 0; }
+
+.folder-icon {
+  color: #ffdc6b; }
+
+.move-folder-form {
+  padding: 10px 20px; }
+
+.lookup-folder-children-target {
+  height: 250px;
+  overflow-y: auto; }
+
+.move-folder-title {
+  font-weight: bold;
+  color: #505050;
+  margin-bottom: 12px; }
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: left;
+  padding: 0; }
+
+.ui-dialog .ui-dialog-buttonpane button {
+  margin: 30px 0; }
+
+.ui-dialog .ui-dialog-buttonpane button[disabled] {
+  background: #ddd;
+  border: 1px solid #ddd; }
+
+.ui-dialog .ui-dialog-buttonpane button.cancel-button {
+  top: 44px; }
+
+input::-webkit-input-placeholder, input::-moz-placeholder, input:-moz-placeholder, input:-ms-input-placeholder {
+  color: darkgray; }
+
+.folder-search-form {
+  float: right; }
+
+.folder-search-box {
+  border: 1px solid #c9c9c9;
+  padding: 12px;
+  font-size: 14px;
+  width: 100px; }
+
+.folders-search-result-path {
+  margin-top: 5px; }
+
+.folders-search-result-path a {
+  color: #0089ca; }
+
+ul.folder-items.has-search li ul.inner li.folder-items-name {
+  padding: 10px 20px 10px 0; }
+
+#share-folder-dialog {
+  overflow-y: visible; }
+
+.update-notifications {
+  margin: 0; }
+
+/*# sourceMappingURL=maps/folders-include.css.map */

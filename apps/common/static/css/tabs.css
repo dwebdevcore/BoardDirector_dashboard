@@ -1,0 +1,93 @@
+#archives .tabs {
+    width:100%;
+    display:inline-block;
+}
+
+#archives .tabs ul{
+    border-bottom: 1px solid #ebebeb;
+}
+
+#archives .tab-links:after {
+    display:block;
+    clear:both;
+    content:'';
+}
+
+#archives .tab-links li {
+    float:left;
+    list-style:none;
+    border-radius: 3px;
+    margin-right: 10px;
+    border-right: 1px solid #ebebeb;
+    margin-bottom: -1px;
+    box-shadow: -1px -1px 1px rgba(0,0,0,0.15);
+    font:normal 14px ProximaNova-Normal, arial, helvetica, sans-serif;
+
+}
+#archives .tab-links li.active{
+    border-bottom: 1px solid #ffffff;
+}
+#archives .tab-links li.active:hover, #archives .tab-links li:hover{
+    background-color: #ffffff;
+}
+
+#archives .tab-links li.active a {
+    color: #0089c5;
+}
+
+#archives .tab-links li a, #archives .tab-content li strong{
+    margin: 0 15px;
+    padding: 15px 7px;
+    display: inline-block;
+    border-radius: 3px 3px 0 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #4c4c4c;
+    transition: all linear 0.15s;
+    text-transform: uppercase;
+}
+
+#archives .tab-content li strong{
+    color: #0089c5;
+    font-weight: 400;
+}
+
+#archives .tab-links a:hover {
+    text-decoration:none;
+}
+
+.tab-links li.active a, .tab-links li.active a:hover {
+    background:#fff;
+    color:#4c4c4c;
+}
+#archives .tab-content {
+    padding:15px;
+    border-radius:3px;
+    background:#fff;
+}
+#archives .tab {
+    display:none;
+}
+#archives .tab.active {
+    display:block;
+}
+
+#archives .group-col-2{
+    width: 20%;
+    float: left;
+}
+
+#archives .group-col-3{
+    width: 30%;
+    float: left;
+    min-width: 400px;
+}
+#archives .group-col-8{
+    width: 80%;
+    float: left;
+}
+
+#archives .meeting-text {
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}

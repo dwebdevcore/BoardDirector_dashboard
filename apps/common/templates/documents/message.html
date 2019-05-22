@@ -1,0 +1,8 @@
+{% load common_tags i18n %}
+
+<form action="{% url 'documents:send' document_id=document_id %}" method="POST" class="createmeeting-form message">{% csrf_token %}
+  <ul>
+    {% include 'form.html' %}
+  </ul>
+  <input type="submit" class="submit create-committee" value="{% trans 'Send message' %}">
+</form>

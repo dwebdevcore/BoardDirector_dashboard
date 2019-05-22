@@ -1,0 +1,56 @@
+{% extends "inner.html" %}
+{% load i18n static %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.min.js' %}"></script>
+{% endblock %}
+
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/edit-documents.js' %}"></script>
+  <script src="{% static 'js/meeting_create.js' %}"></script>
+  <script src="{% static 'js/documents.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+  <script type="text/javascript">
+    var DOC_DELETE_URL = "{% url 'documents:delete' %}"
+  </script>
+{% endblock extra_js %}
+
+
+{% block extra_css %}
+  {{ super }}
+  <link rel="stylesheet" href="{% static 'css.generated/meetings.css' %}"/>
+  <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}">
+  <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.default.css' %}">
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+  {% include 'meetings/includes/meeting_right_bar.html' %}
+  <header class="heading">
+    {% if is_event %}
+      <h2>{% trans 'Create an Event' %}</h2>
+    {% else %}
+      <h2>{% trans 'Create a Meeting' %}</h2>
+    {% endif %}
+  </header>
+  <ul class="error">
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+  <form method="post" enctype="multipart/form-data" class="common-form">{% csrf_token %}
+    {# Need it here because due to markup actual action is out of form element, so it's value will be placed in hidden to go with form #}
+    <input type="hidden" name="{{ form.action.name }}" value="{{ form.action.value }}" id="action-hidden-field">
+    <ul class="meeting-form-body">
+      {% include 'meetings/includes/edit_form.html' %}
+      {% include 'meetings/includes/documents.html' %}
+    </ul>
+  </form>
+{% endblock workspace %}

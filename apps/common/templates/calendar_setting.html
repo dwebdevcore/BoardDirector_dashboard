@@ -1,0 +1,146 @@
+{% extends "inner.html" %}
+{% load i18n static user_tags common_tags permissions_tags compress %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.min.js' %}"></script>
+{% endblock %}
+
+
+{% block extra_js %}
+  <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/object_delete.js' %}"></script>
+  <script src="{% static 'js/expand_collapse_div.js' %}"></script>
+  <script src="{% static 'js/selectize/js/standalone/selectize.min.js' %}"></script>
+
+  <script src="{% static 'js/calendar_settings.js' %}"></script>
+
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {{ super }}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css.generated/calendar-connection.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css.generated/rsvp.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/expand-collapse-div.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.bootstrap3.css' %}"/>
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+<div class="alert alert-dismissable alert-cal-setting" style="display: none">
+    <a href="#" class="close" onclick="$('.alert-cal-setting').hide()">&times;</a>
+    <div class="cal-message"></div>
+</div>
+
+<div class="content calendar">
+  <h2 class="border-bot">Calendar connection</h2>
+  {% if error_message %}
+  <h3 class='bg-warning'>{{ error_message }}</h3>
+  <p>Please, check your account settings 
+    and try to <code>disconnect</code> and then <code>connect</code> calendar again.</p>
+  {% else %}
+  <div id="connect_detail">
+    <div class="row border-bot">
+      <div class="col-sm-2 col-xs-2 icon-calendar calendar_icon_change">
+        {% if cal_conn.provider == 'google' %}
+        <i class="fa fa-google fa-3x" aria-hidden="true"></i>
+        {% elif cal_conn.provider == 'office' %}
+        <i class="fa fa-windows fa-3x" aria-hidden="true"></i>
+        {% endif %}
+      </div>
+      <div class="col-sm-6 col-xs-6">
+        <h3 class="title email_login_social">{{ cal_conn.email }}</h3>
+        <div class="description">Currently connected account</div>
+      </div>
+      <div class="col-sm-4 col-xs-4 text-right">
+        <a class="btn btn-connect btn-primary change_connect" href="{% url 'calendar-connection' %}">Change Calendar</a>
+        <a id="disconnect_calendar" class="btn btn-connect btn-primary" href="{% url 'calendar-disconnect' cal_conn.provider %}">Disconnect</a>
+      </div>
+    </div>
+
+  <form method="post" id="cal-setting-form" action="{% url 'calendar-setting' cal_conn.provider %}">{% csrf_token %}
+    <div class="row calendar_info">
+      <div class="col-sm-6 col-xs-12 border-right">
+        <h3 class="title_info">
+          Check calendar for conflicts
+          <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" title="Check calendar for conflicts"></i>
+          <div class="pull-right">
+            <div class="slide-toggle">
+              <input type="checkbox" id="check_conflicts_calendar" name="checked_conflict"
+                {% if cal_conn.checked_conflict %} checked {% endif %} />
+              <label for="check_conflicts_calendar"></label>
+            </div>
+          </div>
+        </h3>
+        <div class="list_calendar">
+          {% for v in calendars %}
+          <div class="checkbox" id="list_calendar_select">
+            <label><input type="checkbox"
+                          name="calendar_list"
+                          {% if cal_conn.provider == 'google' %}
+                            value="{{ v.id }}"
+                            {% if v.id in checked_cal_list %}
+                              checked
+                            {% endif %}
+                          {% elif cal_conn.provider == 'office' %}
+                            value="{{ v.Id }}"
+                            {% if v.Id in checked_cal_list %}
+                              checked
+                            {% endif %}
+                          {% endif %}"
+                    >
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+              {% if cal_conn.provider == 'google' %}
+              {{ v.summary }}
+              {% elif cal_conn.provider == 'office' %}
+              {{ v.Name }}
+              {% endif %}
+            </label></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-sm-6 col-xs-12">
+        <h3 class="title_info">
+          Add new events to calendar
+          <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" title="Add new events to calendar"></i>
+          <div class="pull-right">
+            <div class="slide-toggle">
+                  <input type="checkbox" id="add_new_calendar" name="checked_add"
+                         {% if cal_conn.checked_add %} checked {% endif %} />
+                  <label for="add_new_calendar"></label>
+              </div>
+          </div>
+        </h3>
+        <div class="add_to_calendar">
+          <div class="form-group">
+            <input type="hidden" name="connect_type" value="{{ cal_conn.provider }}">
+            <select class="form-control" id="add_to_calendar_select" name="calendar_id">
+            {% for v in calendars %}
+              {% if cal_conn.provider == 'google' %}
+                <option value="{{ v.id }}">{{ v.summary }}</option>
+              {% elif cal_conn.provider == 'office' %}
+                <option value="{{ v.Id }}">{{ v.Name }}</option>
+              {% endif %}
+            {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 text-center" style="padding-top: 50px">
+        <input type="submit" class="btn btn-primary btn-connect" id="save_settings" value="Save Settings"/>
+        <a class="btn" href="{% url 'calendar-connection' %}">Cancel</a>
+      </div>
+    </div>
+  </form>
+  {% endif %}
+  </div>
+</div>
+
+{% endblock workspace %}

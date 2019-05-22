@@ -1,0 +1,39 @@
+body .k-window-titlebar {
+  min-height: 26px;
+}
+
+body .k-window-titlebar .k-window-action {
+  width: 19px;
+  height: 19px;
+}
+
+body .k-dropdown-wrap .k-input, .k-picker-wrap .k-input, .k-numeric-wrap .k-input {
+  height: 26px;
+  padding-left: 4px;
+}
+
+.confirmation-buttons {
+  text-align: center;
+}
+
+.k-window p {
+  margin: 15px 0;
+}
+
+.k-editor {
+  border-spacing: 4px;
+}
+
+body .k-colorpicker .k-tool-icon {
+  margin: 4px 8px 6px 2px;
+}
+
+body .k-colorpicker .k-picker-wrap.k-state-border-down {
+  border-bottom-width: 0;
+}
+
+.k-content:after {
+  content: "";
+  display: block;
+  clear: both;
+}

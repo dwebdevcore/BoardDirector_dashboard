@@ -1,0 +1,49 @@
+.question-candidate-container {
+  padding-left: 20px;
+
+  .candidate-index {
+    margin-left: -20px;
+  }
+}
+
+.question-candidate, .question-candidate.question-answer {
+  padding: 5px 0 5px;
+
+  .candidate-description {
+    display: inline-block;
+  }
+
+  .candidate-index {
+    float: left;
+    display: block;
+    margin-right: 5px;
+  }
+
+  img.candidate-avatar {
+    max-width: 60px;
+    max-height: 60px;
+    float: left;
+    margin-right: 5px;
+  }
+
+  .candidate-field {
+    padding-left: 10px;
+    clear: both;
+
+    .candidate-notes {
+      width: 400px;
+    }
+
+    label {
+      width: 80px;
+    }
+
+    @include clearfix;
+  }
+
+  .candidate-notes {
+    color: $gray-light;
+  }
+
+  @include clearfix;
+}

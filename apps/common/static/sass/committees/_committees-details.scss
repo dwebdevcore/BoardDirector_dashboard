@@ -1,0 +1,101 @@
+@import '../config';
+
+.committee-members-list h3 {
+  color: black;
+  text-transform: uppercase;
+  font: 14px arial, helvetica, sans-serif;
+  font-weight: bold;
+}
+
+ul.committee-members {
+  overflow: hidden;
+  padding: 0;
+}
+
+.committee-members li {
+  background: none;
+  padding: 0;
+  margin: 0 54px 0 0;
+  float: left;
+}
+
+.committee-members .img {
+  float: left;
+  margin: 0 0 4px;
+  border: 1px solid $gray-lighter;
+  position: relative;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.committee-members span {
+  float: left;
+  clear: left;
+  font: 13px arial, helvetica, sans-serif;
+}
+
+.committee-members span a {
+  color: $brand-primary;
+}
+
+.committee-description {
+  padding: 20px 0;
+
+  h1, h2, h3 {
+    color: black;
+    text-transform: uppercase;
+    font: 14px arial, helvetica, sans-serif;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+}
+
+.committee-documents {
+  .documents-upload-files {
+    display: none;
+  }
+
+  h3 {
+    color: black;
+    font: 14px arial, helvetica, sans-serif;
+    font-weight: bold;
+    margin: 30px 0 15px;
+  }
+
+  .k-upload-files {
+    padding-left: 0;
+  }
+}
+
+.meeting-documents {
+
+  dl {
+    margin: 0 0 25px 0;
+  }
+
+  dl dt {
+    margin: 15px 0 5px 0;
+  }
+
+  dl dd {
+    margin: 0 0 5px 25px;
+  }
+
+  dl dd a {
+    color: #0089c5;
+    text-decoration: underline;
+  }
+
+}

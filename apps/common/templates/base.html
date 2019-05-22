@@ -1,0 +1,71 @@
+{% load i18n static compress %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}Board of Directors Cloud Management Software{% endblock title %}</title>
+  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+  <link href="{% static 'css/chosen.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/kendo.common.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/kendo.default.min.css' %}" rel="stylesheet" />
+
+  {% block base_resources %}
+    {% compress css %}
+      <link rel="stylesheet" href="{% static 'css.generated/base-legacy.css' %}">
+    {% endcompress %}
+    <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+  {% endblock %}
+  <link href="{% static 'js/libs/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" />
+
+  {% block extra_css %}{% endblock extra_css %}
+
+  <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+  <script src="{% static 'js/chosen.jquery.min.js' %}"></script>
+  {% compress js %}
+    <script src="{% static 'js/main.js' %}"></script>
+  {% endcompress %}
+  <script>(function(doc){var viewport = document.getElementById('viewport');if (navigator.userAgent.match(/iPad/i)){doc.getElementById("viewport").setAttribute("content", "initial-scale=1.0");}}(document));</script>
+  <!--[if lt IE 9]>
+  <script type="text/javascript" src="{% static 'js/modernizr.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/css3-mediaqueries.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/PIE.js' %}"></script>
+  <![endif]-->
+  <script type="text/javascript" src="/jsi18n/"></script>
+  <script>
+    var USER_EMAIL = '{{ request.user.email }}';
+    var USER_NAME = '{{ current_membership.get_full_name }}';
+    window.urls = {}; // Put your urls here
+    window.trans = {}; // Manual translations
+    window.trans.error = '{% trans 'Error' %}';
+    window.trans.success = '{% trans 'Success' %}';
+  </script>
+  {# <script src="{% static 'js/uservoice.js' %}"></script> #}
+  {# <script src="{% static 'js/hotjar.js' %}"></script> #}
+  <script src="{% static 'js/scripts.js' %}"></script>
+  {% block extra_js %}{% endblock extra_js %}
+</head>
+<body>
+  <div class="waiting-modal"></div>
+  <div class="ls-wrapper">
+    {% block content %}
+    {% endblock content %}
+    <div class="substrate-footer"></div>
+  </div>
+  <footer id="footer">
+    <div class="wrapper">
+      {% block footer %}{% endblock %}
+      {% include "footer.html" %}
+    </div>
+  </footer>
+  <div id="pdf-wrapper">
+    <iframe id="pdf-viewer"></iframe>
+  </div>
+  {% include "customer_io.html" %}
+  {% include "chameleon.html" %}
+  {% include "tidio.html" %}
+
+  {% block end_js %}
+  {% endblock %}
+</body>
+</html>

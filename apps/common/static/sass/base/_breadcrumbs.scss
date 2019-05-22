@@ -1,0 +1,26 @@
+@import '../config';
+
+.breadcrumbs {
+  overflow: hidden;
+  padding: 0 0 20px;
+  color: $color-dark-gray;
+}
+
+.breadcrumbs li {
+  float: left;
+  background: url(../images/sprites.png) no-repeat 0 -577px;
+  padding: 0 6px 0 11px;
+}
+
+.breadcrumbs a {
+  color: $brand-primary;
+}
+
+.breadcrumbs li:first-child {
+  background: none;
+  padding-left: 0;
+}
+
+.breadcrumbs.breadcrumbs-separator {
+  border-bottom: 1px solid $gray-lighter;
+}

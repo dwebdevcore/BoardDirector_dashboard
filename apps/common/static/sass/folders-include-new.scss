@@ -1,0 +1,11 @@
+/** For use without all.css **/
+
+.folder-items li {
+  border-bottom: 1px solid #ebebeb;
+  overflow: hidden;
+  padding: 24px 20px 18px 0;
+}
+
+.folder-items li:nth-child(even) {
+  background: #fafafa;
+}

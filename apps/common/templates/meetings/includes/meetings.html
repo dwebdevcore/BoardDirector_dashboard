@@ -1,0 +1,34 @@
+{% load i18n static %}
+
+{% block extra_css %}
+  {{ super }}
+{% endblock %}
+
+<ul class="upcoming-meetings">
+  {% for meeting in meetings %}
+    <li>
+      <div class="meeting-content">
+        <h3><a href="{{ meeting.get_absolute_url }}">
+          {{ meeting.get_committee_name }}
+          {% if meeting.is_event %}{% trans 'Event' %}{% else %}{% trans 'Meeting' %}{% endif %}
+          ({{ meeting.start|date:"N j, Y" }})
+          {% if not meeting.is_published %}<span class="draft-meeting-label">{% trans 'draft' %}</span>{% endif %}
+        </a></h3>
+
+        <dl class="fields-list">
+          <dt>{% trans 'TITLE' %}:</dt>
+          <dd>{{ meeting.name }}</dd>
+
+          <dt>{% trans 'DATE' %}:</dt>
+          <dd class="date">{{ meeting.closest_repetition.start|date:"N j, Y" }} <span class="repeat-description">{{ meeting.repeat_description }}</span></dd>
+
+          <dt>{% trans 'TIME' %}:</dt>
+          <dd>{{ meeting.start|date:"g:i a" }} &ndash; {{ meeting.end|date:"g:i a" }}</dd>
+
+          <dt>{% trans 'LOCATION' %}:</dt>
+          <dd><a href="https://maps.google.com/?q={{ meeting.location }}" target="_blank">{{ meeting.location }}</a></dd>
+        </dl>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

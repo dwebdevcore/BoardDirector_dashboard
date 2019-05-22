@@ -1,0 +1,100 @@
+{% extends "inner.html" %}
+{% load i18n common_tags user_tags permissions_tags %}
+{% load static from staticfiles %}
+
+{% block article_class %}dashboard has-right-side{% endblock article_class %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.js' | min_for_prod %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+  {{ super }}
+  <script src="{% static 'js/libs/bootstrap/js/bootstrap.js' | min_for_prod %}"></script>
+  <script src="{% static 'js/rsvp_ajax.js' %}"></script>
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css.generated/dashboard.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css.generated/rsvp.css' %}"/>
+{% endblock %}
+
+{% block workspace %}
+  <h2>{{ current_membership.get_full_name }}&rsquo;s {% trans "Dashboard" %}</h2>
+  <div class="dashboard-meetings">
+    <h3 class="upcoming-meetings">{% trans "UPCOMING MEETINGS AND EVENTS" %}</h3>
+    {% if meetings %}
+      {% for meeting in meetings %}
+        <div class="dashboard-meeting-card">
+          <div class="meeting-icon {% if meeting.is_event %}event-icon{% endif %}">
+            <div class="month">{{ meeting.start|date:"N" }}</div>
+            <div class="day">{{ meeting.start|date:"j" }}</div>
+          </div>
+          <div class="meeting-description">
+            <h3>{{ meeting.name }}</h3>
+            <p>{{ meeting.start|date:"l, N j, Y" }}</p>
+            <p>{{ meeting.start|date:"g:i a" }} &ndash; {{ meeting.end|date:"g:i a" }}</p>
+            <p>{{ meeting.get_committee_name }}</p>
+            <p>{{ meeting.location }}</p>
+            <a href="{{ meeting.get_absolute_url }}" class="btn meeting-btn">
+              {% if meeting.is_event %}{% trans 'View Full Event Details' %}{% else %}{% trans 'View Full Meeting Details' %}{% endif %} <i></i>
+            </a>
+          </div>
+          {% include 'rsvp/includes/dashboard_rsvp_response.html' with repetition=meeting.current_repetition %}
+        </div>
+      {% endfor %}
+      {% include 'pagination.html' %}
+    {% else %}
+      {% trans 'No upcoming meetings scheduled.' %}
+    {% endif %}
+  </div>
+  <div class="dashboard-right-side">
+    <div class="dashboard-activities">
+      {% if activity_list %}
+        <h3><a href="{% acc_url 'dashboard:activity' %}">{% trans "ACTIVITIES" %}</a></h3>
+        {% regroup activity_list by action_time|date:"b j, Y"|capfirst as activities %}
+        {% for activity in activities %}
+          <div class="activities-block activities-date-block">
+            <div class="point date-point"></div>
+            <div class="date-title activities-object">{{ activity.grouper }}
+              {% if activity.grouper == now|date:"N j, Y" %}
+                <div class="today">{% trans "today" %}</div>
+              {% endif %}
+            </div>
+          </div>
+          {% for object in activity.list %}
+            <div class="activities-block">
+              <div class="point"></div>
+              {% include 'dashboard/includes/activity.html' %}
+            </div>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% if current_membership|has_role_permission:'news.news:view' %}
+      <div class="dashboard-news">
+        <h3>{% trans "NEWS" %}</h3>
+        {% for article in news %}
+          <div class="news">
+            <div class="date">
+              <div class="month">
+                {{ article.created_at|date:"N" }}
+              </div>
+              <b>{{ article.created_at|date:"j" }}</b>
+            </div>
+            <div class="news-text">
+              <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+              <i>{{ article.text|striptags|slice:"80" }} ...</i>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="all-news"><a href="{% acc_url "news:list" %}">{% trans "See All News" %} &#62;</a></div>
+      </div>
+    {% endif %}
+  </div>
+
+  <script type="text/javascript">
+      window.urls.rsvp_response = '{% acc_url 'rsvp:update' %}';
+  </script>
+{% endblock workspace %}

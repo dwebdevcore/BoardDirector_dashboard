@@ -1,0 +1,4 @@
+{% load i18n %}
+{% trans 'Registration' %}
+{% trans 'In order to activate your account you need to click on this link' %}:
+https://{{ site }}/activate/{{ activation_key }}/

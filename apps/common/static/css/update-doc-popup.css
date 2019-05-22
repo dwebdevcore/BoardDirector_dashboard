@@ -1,0 +1,296 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 50;
+    background-color: rgba(8, 38, 51, 0.9);
+}
+
+.ui-dialog {
+    border-radius: 7px;
+    border: 0;
+    box-sizing: border-box;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    border: 0;
+    background: white;
+    border-bottom: 1px solid #d5d5d5;
+    padding: 0;
+    border-radius: 5px 5px 0 0;
+}
+
+.ui-widget-content {
+    background: none;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    background: #f3f3f3;
+    border-top: 1px solid #d5d5d5;
+    border-radius: 0 0 5px 5px;
+    /*border: 0;*/
+    margin: 0;
+    padding: 0 63px;
+}
+
+.ui-dialog .ui-dialog-content {
+    background: white;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-dialog .ui-dialog-title {
+    /*text-transform: uppercase;*/
+    text-align: center;
+    display: block;
+    font: 2.3em ProximaNova-Regular, arial, helvetica, sans-serif;
+    font-weight: bold;
+    float: none;
+    width: 100%;
+    line-height: 30px;
+    margin: 18px 0 18px 0;
+    letter-spacing: 1px;
+}
+
+.replace-file-wrapper {
+    text-align: center;
+    color: #505050;
+    margin: 16px 0 13px;
+}
+
+.replace-file-label {
+    font-weight: bold;
+}
+
+#update-archive-file-wrapper {
+    min-height: 122px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+#update-archive-file-wrapper div.k-dropzone {
+    float: left;
+    margin: 0;
+    width: 100%;
+    height: 120px;
+    font: 13px/54px arial, helvetica, sans-serif;
+    color: #9b9b9b;
+    border: 1px dashed #bfbfbf;
+    padding: 0;
+    background: none;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    position: relative;
+}
+
+#update-archive-file-wrapper div.k-dropzone em{
+    margin: 0 226px;
+    position: absolute;
+    top: 9px;
+    font-style: normal;
+    font-weight: bold;
+    display: block;
+}
+
+#update-archive-file-wrapper div.k-button.k-upload-button {
+    text-decoration: none;
+    margin: 48px 218px 35px;
+    padding: 8px 35px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid #CC1D80;
+    background: #CC1D80;
+    color: #ffffff !important;
+    white-space: nowrap;
+    text-transform: uppercase;
+    width: auto !important;
+}
+
+#update-archive-file-wrapper div.k-button.k-upload-button:hover {
+    background: #CC1D80;
+}
+
+#update-archive-email-wrapper {
+    padding: 20px 0;
+    text-align: center;
+    color: #505050;
+    margin-top: 40px;
+    border-top: 1px solid #d5d5d5;
+}
+
+.notify-me-wrapper, .notify-label {
+    font-weight: bold;
+}
+
+.notify-label, .notify-me-checkbox {
+    margin: 0 7px 0 0;
+}
+
+.invite-form {
+    padding: 0 63px;
+    background-color: #f3f3f3;
+    border-top: 1px solid #d5d5d5;
+    text-align: right;
+}
+
+.invite-form form input {
+    display: block;
+    border: 1px solid #d5d5d5;
+    height: 56px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 15px 0 15px;
+    margin-top: 29px;
+    border-radius: 2px;
+}
+
+.invite-form form .invite-pm {
+    display: block;
+    padding: 6px 8px;
+    font-size: 11px;
+    color: #717171;
+}
+
+#invite-user {
+    background: url("../images/icon-user-invite.png") no-repeat scroll 16px 14px;
+    padding-left: 51px;
+    color: #717171;
+}
+
+.invite-form form textarea {
+    display: block;
+    border: 1px solid #d5d5d5;
+    height: 107px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 0 0 16px;
+    margin-top: 19px;
+    border-radius: 2px;
+    letter-spacing: -0.4px;
+}
+
+::-webkit-input-placeholder {color: #717171;}
+::-moz-placeholder          {color: #717171;}/* Firefox 19+ */
+:-moz-placeholder           {color: #717171;}/* Firefox 18- */
+:-ms-input-placeholder      {color: #717171;}
+
+
+.ui-dialog-titlebar > button.ui-button, 
+.ui-dialog-titlebar > button.ui-button:hover, 
+.ui-dialog-titlebar > button.ui-button:active {
+    position: absolute;
+    top: -18px;
+    right: -21px;
+    background-color: rgba(0,0,0,0);
+    height: 35px;
+    width: 35px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+    background-image: none;
+}
+
+.ui-state-default .ui-icon,
+.ui-widget-header .ui-icon-closethick {
+    background: url("../images/icon-popup-close.png") no-repeat 0 0;
+    height: 33px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+}
+
+.ui-state-default .ui-icon:hover,
+.ui-widget-header .ui-icon-closethick:hover {
+    background: url("../images/icon-popup-close.png") no-repeat 0 -33px;
+}
+
+.subtitle {
+    width: 386px;
+    text-align: center;
+    margin: 0 auto;
+    height: 81px;
+    padding-top: 7px;
+    box-sizing: border-box;
+    font: 13px arial, helvetica, sans-serif;
+    color: #4a4a4a;
+    line-height: 19px;
+}
+
+
+.ui-dialog .ui-dialog-buttonpane button {
+    float: right;
+    display: inline-block;
+    vertical-align: top;
+    font: bold 9px/38px arial, helvetica, sans-serif;
+    background: #008ac6;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    color: #fff;
+    border: 1px solid #008ac6;
+    text-transform: uppercase;
+    margin: 40px 0 40px 0;
+    width: 171px;
+    min-height: 40px;
+    padding: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: left;
+    padding: 0 0 0 170px;
+}
+
+span.ui-button-text {
+    font-size: 1.2em;
+}
+
+.ui-dialog .ui-dialog-buttonpane button.cancel-button {
+
+    display: inline-block;
+    font: bold 12px/38px arial, helvetica, sans-serif;
+    color: #717171;
+    border: 0;
+    text-transform: inherit;
+    padding: 0;
+    background: none;
+    margin: 0;
+    min-height: 10px;
+    width: 80px;
+    top: 52px;
+}
+
+.ui-dialog .ui-dialog-buttonpane button.cancel-button .ui-button-text {
+    padding: 0;
+    font-size: 11px;
+}
+
+#update-archive-email-wrapper .selectArea {
+    float: none;
+    display: inline-block;
+    text-align: left;
+}
+
+.notify-me-wrapper {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    margin: 1em 0 3em 0;
+}
+.notify-me-wrapper .checkboxArea,
+.notify-me-wrapper .checkboxAreaChecked,
+.notify-me-wrapper label {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.optionsDivInvisible, .optionsDivVisible {
+    z-index: 101;
+}

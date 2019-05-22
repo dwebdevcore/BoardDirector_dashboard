@@ -1,0 +1,30 @@
+{% load i18n %}
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+{{ form.non_field_errors }}
+{% for field in form.visible_fields %}
+  {% if field.name != 'file' %}
+    <li>
+    {% if field.name == 'name' %}
+      {{ field }}
+    {% elif field.name == 'description' or field.name == 'text' %}
+      {{ field.label_tag }}
+      <div class="textarea">
+        {{ field }}
+      </div>
+    {% else %}
+      {{ field.label_tag }}
+      {{ field }}
+    {% endif %}
+
+    {% if field.errors %}
+      <ul class="error">
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    </li>
+  {% endif %}
+{% endfor %}

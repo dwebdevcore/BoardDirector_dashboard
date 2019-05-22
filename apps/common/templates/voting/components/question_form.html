@@ -1,0 +1,73 @@
+{% load i18n %}
+<div class="question-form-template">
+  <errors :error="errors.non_field_errors"></errors>
+  <ul>
+    <li>
+      <input v-model="question.question" class="txt title question-question w-100" placeholder="{% trans 'Question' %}">
+      <errors :error="errors.question"></errors>
+    </li>
+    <li>
+      <textarea v-model="question.description" class="txt w-100" placeholder="{% trans 'Description (optional)' %}"></textarea>
+      <errors :error="errors.description"></errors>
+    </li>
+    <li>
+      <label class="control-label">{% trans 'Question Type' %}</label>
+      <Vue2-Selectize v-model.number="question.question_type" class="selectize-300px" :settings="{dropdownParent: 'body'}">
+        <option value="1">{% trans 'Yes/No' %}</option>
+        <option value="5">{% trans 'For/Against/Abstain' %}</option>
+        <option value="2">{% trans 'Single Choice' %}</option>
+        <option value="3">{% trans 'Multiple Choice' %}</option>
+        <option value="4">{% trans 'Election' %}</option>
+      </Vue2-Selectize>
+      <errors :error="errors.question_type"></errors>
+    </li>
+  </ul>
+
+  {# ------ Answers editor ------- #}
+  <div class="question-answers" v-if="question.question_type == 2 || question.question_type == 3">
+    <h4>{% trans 'Answers' %}</h4>
+    <div class="question-answer" v-for="(answer, index) in question.answers">
+      <input class="txt" type="text" v-model="answer.answer">
+
+      &nbsp;<button class="btn btn-default btn-sm" @click="question.answers.splice(index, 1)">{% trans 'Delete' %}</button>
+      <errors :error="answer_error(index)"></errors>
+    </div>
+    <div class="question-answer">
+      <input class="txt" type="text" v-model="new_answer"
+          placeholder="{% trans 'Type new answer and hit Enter' %}"
+          @blur="check_add_answer" @keydown.stop.prevent.enter="check_add_answer">
+    </div>
+  </div>
+
+  {# ------ Candidates editor ------- #}
+  <div class="question-candidates" v-if="question.question_type == 4">
+    <h4>{% trans 'Candidates' %}</h4>
+    <div class="question-candidate" v-for="(candidate, index) in question.candidates">
+      <span class="candidate-index">${ index + 1 }</span>
+      <img class="candidate-avatar" :src="membership_by_id[candidate.membership].avatar_url" v-if="membership_by_id[candidate.membership]">
+      <div class="candidate-description">
+        <span class="candidate-name">${ candidate.first_name } ${ candidate.last_name }</span>
+      </div>
+
+      &nbsp;<button class="btn btn-default btn-sm" @click="question.candidates.splice(index, 1)">{% trans 'Delete' %}</button>
+      <errors :error="answer_error(index)"></errors>
+
+      <div class="candidate-field">
+        <label>{% trans 'Notes' %}:</label>
+        <textarea type="text" v-model="candidate.notes" class="txt candidate-notes"></textarea>
+      </div>
+    </div>
+
+
+    <div class="question-candidate-add">
+      <label>{% trans 'Add Candidate' %}:</label>
+      <div class="selectize-300px">
+        <Vue2-Selectize v-model.number="new_candidate"
+            placeholder="{% trans 'Select candidate to add' %}"
+            :settings="{dropdownParent: 'body'}">
+          <option :value="m.id" v-for="m in available_memberships">${ m.first_name } ${ m.last_name }</option>
+        </Vue2-Selectize>
+      </div>
+    </div>
+  </div>
+</div>

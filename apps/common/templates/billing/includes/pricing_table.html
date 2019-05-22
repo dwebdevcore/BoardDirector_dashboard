@@ -1,0 +1,62 @@
+{% load billing_tags i18n %}
+<div class="pricing-table inner-pricing">
+  {% if show_change_plan_form %}
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+  {% endif %}
+  <table>
+    <tr>
+      {% for plan in plans %}
+        <th>{% trans plan.name_str %}</th>
+      {% endfor %}
+    </tr>
+    <tr class="price-row">
+      {% for plan in plans %}
+        <td><strong><span>$</span> {{plan.month_price}}</strong> <em>{% trans 'per month' %}</em></td>
+      {% endfor %}
+    </tr>
+    <tr class="priceyear-row">
+      {% for plan in plans %}
+        <td><span>$ {{plan.year_price}} {% trans 'per year' %}</span></td>
+      {% endfor %}
+    </tr>
+    <tr class="footer-row">
+      {% for plan in plans %}
+        <td><span>{% if not plan.is_unlimited %}{% trans 'up to ' %}{% endif %}{{plan.max_members_str}} {% trans 'Users' %}</span>
+          {% if show_trial_button %}
+            <a class="btn" href="{% url 'registration_register_frame' %}?plan={{ plan.pk }}">{% trans 'START FREE TRIAL' %}</a>
+          {% endif %}
+
+          {% if show_change_plan_form %}
+            {% if plan.pk in selectable_plan_ids %}
+              <label for="id_plan_{{ plan.pk }}">
+                <input type="radio" name="plan" value="{{ plan.pk }}" required id="id_plan_{{ plan.pk }}" />
+                SELECT <b>{{ plan.name_str }}</b>
+              </label>
+              {% comment %}{% with form.plan|arraylookup:plan.pk as plan_widget %}
+                <label>{{ plan_widget.tag }} SELECT {{ plan_widget.choice_label }}</label>
+              {% endwith %}{% endcomment %}
+            {% elif plan.pk == current_plan_id %}
+              ({% trans 'current plan'%})
+            {% else %}
+              {% trans "You can't choose this Plan. <br> Please, contact the administrator" %}.
+            {% endif %}
+          {% endif %}
+        </td>
+      {% endfor %}
+    </tr>
+  </table>
+  <p>{% trans 'Also included in every package: Branding, Notifications, SSL data encryption (online bank level), and daily backups of your data to prevent permanent data loss' %}.</p>
+  <strong class="most-popular"><span>{% trans 'Most Popular' %}</span></strong>
+
+  {% if show_change_plan_form %}
+    {% if selectable_plan_ids|length > 0 %}
+      <div class="fields">
+        <div class="btns">
+          <button class="btn">{% trans "Change Plan" %}</button>
+        </div>
+      </div>
+    {% endif %}
+    </form>
+  {% endif %}
+</div>
+{% include 'google_analytic.html' %}

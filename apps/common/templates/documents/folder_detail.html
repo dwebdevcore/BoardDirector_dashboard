@@ -1,0 +1,133 @@
+{% extends "inner.html" %}
+{% load i18n static compress common_tags permissions_tags %}
+
+{% block extra_css %}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jstree/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/update-doc-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/folders.css' %}">
+    <link rel="stylesheet" href="{% static 'css.generated/folders-include.css' %}"/>
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.css' %}">
+    <link rel="stylesheet" href="{% static 'js/selectize/css/selectize.default.css' %}">
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block extra_js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/jstree.min.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+  {% compress js %}
+    <script src="{% static 'js/edit-docs-popup.js' %}"></script>
+    <script src="{% static 'js/folders.js' %}"></script>
+    <script src="{% static 'js/folders-lookup.js' %}"></script>
+    <script src="{% static 'js/folders-share.js' %}"></script>
+    <script src="{% static 'js/selectize/js/standalone/selectize.js' %}"></script>
+  {% endcompress %}
+  <script type="text/javascript">
+    var DOC_DELETE_URL = "{% url 'documents:delete' %}";
+    var DOC_RENAME_URL = "{% url 'documents:rename' %}";
+  </script>
+{% endblock extra_js %}
+
+{# Relocate user messages #}
+{% block user_messages %}
+{% endblock user_messages %}
+
+{% block workspace %}
+  <header class="heading">
+    <div class="holder">
+      <h2>{% block heading %}{{ folder|folder_display_name:current_membership }}{% endblock %}</h2>
+    </div>
+    {# <a class="btn" href="#"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; All Files</a> #}
+  </header>
+
+  <div class="subheader heading">
+    {# Breadcrumbs #}
+    {% block breadcrumbs %}
+      <ul class="breadcrumbs">
+        <li><a href="{% acc_url 'folders:rootfolder_detail' %}">{% trans 'Documents' %}</a></li>
+        {# Special breadcrumbs if members private folder #}
+        {% if membership_ancestor %}
+          {% for ancestor in folder.get_ancestors|slice:"2:" %}
+            <li><a href="{{ ancestor.get_absolute_url }}">{{ ancestor|folder_display_name:current_membership }}</a></li>
+          {% endfor %}
+          <li>{{ folder|folder_display_name:current_membership }}</li>
+        {% else %}
+          {% for ancestor in folder.get_ancestors|slice:"1:" %}
+            <li><a href="{{ ancestor.get_absolute_url }}">{{ ancestor|folder_display_name:current_membership }}</a></li>
+          {% endfor %}
+          {% if not folder.is_account_root %}
+            <li>{{ folder|folder_display_name:current_membership }}</li>
+          {% endif %}
+        {% endif %}
+      </ul>
+    {% endblock breadcrumbs %}
+
+    <form class="inline-form folder-search-form" action="" method="get">
+      <input type="text" class="folder-search-box" placeholder="{% trans 'Type to search...' %}" value="{{ search | default_if_none:'' }}" name="search">
+
+      <input type="submit" class="btn folder-action" value="{% trans 'Search' %}"/>
+    </form>
+
+    {# Actions #}
+    {% block folder_actions %}
+      {% if folder.meeting %}
+        <a href="{{ folder.meeting.get_absolute_url }}" class="btn folder-action">{% trans 'Go To Meeting Page' %}</a>
+      {% endif %}
+      {% has_permission 'documents.folder' 'add' folder as permission_add %}
+      {% if permission_add %}
+        {% if folder.can_add_folders %}
+          <a class="btn folder-action newfolder" href="#" id="add-folder"><i class="fa fa-plus-circle"></i>&nbsp; {% trans 'New Folder' %}</a>
+        {% endif %}
+        {% if folder.can_add_files %}
+          <a class="btn folder-action" href="{% acc_url 'folders:document_add' slug=folder.slug %}" style="margin-right:0px;"><i class="fa fa-upload"></i>&nbsp; {% trans 'Upload File' %}</a>
+        {% endif %}
+      {% endif %}
+    {% endblock folder_actions %}
+
+
+    <a class="btn" id="sort" href="#" title="{% trans 'Sort By' %}"><i class="fa fa-sort"></i></a>
+
+    {# Ordering #}
+    <div class="sortingLinks" >
+      <span class="title">{% trans 'Sort By' %}</span>
+      {% if ordering == '-name' %}
+        <a class="active" href="?o=name"><i class="fa fa-sort-down"></i>&nbsp; {% trans 'Name' %}</a>
+      {% elif ordering == 'name' %}
+        <a class="active" href="?o=-name"><i class="fa fa-sort-up"></i>&nbsp; {% trans 'Name' %}</a>
+      {% else %}
+        <a  href="?o=-name"><i class="fa"></i>&nbsp;&nbsp; {% trans 'Name' %}</a>
+      {% endif %}
+      {% if ordering == '-date' %}
+        <a class="active" href="?o=date"><i class="fa fa-sort-down"></i>&nbsp; {% trans 'Date' %}</a>
+      {% elif ordering == 'date' %}
+        <a class="active" href="?o=-date"><i class="fa fa-sort-up"></i>&nbsp; {% trans 'Date' %}</a>
+      {% else %}
+        <a href="?o=-date"><i class="fa"></i>&nbsp;&nbsp; {% trans 'Date' %}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {# User messages #}
+  <div class="folder-messages {% if not messages %}hidden{% endif %}">
+    {% for message in messages %}
+      <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+    <div class="message error">
+    </div>
+  </div>
+
+  {% include 'documents/includes/folder_items.html' %}
+
+
+  <input type="hidden" id="current-folder-slug" value="{{ folder.slug }}"/>
+
+  {# Dialogs #}
+  {% include 'documents/includes/folder_forms.html' %}
+  {% include 'doc_upd_popup.html' %}
+  {% include 'doc_rename_popup.html' %}
+{% endblock workspace %}

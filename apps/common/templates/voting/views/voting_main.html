@@ -1,0 +1,68 @@
+{% load i18n common_tags %}
+
+<div id="main-template">
+  <header class="heading">
+    <div class="content-header">
+
+      <div class="pull-right" v-if="is_admin">
+        <router-link class="btn btn-md btn-primary" to="/all" v-if="!all">
+          <i class="fa fa-list icon"></i>
+          {% trans 'All Votes' %}
+        </router-link>
+
+        <router-link class="btn btn-md btn-primary" to="/" v-if="all">
+          <i class="fa fa-list icon"></i>
+          {% trans 'My Votes' %}
+        </router-link>
+
+        <router-link class="btn btn-md btn-primary" to="/create">
+          <i class="fa fa-plus-circle icon"></i>
+          {% trans 'Add Vote' %}
+        </router-link>
+      </div>
+
+      <h2 v-if="all">{% trans 'All Votes' %}</h2>
+      <h2 v-if="!all">{% trans 'My Votes' %}</h2>
+    </div>
+  </header>
+
+  <div v-for="voting in votings.results" class="voting">
+    <h3>
+      ${ voting.name }
+      <span class="label label-warning label-sm" v-if="voting.is_in_progress">{% trans 'In Progress' %}</span>
+      <span class="label label-success label-sm" v-if="voting.is_done">{% trans 'Done' %}</span>
+      <span class="label label-success label-sm" v-if="voting.voting_done">{% trans 'Voted' %}</span>
+      <span class="label label-danger label-sm" v-if="voting.state == 0">{% trans 'Draft' %}</span>
+
+      <div class="voting-actions btn-group">
+        <a :href="'{% acc_url "voting:voting-vote-by-pk" pk=999 %}'.replace('999', voting.id)"
+            class="btn btn-primary"
+            v-if="!voting.voting_done && voting.is_in_progress && voting.voter_key">{% trans 'Cast Vote' %}</a>
+
+        <router-link :to="'/view/' + voting.id" class="btn btn-default">
+          <span v-if="voting.can_edit">{% trans 'Edit' %}</span>
+          <span v-if="!voting.can_edit && (voting.is_done || voting.is_result_visible)">{% trans 'View Results' %}</span>
+          <span v-if="!voting.can_edit && !(voting.is_done || voting.is_result_visible)">{% trans 'View' %}</span>
+        </router-link>
+      </div>
+    </h3>
+    <div>{% trans 'Deadline' %}: ${ voting.end_time | datetime }<span v-if="voting.is_anonymous">, {% trans 'Anonymous' %}</span>
+    </div>
+  </div>
+
+  <div v-if="votings.results && !votings.results.length && !all">
+    {% trans 'No votings to attend.' %}
+  </div>
+
+  <div v-if="votings.results && !votings.results.length && all">
+    {% trans 'No votings yet.' %}
+    <router-link to="/create" class="btn btn-primary">{% trans 'Create some' %}</router-link>
+  </div>
+
+  <paginate
+      :page-count="votings.count / page_size"
+      :click-handler="show_page"
+      container-class="pagination"
+      v-if="votings.count > page_size"
+  ></paginate>
+</div>

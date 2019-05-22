@@ -1,0 +1,262 @@
+{% extends 'inner.html' %}
+{% load static i18n common_tags user_tags permissions_tags %}
+
+{% block extra_js %}
+{{ block.super }}
+  <script type="text/javascript" src="{% static 'js/member_list.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+  <script src="{% static 'js/expand_collapse_div.js' %}"></script>
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/invite-user.js' %}"></script>
+  <script src="{% static 'js/object_delete_jqui.js' %}"></script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/expand-collapse-div.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+  <style>
+    .export-links{
+      float:right;
+      margin-right:40px;
+      margin-top:15px;
+      color:#E5E5E5;
+    }
+    .export-links a{
+      color:#87E6FE;
+     }
+    .past-members {
+      margin: 30px 0;
+    }
+    .btn.view-btn {
+      background: #c0c0c0;
+      border-color: #b0b0b0;
+      color: #080808;
+    }
+  </style>
+{% endblock extra_css %}
+
+{% block workspace %}
+  <div class="heading">
+    <div class="holder">
+      <div class="header-wrap-block">
+        <h2>{% trans 'Members' %}</h2>
+          {% if current_membership|has_role_permission:'profiles.membership:add' %}
+          <div class="button-wrap">
+            <a class="btn member-btn-indent" href="{% acc_url 'member_create' %}">{% trans 'ADD MEMBER' %}</a>
+          </div>
+          {% endif %}
+      </div>
+      <p>{% blocktrans %}This overview gives a quick snapshot of the members of the board. Select a trustee to view
+        their profile,
+        activity, and contact them.{% endblocktrans %}</p>
+    </div>
+  </div>
+  <div class="bar">
+    <form action="#" class="browse-by">
+      <label for="browse-by">{% trans 'Show' %}:</label>
+      <select id="browse-by">
+        <option value="">{% trans 'All Members' %}</option>
+        {% for value, name in membership_roles %}
+          <option value="{{ value }}">{{ name }}</option>
+        {% endfor %}
+        <option value="chairman">{% trans 'Committee Chair' %}</option>
+      </select>
+    </form>
+    {% if current_membership.is_admin %}
+      <a href="mailto:
+        {% for membership in active_members %}
+          {% if membership.is_invited %}
+            {{ membership.user.email }},
+          {% endif %}
+        {% endfor %}"
+
+         class="email-l" id="mail-to">{% trans 'Email this group...' %}</a>
+
+    {% endif %}
+    <ul class="sort-list">
+      <li><a class="list-view active" href="#">{% trans 'List View' %}</a></li>
+      <li><a class="grid-view " href="#">{% trans 'Grid View' %}</a></li>
+    </ul>
+  </div>
+
+  <div class="list container">
+    {% for membership in active_members %}
+      <div class="member member-active" data-role="{{ membership.role }}"
+                                        data-chairman="{% if membership.chairman %}true{% else %}false{% endif %}"
+                                        data-invited="{% if membership.is_invited %}true{% else %}false{% endif %}">
+        <a class="photo" href="{{ membership.get_absolute_url }}">
+            <img alt="{{ membership.get_full_name }}"
+            {% if membership.avatar %}src="{{ membership|avatar:'140x140' }}"
+            {% else %}src="/static/images/default_avatar_sq.svg"{% endif %}
+            class="rounded" width="140" height="140">
+        </a>
+        <div class="text">
+          <ul class="contacts">
+            <li><a class="email-l" href="mailto:{{ membership.user.email }}" data-email="{{ membership.user.email }}">{% trans 'Email' %}</a></li>
+            {% comment %} {% if membership.social_media_link %}
+              <li>
+                <a id="id_social_media_link" href="{{ membership.social_media_link }}" target="_blank">{% trans 'Social Media Links' %}</a>
+              </li>
+            {% endif %} {% endcomment %}
+          </ul>
+          <h3 class="full-name" title="{{ membership.get_full_name }}">{{ membership.get_full_name }}</h3>
+          <h4>{{ membership.get_role_name }}</h4>
+          <dl>
+            <dt>{% trans 'Term Dates:' %}</dt>
+            <dd>{{ membership.term_start|date:"N j, Y" }} - {{ membership.term_expires|date:"N j, Y" }}</dd>
+            <dt>{% trans 'Committee(s)' %}</dt>
+            <dd>{% for commi in membership.committees.all %}
+              {{ commi.name }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            </dd>
+          </dl>
+        <span class="manage-member-buttons">
+          <a class="btn" href="{{ membership.get_absolute_url }}">{% trans 'Full Profile' %}</a>
+          {% has_permission 'profiles.membership' 'edit' membership as permission_edit %}
+          {% if permission_edit %}
+          <a class="btn edit-btn" href="{% url 'profiles:edit' pk=membership.pk %}">{% trans "Edit Profile" %}</a>
+          {% if membership.pk != current_membership.pk and current_membership.is_admin %}
+          <a 
+          class="btn edit-btn delete-button" 
+          data-url="{% url 'profiles:delete' pk=membership.pk %}"
+          data-form-action-url="{% url 'profiles:delete' pk=membership.pk %}"
+          data-user-name="{{ membership.get_full_name }}"
+          class="btn edit-btn invite-popup-button"
+          href="#"
+          id="btn-delete-{{ membership.user.pk }}"
+          >{% trans "Delete" %}</a>
+          {% endif %}
+          {% endif %}
+
+          {% if current_membership|has_role_permission:'profiles.membership:add' %}
+            {% if not membership.is_invited %}
+              <a data-url="{% url 'profiles:invite' user_pk=membership.user.pk %}"
+                 data-form-action-url="{% url 'profiles:invite' user_pk=membership.user.pk %}"
+                 data-user-name="{{ membership.get_full_name }}"
+                 class="btn edit-btn invite-popup-button"
+                 href="#"
+                 id="btn-invite-{{ membership.user.pk }}"
+              >{% if membership.invitation_sent %}{% trans "Resend invitation" %}{% else %}{% trans "Invite member" %}{% endif %}</a>
+            {% endif %}
+          {% endif %}
+
+          {% if current_membership.id == membership.id or current_membership.is_admin %}
+          {% if membership.can_have_assistant %}
+          {% if membership.assistant %}
+            <a class='view-btn btn'
+            href="{% url 'profiles:assistant_detail' member_pk=membership.id pk=membership.assistant.pk %}">
+            {% trans "Assistant" %}</a>
+          {% else %}
+          <a class='edit-btn btn'
+          href="{% acc_url 'assistant_create' pk=membership.pk %}">{% trans "Add Assistant" %}</a>
+          {% endif %}
+          {% endif %}
+          {% else %}
+          {% endif %}
+
+
+        </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="past-members">
+    <p class="primary-title title2">Past Members</p>
+    <div class="past-members-collapse expand-header">
+      <strong>{{ inactive_members | length }} {% trans 'Past Members'|title %}</strong>
+      <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
+    </div>
+    <div class="past-members-content">
+      {% for membership in inactive_members %}
+
+        <div class="member member-inactive" data-role="{{ membership.role }}" data-chairman="{% if membership.chairman %}true{% else %}false{% endif %}">
+          <a class="photo" href="{{ membership.get_absolute_url }}">
+            <img src="{{ membership|avatar:'180x135' }}" width="180" alt="{{ membership.get_full_name }}"
+              {% if not membership.is_active %} class="inactive-photo" {% endif %}>
+          </a>
+          <div class="text">
+            <ul class="contacts">
+              <li><a class="email-l" href="mailto:{{ membership.user.email }}" data-email="{{ membership.user.email }}">{% trans 'Email' %}</a></li>
+              {% comment %} {% if membership.social_media_link %}
+                <li>
+                  <a id="id_social_media_link" href="{{ membership.social_media_link }}" target="_blank">{% trans 'Social Media Links' %}</a>
+                </li>
+              {% endif %} {% endcomment %}
+            </ul>
+            <h3 class="full-name" title="{{ membership.get_full_name }}">{{ membership.get_full_name }}</h3>
+            <h4>{{ membership.get_role_name }}</h4>
+            <dl>
+              <dt>{% trans 'Term Dates:' %}</dt>
+              <dd>{{ membership.term_start|date:"N j, Y" }} - {{ membership.term_expires|date:"N j, Y" }}</dd>
+              <dt>{% trans 'Committee(s)' %}</dt>
+              <dd>{% for commi in membership.committees.all %}
+                {{ commi.name }}{% if not forloop.last %},{% endif %}
+              {% endfor %}
+              </dd>
+            </dl>
+          <span class="manage-member-buttons">
+            <a class="btn" href="{{ membership.get_absolute_url }}">{% trans 'Full Profile' %}</a>
+            {% has_permission 'profiles.membership' 'edit' membership as permission_edit %}
+            {% if permission_edit %}
+              <a class="btn edit-btn" href="{% url 'profiles:edit' pk=membership.pk %}">{% trans "Edit Profile" %}</a>
+            {% endif %}
+
+            {% if current_membership|has_role_permission:'profiles.membership:add' %}
+              {% if not membership.is_invited %}
+                <a
+                    data-url="{% url 'profiles:invite' user_pk=membership.user.pk %}"
+                    data-form-action-url="{% url 'profiles:invite' user_pk=membership.user.pk %}"
+                    data-user-name="{{ membership.get_full_name }}"
+                    class="btn edit-btn invite-popup-button"
+                    href="#"
+                    id="btn-invite-{{ membership.user.pk }}"
+                >{% if membership.invitation_sent %}{% trans "Resend invitation" %}{% else %}{% trans "Invite member" %}{% endif %}</a>
+              {% endif %}
+            {% endif %}
+          </span>
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="export">
+    {% if current_membership.is_admin %}
+      <a class="export-pdf" href="{% acc_url 'export-pdf' role='member' %}">{% trans 'EXPORT MEMBERS TO PDF' %}</a>
+      <a class="export-xls" href="{% acc_url 'export-xls' role='member' %}">{% trans 'EXPORT MEMBERS TO EXCEL' %}</a>
+    {% endif %}
+  </div>
+
+  <div class="invite-popup">
+    <div data-url="" id="invite-dialog" 
+    title="Send welcome email" 
+    data-send-button-text="{% trans "Send invite" %}" 
+    data-cancel-button-text="{% trans "Cancel" %}" 
+    data-resend-text="{% trans "Resend invitation" %}">
+      <div class="subtitle">
+        {% trans "This will send an invitation email to your new user containg their username, password and the URL to login." %}
+      </div>
+      <div class="invite-form">
+        <form action="#" id="invite-form">
+          <input type="text" name="user" id="invite-user" value="" readonly/>
+          <textarea name="personal-message" id="invite-pm" cols="30" rows="10" placeholder="{% trans "Type personal message..." %}"></textarea>
+          <label for="invite-pm" class="invite-pm">(optional)</label>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="delete-popup">
+    <div id="delete-confirm" title="Delete profile">
+      <div class="subtitle">
+        {% trans "Are you sure you want to delete profile and all related items?" %}
+      </div>
+      <form id='delete-form' action="#">{% csrf_token %}</form>
+    </div>
+  </div>
+
+{% endblock workspace %}

@@ -1,0 +1,99 @@
+@import "config";
+@import "common/social-icons";
+
+.social-accounts-login {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.social-accounts-login-or {
+  clear: both;
+  padding-top: 10px;
+  text-align: center;
+  position: relative;
+
+  hr {
+    border: 0;
+    background: $gray-lighter;
+    height: 1px;
+    position: absolute;
+    top: 11px;
+    width: 100%;
+  }
+
+  div {
+    width: 50px;
+    margin: auto;
+    background: white;
+    position: relative;
+    z-index: 10;
+  }
+
+  h4 {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: $gray-light;
+    font: 18px ProximaNova-Semibold, arial, helvetica, sans-serif
+  }
+}
+
+.login-line .fa {
+  color: $brand-primary;
+}
+
+.add-holder {
+  clear: both;
+}
+
+.social-auth-text {
+  text-transform: uppercase;
+  font: 14px ProximaNova-Semibold, arial, helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.social-auth-text-email {
+  margin: 10px 0;
+
+  .fa {
+    font-size: 18px;
+    vertical-align: -2px;
+  }
+}
+
+.social-auth-text-email-value {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  background: $gray-lighter;
+  color: $gray-light;
+  font: 14px arial, helvetica, sans-serif;
+  padding: 13px;
+  width: 400px;
+  margin-bottom: 30px;
+}
+
+.social-register-block {
+  text-align: center;
+  margin-bottom: 20px;
+
+  h4 {
+    color: $gray-light;
+    font: 18px ProximaNova-Semibold, arial, helvetica, sans-serif;
+    margin-bottom: 10px;
+  }
+}
+
+.login-error {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: $brand-danger;
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
+
+  .btn {
+    display: inline-block; // Small hack for login form
+  }
+}

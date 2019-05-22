@@ -1,0 +1,23 @@
+{% extends "inner.html" %}
+{% load i18n static %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+{% endblock %}
+
+
+{% block workspace %}
+  <header class="heading">
+    <h2>{% trans "Social account already associated" %}</h2>
+  </header>
+
+  <div class="alert alert-danger">
+    <div>{% trans 'Sorry, this social account already associated with other profile.' %}</div>
+
+    <div class="mt-10">
+      <a href="{% url 'profiles:detail' %}" class="btn btn-primary">{% trans 'Return to profile' %}</a>
+    </div>
+  </div>
+{% endblock %}
+

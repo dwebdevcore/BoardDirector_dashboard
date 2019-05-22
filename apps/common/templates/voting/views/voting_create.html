@@ -1,0 +1,100 @@
+{% load i18n %}
+
+<div id="voting-create-template" v-if="voting">
+  <div class="right-side createmeeting-form content">
+    <div class="panel panel-default">
+      <div class="panel-header">
+        {% trans 'Voting status' %}
+      </div>
+      <div class="panel-body">
+        <div>
+          <span class="item-title"><i class="fa fa-map-pin" aria-hidden="true"></i> {% trans 'Status' %}:</span>
+          <span class="item-value" v-if="voting.state == 0">{% trans 'Draft' %}</span>
+          <span class="item-value" v-if="voting.state == 1">{% trans 'Published' %}</span>
+        </div>
+
+        <div v-if="!voting.id">
+          <button class="btn btn-primary btn-md mt-10 w-100" @click="save()">{% trans 'Create' %}</button>
+        </div>
+        <div v-else>
+          <button class="btn btn-primary btn-md mt-10 w-100" @click="save()">{% trans 'Save as Draft' %}</button>
+          <button class="btn btn-primary btn-md mt-10 w-100" @click="publish()" v-if="voting.can_publish">{% trans 'Publish' %}</button>
+          <router-link class="btn btn-default btn-md mt-10 w-100" :to="'/view/' + voting.id">{% trans 'Cancel' %}</router-link>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <ul class="breadcrumbs breadcrumbs-separator">
+    <li>
+      <router-link to="/all">{% trans 'Votings' %}</router-link>
+    </li>
+    <li v-if="voting.id">
+      <router-link :to="'/view/' + voting.id">${ voting.name }</router-link>
+    </li>
+    <li v-if="voting.id">
+      {% trans 'Change voting/voters' %}
+    </li>
+    <li v-if="!voting.id">
+      {% trans 'New Voting' %}
+    </li>
+  </ul>
+
+
+  <header class="heading">
+    <h2 v-if="!voting.id">{% trans 'Create A Vote' %}</h2>
+    <h2 v-if="voting.id">{% trans 'Edit A Vote' %}</h2>
+  </header>
+
+  <form class="common-form">
+    <div class="content">
+      <errors :error="errors.non_field_errors"></errors>
+      <ul>
+        <li>
+          <input type="text" class="txt title w-100" v-model="voting.name" placeholder="{% trans 'Title' %}">
+          <errors :error="errors.name"></errors>
+        </li>
+
+        <li>
+          <textarea type="text" class="txt w-100" v-model="voting.description" placeholder="{% trans 'Description (optional)' %}"></textarea>
+          <errors :error="errors.description"></errors>
+        </li>
+      </ul>
+
+
+      <div v-if="voting.voters && voting.voters.length" class="content">
+        <hr class="full-width"/>
+        <h3>{% trans 'Voters' %}</h3>
+        <voters-list :voters="voting.voters" :can_edit="true" @delete_voter="delete_voter"></voters-list>
+      </div>
+
+
+      <hr class="full-width"/>
+      <h3>{% trans 'Add Voters' %}</h3>
+
+      <voter-form :voter="voting.add_voters" :memberships="memberships" :committees="committees" :existing_voters="voting.voters"></voter-form>
+
+
+      <hr class="full-width"/>
+      <h3>{% trans 'Settings' %}</h3>
+      <ul>
+        <li>
+          <label class="control-label">{% trans 'Deadline' %}</label>
+          <input type="text" v-datetimepicker="voting.end_time">
+          <errors :error="errors.end_time"></errors>
+        </li>
+        <li>
+          <label class="control-label" for="voting-is-anonymous">{% trans 'Anonymous' %}</label>
+          <input type="checkbox" v-model.boolean="voting.is_anonymous" class="default" id="voting-is-anonymous">
+        </li>
+      </ul>
+    </div>
+
+    <hr class="full-width"/>
+    <button @click="save()" type="button" class="btn btn-lg btn-primary">
+      <span v-if="!voting.id">{% trans 'Create' %}</span>
+      <span v-if="voting.id">{% trans 'Save' %}</span>
+    </button>
+  </form>
+</div>

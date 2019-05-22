@@ -1,0 +1,388 @@
+{% extends "inner.html" %}
+{% load i18n static user_tags common_tags permissions_tags compress %}
+
+{% block base_resources %}
+  <link rel="stylesheet" href="{% static 'css.generated/base.css' %}"/>
+  <script src="{% static 'js/libs/jquery-1.12.4/jquery.min.js' %}"></script>
+  <script src="{% static 'js/libs/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+  <!-- <script src="{% static 'js/libs/bootstrap/js/bootstrap.min.js' %}"></script> -->
+{% endblock %}
+
+{% block extra_js %}
+{%compress js %}
+  <script src="{% static 'js/kendo.web.min.js' %}"></script>
+  <script src="{% static 'js/object_delete_jqui.js' %}"></script>
+  <script src="{% static 'js/expand_collapse_div.js' %}"></script>
+  <script src="{% static 'js/rsvp_ajax.js' %}"></script>
+  <script src="{% static 'js/approve_ajax.js' %}"></script>
+  <script src="{% static 'js/meetings.js' %}"></script>
+  <script src="{% static 'js/meeting_detail.js' %}"></script>
+{% endcompress %}
+
+  <script src="{% static 'js/libs/gmap/gmaps.js' %}"></script>
+  <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+{% endblock extra_js %}
+
+{% block extra_css %}
+  {{ super }}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/smoothness-jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css.generated/meetings.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css.generated/calendar-connection.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css.generated/rsvp.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/expand-collapse-div.css' %}"/>
+  {% endcompress %}
+{% endblock extra_css %}
+
+{% block article_class %}has-right-side{% endblock article_class %}
+
+{% block workspace %}
+
+  {% with agenda=meeting.get_agenda boardbook=meeting.get_board_book minutes=meeting.get_minutes %}
+
+  {% include 'meetings/includes/meeting_right_bar.html' %}
+
+  <ul class="breadcrumbs breadcrumbs-separator">
+    <li><a href="{% acc_url meeting_type_namespace|add:':list' %}">{{ meetings_translated }}</a></li>
+    <li>{{ meeting.get_committee_name }} {{ meeting_translated }} ({{ meeting.start|date:"N j, Y" }})</li>
+  </ul>
+
+  <div class="meeting-detail">
+    <input type="hidden" name="meeting_id" value="{{ meeting.pk }}" id="meeting_id">
+    <!-- Title -->
+    <div class="row meeting-desc">
+      <div class="col-xs-12">
+        <div class="primary-title title1">
+          {{ meeting.name }}
+          {% if not meeting.is_published %}<span class="draft-meeting-label">{% trans 'draft' %}</span>{% endif %}
+        </div>
+      </div>
+
+      {% if meeting.description %}<!-- Description -->
+      <div class="col-md-2 col-1">
+        {% trans 'Description' %}:
+      </div>
+      <div class="col-md-7">
+        {{ meeting.description|linebreaks }}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Date -->
+    <div class="row meeting-date">
+      <!-- Icon -->
+      <div class="col-md-2 col-1">
+        <div class="meeting-icon {% if meeting.is_event %}event-icon{% endif %}">
+          <div class="month">{{ meeting.start|date:"b" }}</div>
+          <div class="day">{{ meeting.start|date:"j" }}</div>
+        </div>
+      </div>
+
+      <!-- Date/Time -->
+      <div class="col-md-3 col-2">
+        <p>{% trans 'DATE' %}: {{ meeting.start|date:"l, N j, Y" }}</p>
+        <p>{% trans 'TIME' %}: {{ meeting.start|date:"g:i A" }} &ndash; {{ meeting.end|date:"g:i A e" }}</p>
+      </div>
+
+      <!-- Calendar -->
+      <div class="col-md-4 calendar">
+        {% if has_social_connections or True %}
+        <div class="primary-title title3">{% trans 'Add to my calendar:' %}</div>
+        <div class="item">
+          {% if is_office_connected %}
+            <a class="office add-to-cal" {% if not checked_office_add %}disabled="disabled"{% endif %}></a>
+          {% endif %}
+
+          {% if is_google_connected %}
+            <a class="google add-to-cal" {% if not checked_google_add %}disabled="disabled"{% endif %}></a>
+          {% endif %}
+
+          {% if is_ical_connected %}
+            <a class="ical add-to-cal" {% if not checked_ical_add %}disabled="disabled"{% endif %}></a>
+          {% endif %}
+
+          <a class="other" href="{% url 'save-to-file' meeting.id %}">
+            <i class='fa fa-2x fa-calendar'></i><span>Save event to your<br/>Calendar</span></a>
+
+        </div>
+        {% else %}
+          <a class="btn btn-primary" href="{% url 'calendar-connection' %}">Connect My Calendar</a>
+        {% endif %}
+      </div>
+    </div><!-- end of date row -->
+
+    <!-- Location -->
+    <div class="row meeting-loc">
+      <!-- Icon -->
+      <div class="col-md-2 col-1">
+        <div id="map"></div>
+      </div>
+
+      <!-- Address -->
+      <div class="col-md-3 col-2">
+        <div class="location-desc">{% trans 'Location' %}: <span id="location">{{ meeting.location }}</span></div>
+      </div>
+
+      <!--  -->
+      <div class="col-md-4">
+        <a href="javascript:void(0)" class="location-link" target="_blank">{% trans 'Show on map' %}</a>
+      </div>
+    </div><!-- end of Location -->
+
+    <!-- Documents -->
+    <div class="row meeting-docs">
+      <div class="col-md-12 primary-title title2">{% trans 'Meeting Documents' %}</div>
+
+      <!-- Agenda, Minutes -->
+      {% if not is_event %}
+      <div class="col-md-6">
+
+        <!--Boardbook-->
+        <div class="meeting-doc">
+          <p><strong>{% trans 'Board Book' %}</strong></p>
+          {% if boardbook %}
+            {% if boardbook.get_viewer_url %}
+            <p><a class="file-ext-icon {{ boardbook.extension }}" href="{{ boardbook.get_viewer_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ boardbook.get_download_url }}">{% trans 'Download' %}</a>&nbsp;
+              <a href="{{ boardbook.get_viewer_url }}" target="_blank"><i class="fa fa-search"></i> View</a>
+              {% comment %}
+              <br>
+              {% if current_membership.user.id in boardbook_approved %}
+              <span class='approved-doc' target="_blank"><i class="fa fa-check"></i>&nbsp;Approved</span>
+              {% else %}
+              <a href="{% url 'documents:approve' document_id=meeting.get_board_book.id %}?ajax=1" 
+              class='approve-doc' id='approve-doc-{{ meeting.get_board_book.id }}' target="_blank">Approve</a>
+              {% endif %}
+              {% endcomment %}
+            </span>
+            {% else %}
+            <p><a class="file-ext-icon boardbook-icon {{ boardbook.extension }}" href="{{ boardbook.get_download_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ boardbook.get_download_url }}">{% trans 'Download' %} ({{boardbook.extension}})</a>
+            </span>
+            {% endif %}
+          {% else %}
+            {% trans 'Not Yet Available' %}
+          {% endif %}
+        </div>
+
+        <!--Agenda-->
+        <div class="meeting-doc">
+          <p><strong>{% trans 'Agenda' %}</strong></p>
+          {% if agenda %}
+            {% if agenda.get_viewer_url %}
+            <p><a class="file-ext-icon {{ agenda.extension }}" href="{{ meeting.get_agenda.get_viewer_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ agenda.get_download_url }}">{% trans 'Download' %}</a>&nbsp;
+              <a href="{{ agenda.get_viewer_url }}" target="_blank"><i class="fa fa-search"></i>&nbsp;View</a>
+              {% comment %}
+              <br>
+              {% if current_membership.user.id in agenda_approved %}
+              <span class='approved-doc' target="_blank"><i class="fa fa-check"></i>&nbsp;Approved</span>
+              {% else %}
+              <a href="{% url 'documents:approve' document_id=meeting.get_agenda.id %}?ajax=1" 
+              class='approve-doc' id='approve-doc-{{ meeting.agenda.id }}' target="_blank">Approve</a>
+              {% endif %}
+              {% endcomment %}
+            </span>
+            {% else %}
+            <p><a class="file-ext-icon boardbook-icon {{ agenda.extension }}" href="{{ meeting.get_download_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ agenda.get_download_url }}">{% trans 'Download' %} ({{agenda.extension}})</a>
+            </span>
+            {% endif %}
+          {% else %}
+            {% trans 'Not Yet Available' %}
+          {% endif %}
+        </div>
+
+        <!--Minutes-->
+        <div class="meeting-doc">
+          <p><strong>{% trans 'Minutes' %}</strong></p>
+          {% if minutes %}
+            {% if minutes.get_viewer_url %}
+            <p><a class="file-ext-icon {{ minutes.extension }}" href="{{ minutes.get_viewer_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ minutes.get_download_url }}">{% trans 'Download' %}</a>&nbsp;
+              <i class="fa fa-search"></i> <a href="{{ meeting.get_minutes.get_viewer_url }}" target="_blank">View</a>
+              {% comment %}
+              <br>
+              {% if current_membership.user.id in minutes_approved %}
+              <span class='approved-doc' target="_blank"><i class="fa fa-check"></i>&nbsp;Approved</span>
+              {% else %}
+              <a href="{% url 'documents:approve' document_id=meeting.get_minutes.id %}?ajax=1" 
+              class='approve-doc' id='approve-doc-{{ meeting.minutes.id }}' target="_blank">Approve</a>
+              {% endif %}
+              {% endcomment %}
+            </span>
+            {% else %}
+            <p><a class="file-ext-icon boardbook-icon {{ minutes.extension }}" href="{{ minutes.get_download_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ minutes.get_download_url }}">{% trans 'Download' %} ({{ minutes.extension }})</a>
+            </span>
+            {% endif %}
+          {% else %}
+            {% trans 'Not Yet Available' %}
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Other documents -->
+      <div class="col-md-6 other-docs">
+        {% for doc in meeting.get_other_docs %}
+          <div class="meeting-doc">
+            <p><strong>{{ doc.filename|file_basename }}</strong></p>
+            {% if doc.get_viewer_url %}
+            <p><a class="file-ext-icon {{ doc.extension }}" href="{{ doc.get_viewer_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ doc.get_download_url }}">{% trans 'Download' %}</a>&nbsp;
+              <i class="fa fa-search"></i> <a href="{{ doc.get_viewer_url }}" target="_blank">View</a>
+            </span>
+            {% else %}
+            <p><a class="file-ext-icon {{ doc.extension }}" href="{{ doc.get_download_url }}"></a></p>
+            <span class="viewer-link">
+              <a href="{{ doc.get_download_url }}">{% trans 'Download' %} ({{ doc.extension }})</a>
+            </span>
+            {% endif %}
+          </div>
+        {% empty %}
+          {% trans 'Not Yet Available' %}
+        {% endfor %}
+      </div>
+      {% if meeting.folder %}
+      <div class="col-md-12">
+        <a class="btn goto-btn" href='{{meeting.folder.get_absolute_url}}'>{% trans 'View All Meeting Documents' %} <i></i></a>
+      </div>
+      {% endif %}
+    </div><!-- end of documents -->
+
+    <!-- Roster -->
+    <div class="row meeting-roster content {% if meeting.repeat_type %}repeated-meeting{% endif %}">
+      <div class="col-md-12 primary-title title2">
+        {% if is_event %}
+          {% trans 'Event Roster'|upper %}
+        {% else %}{% trans 'Meeting Roster'|upper %}
+        {% endif %}
+
+        {% if meeting.is_repeated %}
+          {% trans 'for' %}
+          {{ current_repetition.start|date:"N j, Y"  }}
+        {% endif %}
+      </div>
+      <div class="col-md-12">
+        <div class="roster-collapse expand-header">
+          <strong>{{ rsvp_attendance }} {% trans 'Attending'|title %}</strong>
+          <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
+        </div>
+        <div class="roster-content">
+          <table>
+        {% for response in rsvp_responses %}
+          <tr>
+            <td class='col-md-4'>
+              <img src="{{ STATIC_URL }}images/{{ response.icon }}" height="16"/>{% trans response.attending %}
+              {% if response.is_attending %}
+                {% if response.accept_type != 0 %}
+                  <div class="roster-rsvp-response-accept-type">{% trans response.accept_type_display %}</div>
+                {% endif %}
+                {% if response.note %}
+                  <div class="roster-rsvp-response-note">{% trans 'Note:' %} {% trans response.note %}</div>
+                {% endif %}
+              {% endif %}
+            </td>
+            <!-- td class='col-md-3 approved-docs'>
+              {% if response.user_id in any_approved %}
+              <i class="fa fa-check"></i>&nbsp;
+              {% if response.user_id in minutes_approved %}
+              Minutes;
+              {% endif %}
+              {% if response.user_id in agenda_approved %}
+              Agenda;
+              {% endif %}
+              {% if response.user_id in boardbook_approved %}
+              Board Book;
+              {% endif %}
+              {% endif %}
+            </td -->
+            <td>
+              <div class="primary-title title3">{{ response.name }}
+                {% if response.is_invited %}
+                  <span class="meeting-roster-invited">{% trans 'Invited' %}</span>
+                {% endif %}
+              </div>
+              {{ response.email }}
+            </td>
+
+            {# Full RSVP overview including history and precence registration for admin, chairperson, assistant #}
+            {% if permission_edit %}
+            <td>
+            {% if response.history %}
+              <div class="container">
+                <div class="expand-header">
+                  <span>{% trans 'RSVP history' %}</span>
+                </div>
+                <div class="expand-content">
+                  <ul>
+                    {% for hist in response.history %}
+                      <li>{{ hist.timestamp }}: {% trans hist.attending %}</li>
+                    {% endfor %}
+                    <li>{{ response.timestamp }}: {% trans response.attending %} ({% trans 'current' %})</li>
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+            </td>
+            {% comment %}
+            TODO: meeting attendance
+            <td>
+              <input type="checkbox" id="user_attended_{{response.user_id}}" {{response.present|bool_to_checked}} />
+            </td>
+            {% endcomment %}
+            {% endif %}
+
+            {% if record_attendance %}
+            <td>
+            {% for k, v in attendance_choice %}
+              <label class="radio radio-lbl" data-user-id="{{ response.user_id }}" data-present-value="{{ k }}">
+                <input type="radio" name="meeting_attendance_{{ response.user_id }}" value="{{ k }}"
+                       {% ifequal response.present k %}checked{% endifequal %}>{{ v }}
+              </label>
+            {% endfor %}
+            </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div><!-- meeting-roster -->
+  </div><!-- meeting-detail -->
+
+  <div class="property-list-delimeter"></div>
+
+  <div class="content meeting-detail-btns">
+    {% if previous %}
+      <a class="previous" href="{{ previous.get_absolute_url }}">
+        {% if is_event %}{% trans 'Previous Event'|upper %}
+          {% else %}{% trans 'Previous Meeting'|upper %}
+        {% endif %}
+      </a>
+    {% else %}
+      <a class="previous visual"></a>
+    {% endif %}
+    {% if next %}
+      <a class="next" href="{{ next.get_absolute_url }}">
+        {% if is_event %}{% trans 'Upcoming Event'|upper %}
+          {% else %}{% trans 'Upcoming Meeting'|upper %}
+        {% endif %}
+      </a>
+    {% endif %}
+  </div>
+
+  {% include 'meetings/includes/popup_dialogs.html' %}
+
+  {% endwith %}
+{% endblock workspace %}
+

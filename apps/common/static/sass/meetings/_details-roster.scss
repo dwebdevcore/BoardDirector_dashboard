@@ -1,0 +1,81 @@
+.content.meeting-roster {
+  font-size: 13px;
+  padding-top: 20px;
+
+  h2 {
+    font-size: 16px;
+    float: none;
+    margin: 0 0 4px;
+    font-weight: bolder;
+    font-family: ProximaNova-Bold, Arial, sans-serif;
+  }
+
+  table {
+    width: 100%;
+    border-top: 1px solid #ebebeb;
+    border-spacing: 0;
+    margin-top: 20px;
+    font-size: 13px;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  table tr:nth-child(even) td {
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+  }
+
+  table tr td {
+    padding: 15px 30px;
+    color: #4a4a4a;
+    vertical-align: middle;
+  }
+
+  //table tr td:first-child {
+  //  width: 20%;
+  //}
+  //
+  //table tr td:nth-child(2) {
+  //  width: 64%;
+  //}
+  //
+  //table tr td:last-child {
+  //  padding-right: 25px;
+  //}
+
+  table tr td h3 {
+    color: #0089c5;
+    font: 14px ProximaNova-Bold, arial, helvetica, sans-serif;
+    //font-size: 15px;
+    font-weight: bolder;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+
+  table tr td img {
+    margin-right: 10px;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.meeting-roster-invited {
+  text-transform: lowercase;
+  color: #4a4a4a;
+  font-family: ProximaNova-Regular, Arial, sans-serif;
+}
+
+.meeting-roster-invited a {
+  color: #0089c5;
+}
+
+.roster-rsvp-response-accept-type, .roster-rsvp-response-note {
+  padding-left: 30px;
+}
+
+//.meeting-roster.repeated-meeting {
+//  min-height: 700px;
+//}
